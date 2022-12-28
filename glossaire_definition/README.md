@@ -1,0 +1,3 @@
+# ? Sommaire du glossaire
+
+TODO dans l'idée ici un sommaire généré via une Action git sur ce dépot github ...
