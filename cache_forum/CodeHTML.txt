@@ -1,0 +1,317 @@
+<p>
+<br>
+A
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478397" rel="">ABS </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=483448" rel="">Alcool isopropylique </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478079" rel="">ALM </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478079" rel="">AM  </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=489399" rel="">Arduino </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=489399" rel="">ATMega1280 </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=489399" rel="">ATMega2560 </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478122" rel="">Axe X </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478123" rel="">Axe Y </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478124" rel="">Axe Z </a><br>
+</p>
+
+<p>
+<br>
+B
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478100" rel="">Bed </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478060" rel="">Bordure </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478059" rel="">Bowden </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=495324" rel="">bridge </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=495324" rel="">bridging </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478060" rel="">Brim </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478093" rel="">Buse </a><br>
+</p>
+
+<p>
+<br>
+C
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478061" rel="">CAO </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478062" rel="">CFF </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478116" rel="">Cheveux d'ange </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478063" rel="">CJP </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478064" rel="">CNC </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478063" rel="">ColorJet Printing </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478062" rel="">Composite Filament Fabrication </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478064" rel="">Computer Numerical Command </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478061" rel="">Conception Assistée par Ordinateur </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478116" rel="">Cordage </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478065" rel="">Crowdfunding </a><br>
+</p>
+
+<p>
+<br>
+D
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478119" rel="">Décollement </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478074" rel="">Dépot de filament fondu </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478068" rel="">Digital Rights Management </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478067" rel="">Direct Metal Laser Sintering </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478066" rel="">DLP </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478067" rel="">DMLS </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478068" rel="">DRM </a><br>
+</p>
+
+<p>
+<br>
+E
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478070" rel="">Elephant’s foot </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478071" rel="">Epaisseur de couche </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=494393" rel="">Excentrique </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478076" rel="">Extrudeur ? </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478072" rel="">Extrusion </a><br>
+</p>
+
+<p>
+<br>
+F
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478073" rel="">FabLab </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478073" rel="">Fabrication Laboratory </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478078" rel="">Fast Ceramic Production </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478078" rel="">FCP </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478074" rel="">FDM </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478076" rel="">Feeder </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478074" rel="">FFF </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478077" rel="">Filament </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478080" rel="">Film Transfert Imaging </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478110" rel="">FLS </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=498697" rel="">Formatage </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478110" rel="">Frittage Laser Sélectif </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478080" rel="">FTI </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478074" rel="">Fused Deposition Modeling </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478074" rel="">Fused Filament Fabrication </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478109" rel="">Fusion sélective par laser </a><br>
+</p>
+
+<p>
+<br>
+G
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478119" rel="">Gauchissement </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478081" rel="">G-Code </a><br>
+</p>
+
+<p>
+<br>
+H
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478100" rel="">Heatbed </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478082" rel="">HIPS </a><br>
+</p>
+
+<p>
+<br>
+I
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478074" rel="">Imprimante FDM </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478083" rel="">Infill </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=483448" rel="">IPA </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=483448" rel="">Isopropanol </a><br>
+</p>
+
+<p>
+<br>
+J
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478108" rel="">Jupe </a><br>
+</p>
+
+<p>
+<br>
+L
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478071" rel="">Layer height </a><br>
+</p>
+
+<p>
+<br>
+M
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478085" rel="">Machine-outil </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478086" rel="">Maker </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478087" rel="">Maker Faire </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478090" rel="">Masked SLA </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478088" rel="">Microsoft 3MF </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478089" rel="">MJM </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478090" rel="">MSLA </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478089" rel="">MultiJet Modeling </a><br>
+</p>
+
+<p>
+<br>
+N
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478093" rel="">Nozzle </a><br>
+</p>
+
+<p>
+<br>
+O
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=491949" rel="">Octo4a </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=491949" rel="">Octo4a </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=491949" rel="">Octopi </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=491949" rel="">Octopi </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=491949" rel="">Octoprint </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478094" rel="">Oozing </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478095" rel="">Open Source </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478096" rel="">Overhang </a><br>
+</p>
+
+<p>
+<br>
+P
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478097" rel="">PC </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478070" rel="">Pied d'éléphant </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478098" rel="">Pillowing </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478099" rel="">PLA </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478102" rel="">Plasticine </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478100" rel="">Plateau </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478103" rel="">Polyacétate de Vinyle </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478099" rel="">PolyLactic Acid </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=484987" rel="">Polymérisation </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=495324" rel="">pont </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=495324" rel="">pontage </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=503473" rel="">PTFE </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478103" rel="">PVA </a><br>
+</p>
+
+<p>
+<br>
+R
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478104" rel="">Radeau </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478104" rel="">Raft </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478083" rel="">Remplissage </a><br>
+</p>
+
+<p>
+<br>
+S
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478109" rel="">Selective Laser Melting </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478110" rel="">Selective Laser Sintering </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478105" rel="">Shell </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478108" rel="">Skirt </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478112" rel="">SLA </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478107" rel="">Slicer </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478109" rel="">SLM </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478110" rel="">SLS </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478112" rel="">Stéréolithographie </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478114" rel="">STL </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478116" rel="">Stringing </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478096" rel="">Surplomb </a><br>
+</p>
+
+<p>
+<br>
+T
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478084" rel="">Tension secteur </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=483417" rel="">Trancanage </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478107" rel="">Trancheur </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=503473" rel="">Tube PTFE </a><br>
+</p>
+
+<p>
+<br>
+U
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=484987" rel="">Ultra violets </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=484987" rel="">UV </a><br>
+</p>
+
+<p>
+<br>
+V
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=492562" rel="">Visual Studio Code  </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478117" rel="">Voxel </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=492562" rel="">VSCode </a><br>
+</p>
+
+<p>
+<br>
+W
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478119" rel="">Warping </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478120" rel="">Wobble </a><br>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=485840" rel="">Wrapping </a><br>
+</p>
+
+<p>
+<br>
+X
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478122" rel="">X axis </a><br>
+</p>
+
+<p>
+<br>
+Y
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478123" rel="">Y axis </a><br>
+</p>
+
+<p>
+<br>
+Z
+</p>
+
+<p>
+  &nbsp; <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&amp;comment=478124" rel="">Z axis </a><br>
+</p>
