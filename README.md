@@ -16,24 +16,36 @@ Essais de gestion du glossaire https://www.lesimprimantes3d.fr/forum/topic/45754
 
 On stock 
 
-les définitions importé depuis le sujet du forum dans ? li3d.fr_forum_gloassaire_cache ( des wget ou curl ou ? des pages du sujet avec les log des wget ? ) 
+les définitions importé depuis le sujet du forum dans ? li3d.fr_forum_gloassaire_cache ( des wget "brut / non connecté comme un utilisateur du forum" des pages du sujet ) 
 ~~~
+wget https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/ -O li3d.fr_forum_glossaire_page1.html
 
+// TODO revoir si on peut pas faire plus simple pour obtenir le nombre de page du sujet."
+grep -o -m 1 -e " rel=\"last\" data-page='[[:digit:]]'" li3d.fr_forum_glossaire_page1.html | grep -o -e "[[:digit:]]*"
+3
+// TODO dans une var pour un test dans un while de wget des pages ...
+wget https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/page/2/ -O li3d.fr_forum_glossaire_page2.html
+wget https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/page/3/ -O li3d.fr_forum_glossaire_page3.html
 ~~~
 
 
 On travaille dans le répertoire "glossaire_definition"
 
-? Pour une définition, un répertoire qui contien un README.md Source.md images/
+? Pour une définition, 
+* un répertoire ayant comme nom le terme pour la définition et qui contien 
+  * un README.md (la définition en elle même), 
+  * Source.md (Si il y a des partie ou image d'autre provenance) 
+  * et eventuellement un répertoire images/
 
-? Quand on a des alias pour une même définition les README.md des alias ne contien que 
+? Quand on a des alias pour une même définition les README.md d'un alias ne contien que 
 ~~~
-voir <lien vers le fichier README.MD du terme principal pour cette alias>
+# <l'alias>
+voir [<terme principal pour cette alias>](lien vers le fichier README.MD du terme principal pour cette alias)
 ~~~
 
 ...
 
-* [ ] Outils d'import des definitions existante de https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/ ( un outil ( un genre de parseur ) qui transforme les commentaires du sujet en fichier(s) .md )
+* [ ] Outils d'import des definitions existante de https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/ ( un outil ( un genre de parseur "html to md") qui transforme les commentaires du sujet en arborécences repertoires/fichier(s) .md )
 
 
 
