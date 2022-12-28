@@ -21,16 +21,18 @@ les définitions importé depuis le sujet du forum dans ? li3d.fr_forum_cache ( 
 
 On travaille dans le répertoire "glossaire_definition"
 
-? Pour une définition un répertoire qui contien un README.md Source.md images/
+? Pour une définition, un répertoire qui contien un README.md Source.md images/
 
-? Quand on a des alias le README.md ne contien que 
+? Quand on a des alias pour une même définition les README.md des alias ne contien que 
 ~~~
 voir <lien vers le fichier README.MD du terme principal pour cette alias>
 ~~~
 
 ...
 
-* [ ] Outils d'import des definition existante de https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/
+* [ ] Outils d'import des definition existante de https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/ ( un outil ( un genre de parseur ) qui transforme les commentaires du sujet en fichier(s) .md )
+
+
 
 
 LES DEFINITIONS A FAIRE
