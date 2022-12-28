@@ -47,7 +47,10 @@ voir [<terme principal pour cette alias>](lien vers le fichier README.MD du term
 
 * [ ] Outils d'import des definitions existante de https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/ ( un outil ( un genre de parseur "html to md") qui transforme les commentaires du sujet en arborécences repertoires/fichier(s) .md )
 
+* [ ] Un script bash linux qui automatise la "mise en cahce" de la version du forum
+* [ ] html to md ( voir pour le faire en java ou si posible d'utiliser des service en ligne de html to md )
 
+* [ ] https://github.com/marketplace/actions/create-issue-from-file avec un script qui compare la version en "cache" du forum sur se dépot avec la version en ligne et créé un fichier des différences, dont le contenue sera remonté comme une issue en cas de différences ?
 
 
 ## LES DEFINITIONS A FAIRE
