@@ -16,17 +16,7 @@ Essais de gestion du glossaire https://www.lesimprimantes3d.fr/forum/topic/45754
 
 On stock 
 
-les définitions importé depuis le sujet du forum dans ? li3d.fr_forum_gloassaire_cache ( des wget "brut / non connecté comme un utilisateur du forum" des pages du sujet ) 
-~~~
-wget https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/ -O li3d.fr_forum_glossaire_page1.html
-
-// TODO revoir si on peut pas faire plus simple pour obtenir le nombre de page du sujet."
-grep -o -m 1 -e " rel=\"last\" data-page='[[:digit:]]'" li3d.fr_forum_glossaire_page1.html | grep -o -e "[[:digit:]]*"
-3
-// TODO dans une var pour un test dans un while de wget des pages ...
-wget https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/page/2/ -O li3d.fr_forum_glossaire_page2.html
-wget https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/page/3/ -O li3d.fr_forum_glossaire_page3.html
-~~~
+les définitions importé depuis le sujet du forum dans ? li3d.fr_forum_gloassaire_cache ( via un script qui fait des wget "brut / non connecté comme un utilisateur du forum" des pages du sujet. voir https://github.com/PPAC37/li3d.fr-forum-glossaire/blob/main/bash_sh/getForumSujetGlossairePages.sh ) 
 
 
 On travaille dans le répertoire "glossaire_definition"
