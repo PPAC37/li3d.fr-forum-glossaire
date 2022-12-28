@@ -23,7 +23,10 @@ On travaille dans le répertoire "glossaire_definition"
 
 ? Pour une définition un répertoire qui contien un README.md Source.md images/
 
-?Quand on a des alias le README.md ne contien que "voir <lien vers le fichier README.MD du terme principal pour cette alias>
+? Quand on a des alias le README.md ne contien que 
+~~~
+voir <lien vers le fichier README.MD du terme principal pour cette alias>
+~~~
 
 ...
 
