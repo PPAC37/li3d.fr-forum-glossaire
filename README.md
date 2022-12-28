@@ -3,8 +3,8 @@
 Essais de gestion du glossaire https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/ et de solution pour l'ajout / la rédaction / mise a jours, de définitions de termes propre a l'impression 3D.
 
 ## Objectif 
-* Permetre un travail collaboratif  ( cf GitHub les utilisateurs peuvent proposer de Push Request de modification )
-* Historique des versions des définition ( cf le principe de l'historique de version d'un depot GIT )
+* Permetre un travail collaboratif  ( cf GitHub les utilisateurs peuvent proposer des Pull Request (PR) de modification )
+* Historique des versions des définitions ( cf le principe de l'historique de version d'un depot GIT )
 * Automatisation de la generation d'un sommaire pour le sujet du forum
 * Automatisation de la generation d'une version en un document HTML et ou PDF ( avec navigation interne ... )
 
@@ -16,7 +16,10 @@ Essais de gestion du glossaire https://www.lesimprimantes3d.fr/forum/topic/45754
 
 On stock 
 
-les définitions importé depuis le sujet du forum dans ? li3d.fr_forum_cache ( des wget ou curl ou ? des pages du sujet avec les log des wget ? ) 
+les définitions importé depuis le sujet du forum dans ? li3d.fr_forum_gloassaire_cache ( des wget ou curl ou ? des pages du sujet avec les log des wget ? ) 
+~~~
+
+~~~
 
 
 On travaille dans le répertoire "glossaire_definition"
