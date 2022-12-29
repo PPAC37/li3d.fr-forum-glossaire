@@ -48,7 +48,9 @@ jobs:
     - name: Prepare universal package
       shell: bash
       run: |
+        java -jar target/li3dfrGlossaire*-with-dependencies.jar &&
         mkdir -p target/universal-package &&
+        cp indexComment.html target/universal-package/ &&
         cp README.md target/universal-package/ &&
         cp target/li3dfrGlossaire*-with-dependencies.jar target/universal-package/ &&
         cd target/universal-package/ &&
