@@ -12,10 +12,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.Collator;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
@@ -106,7 +108,15 @@ public class LesImprimantes3DForum {
             }
             System.out.printf("Nb TotalAliasDef = %d\n",cptTotalAlias);    
         
+            String lastFirstChar = "";  Collator usCollator = Collator.getInstance(Locale.FRENCH);
+            usCollator.setStrength(Collator.PRIMARY);
             for ( UneDefAlias k : aliasToId.keySet()){
+               
+            
+                if ( usCollator.compare( lastFirstChar,k.a.substring(0, 1))!=0 ){
+                    System.out.printf("%s\n",k.a.substring(0, 1));
+                }
+                lastFirstChar=k.a.substring(0, 1);
                 System.out.printf(" %s\t%s\n",k.a,aliasToId.get(k));
             }
             
