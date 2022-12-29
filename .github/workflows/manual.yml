@@ -33,6 +33,9 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
         cache: 'maven'
+    # compiler les sources du projet maven (Java) pour obtenir le fichier jar executable
+    - name: Package with Maven
+      run: mvn -B clean package -DskipTests
     # Runs a single command using the runners shell
     - name: Send greeting
       shell: bash
