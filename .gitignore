@@ -24,3 +24,4 @@ hs_err_pid*
 /target/
 /www_cache_w/
 /img_save/
+/www_cache_w*
