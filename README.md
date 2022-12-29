@@ -72,3 +72,6 @@ https://www.lesimprimantes3d.fr/forum/topic/45962-cr%C3%A9ation-dun-glossaire-de
 
 
 ### [Liste des definition a faire](DEF_TODO.md) 
+
+
+[![Manual workflow](https://github.com/PPAC37/li3d.fr-forum-glossaire/actions/workflows/manual.yml/badge.svg?branch=main)](https://github.com/PPAC37/li3d.fr-forum-glossaire/actions/workflows/manual.yml)
