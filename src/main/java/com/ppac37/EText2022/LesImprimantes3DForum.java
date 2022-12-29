@@ -121,10 +121,10 @@ public class LesImprimantes3DForum {
         fwIndexComment_.flush();
         fwIndexComment_.close();
 
-        // la pour le vrai sommaire
+        // la pour un sommaire en html
         UtilFileWriter fwIndexHtml = new UtilFileWriter("indexComment.html");
         fwIndexHtml.append(String.format("<h2>%s</h2>\n", " Sommaire "));
-        // 
+        // la pour une autre version en html mais avec plus de lien pour navigation local ( TODO gestion de tous les liens est de elements externe ( images, iframe video, iframe vers sujet ou commentaire. ) 
         UtilFileWriter fwIndexHtml_avec_lien_et_id_pour_navigation_embarque = new UtilFileWriter("indexCommentEmbarq.html");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h2>%s</h2>\n", " Sommaire "));
 
@@ -142,12 +142,16 @@ public class LesImprimantes3DForum {
             }
             lastFirstChar = k.a.substring(0, 1);
             System.out.printf(" %s\t%s\n", k.a, aliasToId.get(k));
-            fwIndexHtml.append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
-            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<a href=\"%s%s\" >%s</a> <a href=\"#%s\" >(local)</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a, aliasToId.get(k)));
+            fwIndexHtml
+                    .append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
+            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
+                    .append(String.format("<a href=\"%s%s\" >%s</a> <a href=\"#%s\" >(local)</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a, aliasToId.get(k)));
         }
 
-        fwIndexHtml.append(String.format("<br><p>Total %d alias pour %d definitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
-        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<br><p>Total %d alias pour %d definitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
+        fwIndexHtml
+                .append(String.format("<br><p>Total %d alias pour %d definitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
+                .append(String.format("<br><p>Total %d alias pour %d definitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
 
         //
         //
@@ -162,15 +166,21 @@ public class LesImprimantes3DForum {
                 System.out.printf(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
             }
 
-            fwIndexHtml.append(String.format("<hr><a href=\"%s%s\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
-            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<hr><a href=\"%s%s\" id=\"%s\">comment-id %s :: %s</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
-            //fwIndexHtml.append(String.format("<div>%s</div>\n<br>\n", ));
-            fwIndexHtml.append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
-            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
+            fwIndexHtml
+                    .append(String.format("<hr><a href=\"%s%s\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
+            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
+                    .append(String.format("<hr><a href=\"%s%s\" id=\"%s\">comment-id %s :: %s</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
+            //.append(String.format("<div>%s</div>\n<br>\n", ));
+            fwIndexHtml
+                    .append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
+            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
+                    .append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
 
             if (false) {
-                fwIndexHtml.append(String.format(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString()));
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString()));
+                fwIndexHtml.
+                        append(String.format(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString()));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.
+                        append(String.format(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString()));
             }
         }
 
@@ -178,7 +188,6 @@ public class LesImprimantes3DForum {
         fwIndexHtml.close();
 
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.flush();
-
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.close();
 
         System.out.printf("FIN : %s\n", LesImprimantes3DForum.class.getName());
