@@ -45,6 +45,19 @@ voir [<terme principal pour cette alias>](lien vers le fichier README.MD du term
 ## L'outil de création de Sommaire de Yo'
 Message masqué uniquement visible pour les daministrateurs / modérateurs du forum https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&comment=478057
 
+~~~
+2) Générer le sommaire (tuto en cours de création)
+
+A) Créer un dossier 'de travail' sur votre PC (peu importe le nom et le chemin)
+
+B) Enregistrer toutes les pages du sujet dans le dossier de travail.
+
+C) Télécharger et lancer le programme "sommaire.exe" Sommaire.exe(en cours de développement)
+
+D) Un premier fichier code.txt est créé (qui n'est plus vraiment utile) , contenant tous les noms définis (est considéré comme nom un groupe de lettre en gras situé après une puce) classés par ordre alphabétique.
+
+Un second fichier codeHTML.txt est créé. Il contient le code pour mettre en forme le message.
+~~~
 
 ## LES DEFINITIONS
 
