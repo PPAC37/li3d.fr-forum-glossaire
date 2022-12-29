@@ -43,7 +43,7 @@ jobs:
         mkdir -p target/universal-package &&
         cp target/li3dfrGlossaire*-with-dependencies.jar target/universal-package/ &&
         cd target/universal-package/ &&
-        7z a -tzip Makelangelo.zip . &&
+        7z a -tzip li3dfrGlossaire.zip . &&
         mv li3dfrGlossaire.zip ../..
     - name: Deploy universal release
       if: github.repository == 'PPAC37/li3d.fr-forum-glossaire' && github.ref == 'refs/heads/main'
