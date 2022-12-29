@@ -25,7 +25,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
+    # récupérer le depot
+    - uses: actions/checkout@v3
+    # installer un environnement java
     - uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
@@ -37,3 +39,17 @@ jobs:
       run:  |
         java -jar target/li3dfrGlossaire*-with-dependencies.jar &&
         echo "Hello ${{ github.event.inputs.name }}"
+    # Mettre a disposition le fichier indexComment.html resultant de l'execution précédante
+    - name: Deploy universal release
+      if: github.repository == 'PPAC37/li3d.fr-forum-glossaire' && github.ref == 'refs/heads/main'
+      uses: WebFreak001/deploy-nightly@v1.1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
+      with:
+        upload_url: ${{ env.UPLOAD_URL }}
+        release_id: ${{ env.RELEASE_ID }}{
+        asset_path: indexComment.html # path to archive to upload
+        asset_name: li3dfrGlossaire-nightly-$$.html # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
+        asset_content_type: text/html;charset=UTF-8 # required by GitHub API
+        max_releases: 1 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
+
