@@ -16,9 +16,11 @@ import java.text.Collator;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.SortedMap;
@@ -27,6 +29,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
@@ -123,13 +126,15 @@ public class LesImprimantes3DForum {
 
         // la pour un sommaire en html
         UtilFileWriter fwIndexHtml = new UtilFileWriter("indexComment.html");
-        fwIndexHtml.append("<p> Dans ce glossaire de l'impression 3D, vous trouverez des définitions qui se veulent simples et compréhensibles des mots techniques, liés à l'impression 3D FDM et à l’impression 3D résine, utilisés par les membres du forum ainsi que sur le blog du site </p> \n" +
-"<p> &nbsp; </p> \n" +
-"<p> <span style=\"color:#ffffff;\"><span style=\"background-color:#c0392b;\">Ce glossaire est en cours d'élaboration.</span></span> </p> \n" +
-"<p> <span style=\"color:#ffffff;\"><span style=\"background-color:#c0392b;\">Si vous voulez y participer,</span></span> <a href=\"https://www.lesimprimantes3d.fr/forum/topic/45962-cr%C3%A9ation-dun-glossaire-de-limpression-3d/\" rel=\"\">rendez vous sur ce sujet</a>. </p> \n" +
-"<p> &nbsp; </p> \n" +
-"<p> <span style=\"background-color:#ffff00;\">Afin de faciliter votre recherche, vous pouvez utiliser le moteur de recherche de votre navigateur accessible via l'appui simultané sur les touches CTRL et F</span> </p> \n" +
-"<p> &nbsp; </p>\n");
+        // TODO entete a obtenir depuis un autre fichier et non codé en dur ici.
+        fwIndexHtml.append("<p> Dans ce glossaire de l'impression 3D, vous trouverez des définitions qui se veulent simples et compréhensibles des mots techniques, liés à l'impression 3D FDM et à l’impression 3D résine, utilisés par les membres du forum ainsi que sur le blog du site </p> \n"
+                + "<p> &nbsp; </p> \n"
+                + "<p> <span style=\"color:#ffffff;\"><span style=\"background-color:#c0392b;\">Ce glossaire est en cours d'élaboration.</span></span> </p> \n"
+                + "<p> <span style=\"color:#ffffff;\"><span style=\"background-color:#c0392b;\">Si vous voulez y participer,</span></span> <a href=\"https://www.lesimprimantes3d.fr/forum/topic/45962-cr%C3%A9ation-dun-glossaire-de-limpression-3d/\" rel=\"\">rendez vous sur ce sujet</a>. </p> \n"
+                + "<p> &nbsp; </p> \n"
+                + "<p> <span style=\"background-color:#ffff00;\">Afin de faciliter votre recherche, vous pouvez utiliser le moteur de recherche de votre navigateur accessible via l'appui simultané sur les touches CTRL et F</span> </p> \n"
+                + "<p> &nbsp; </p>\n");
+
         fwIndexHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
         // la pour un sommaire en html avec les definition 
         UtilFileWriter fwIndexEtCommentHtml = new UtilFileWriter("indexSommaireEtComment.html");
@@ -155,7 +160,7 @@ public class LesImprimantes3DForum {
             System.out.printf(" %s\t%s\n", k.a, aliasToId.get(k));
             fwIndexHtml
                     .append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
-            
+
             fwIndexEtCommentHtml
                     .append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
@@ -164,7 +169,7 @@ public class LesImprimantes3DForum {
 
         fwIndexHtml
                 .append(String.format("<br><p>Total %d alias pour %d définitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
-        
+
         fwIndexEtCommentHtml
                 .append(String.format("<br><p>Total %d alias pour %d définitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
@@ -173,7 +178,6 @@ public class LesImprimantes3DForum {
         //
         //
         //fwIndexHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
-        
         fwIndexEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
         for (UneDef d : lesDef) {
@@ -205,7 +209,7 @@ public class LesImprimantes3DForum {
 
         fwIndexHtml.flush();
         fwIndexHtml.close();
-        
+
         fwIndexEtCommentHtml.flush();
         fwIndexEtCommentHtml.close();
 
@@ -738,4 +742,30 @@ public class LesImprimantes3DForum {
         }
     }
 
+    //
+    
+      public static void mainDisplaySystemProperties(String[] args) {
+
+        Properties properties = System.getProperties();
+        // Java 8
+//        properties.forEach((k, v) -> System.out.println(k + ":" + v));
+
+        // Classic way to loop a map
+        //for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+        //    System.out.println(entry.getKey() + " : " + entry.getValue());
+        //}
+
+        // No good, output is truncated, long lines end with ...
+        //properties.list(System.out);
+        
+	
+		// Thanks Java 8
+        LinkedHashMap<String, String> collect = properties.entrySet().stream()
+                .collect(Collectors.toMap(k -> (String) k.getKey(), e -> (String) e.getValue()))
+                .entrySet().stream().sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+        collect.forEach((k, v) -> System.out.println(k + ":" + v));
+    }
 }
