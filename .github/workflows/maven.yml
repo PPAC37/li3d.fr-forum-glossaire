@@ -41,6 +41,9 @@ jobs:
       timeout-minutes: 15
       run: mvn -B test
       
+    - name: run jar
+      shell: bash
+      run: java -jar target/li3dfrGlossaire*-with-dependencies.jar
 
     - name: Package with Maven
       run: mvn -B clean package -DskipTests
@@ -76,7 +79,6 @@ jobs:
     - name: Prepare universal package
       shell: bash
       run: |
-        java -jar target/li3dfrGlossaire*-with-dependencies.jar &&
         mkdir -p target/universal-package &&
         cp indexComment.html target/universal-package/ &&
         cp README.md target/universal-package/ &&
