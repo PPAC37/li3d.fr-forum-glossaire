@@ -13,8 +13,8 @@ name: Java CI with Maven
 env:
   # find out this value by opening https://api.github.com/repos/<owner>/<repo>/releases
   # in your browser and copy the full "upload_url" value including the {?name,label} part
-  UPLOAD_URL: https://uploads.github.com/repos/PPAC37/li3d.fr-forum-glossaire/releases/54908875/assets{?name,label}
-  RELEASE_ID: 54908875 # same as above (id can just be taken out the upload_url, it's used to find old releases)
+  UPLOAD_URL: https://uploads.github.com/repos/PPAC37/li3d.fr-forum-glossaire/releases/87541384/assets{?name,label}
+  RELEASE_ID: 87541384 # same as above (id can just be taken out the upload_url, it's used to find old releases)
 
 on:
   push:
