@@ -42,7 +42,22 @@ voir [<terme principal pour cette alias>](lien vers le fichier README.MD du term
 
 * [ ] https://github.com/marketplace/actions/create-issue-from-file avec un script qui compare la version en "cache" du forum sur se dépot avec la version en ligne et créé un fichier des différences, dont le contenue sera remonté comme une issue en cas de différences ?
 
+## L'outil de création de Sommaire de Yo'
+Message masqué uniquement visible pour les daministrateurs / modérateurs du forum https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&comment=478057
 
-## LES DEFINITIONS A FAIRE
-Liste des définition faite ( = Sommaire )
-[Liste des definition a faire](DEF_TODO.md) 
+
+## LES DEFINITIONS
+
+
+### Liste des définition faite
+le sommaire du sujet 
+
+le repertoire de travaille du github
+
+### Les définitions a revoir ( 
+
+
+### Les définition en cours de modification / création sur le forum 
+
+
+### [Liste des definition a faire](DEF_TODO.md) 
