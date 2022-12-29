@@ -2,6 +2,7 @@
  */
 package com.ppac37.EText2022;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -23,6 +24,9 @@ public class UtilFileWriter {
                 try {
             //FileWriter 
             fwIndexComment = new FileWriter(sFile);
+            
+         File fTmp = new File(sFile);
+         System.out.printf("open (size=%10d) \"%s\"\n", fTmp.length(), fTmp.getAbsolutePath());
         } catch (IOException ex) {
             Logger.getLogger(UtilFileWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,6 +61,8 @@ public class UtilFileWriter {
                 Logger.getLogger(UtilFileWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+         File fTmp = new File(sFile);
+         System.out.printf("close (size=%10d) \"%s\"\n", fTmp.length(), fTmp.getAbsolutePath());
     }
     
     
