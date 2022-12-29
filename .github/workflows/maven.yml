@@ -44,6 +44,34 @@ jobs:
 
     - name: Package with Maven
       run: mvn -B clean package -DskipTests
+    # Mettre a disposition le fichier indexComment.html resultant de l'execution précédante
+    - name: Deploy universal release A
+      if: github.repository == 'PPAC37/li3d.fr-forum-glossaire' && github.ref == 'refs/heads/main'
+      uses: WebFreak001/deploy-nightly@v1.1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
+      with:
+        upload_url: ${{ env.UPLOAD_URL }}
+        release_id: ${{ env.RELEASE_ID }}{
+        asset_path: indexComment.html # path to archive to upload
+        asset_name: li3dfrGlossaire-Sommaire-$$.html # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
+        asset_content_type: text/html;charset=UTF-8 # required by GitHub API
+        max_releases: 1 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
+    # Mettre a disposition le fichier indexComment.html resultant de l'execution précédante
+    - name: Deploy universal release B
+      if: github.repository == 'PPAC37/li3d.fr-forum-glossaire' && github.ref == 'refs/heads/main'
+      uses: WebFreak001/deploy-nightly@v1.1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
+      with:
+        upload_url: ${{ env.UPLOAD_URL }}
+        release_id: ${{ env.RELEASE_ID }}{
+        asset_path: indexSommaireEtComment.html # path to archive to upload
+        asset_name: li3dfrGlossaire-SommaireEtDéfinition-$$.html # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
+        asset_content_type: text/html;charset=UTF-8 # required by GitHub API
+        max_releases: 1 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
+
+
 
     - name: Prepare universal package
       shell: bash
