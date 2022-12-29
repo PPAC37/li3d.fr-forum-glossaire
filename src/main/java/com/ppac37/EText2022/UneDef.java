@@ -8,10 +8,10 @@ import java.util.TreeSet;
 /**
  * TODO a revoir pour hériter d'une classe UnCommentaireDeSujet
  *
- * 
+ *
  * @author q6
  */
-public class UneDef implements Comparable<Object>{
+public class UneDef implements Comparable<Object> {
 
     /*
     Si l'on se base sur le Nom des pièeces - Impression 3D.pdf de www.youtube.com/Legueroloco
@@ -21,13 +21,12 @@ public class UneDef implements Comparable<Object>{
     Noms anglais
     Description sommaire
     
-    */
+     */
     String defNom = null;
     SortedSet<String> defNomAlias;
 
     //String idSujet;     
     //String sujetAuteurId;
-
     String dateCreation;
     String dateModification;
 
@@ -40,17 +39,16 @@ public class UneDef implements Comparable<Object>{
     public UneDef() {
         defNomAlias = new TreeSet<>();
     }
-    
+
     //
-    public void addDefNom(String s){
+    public void addDefNom(String s) {
         defNomAlias.add(s);
-        if ( defNom == null){
+        if (defNom == null) {
             defNom = s;
         }
     }
-    
-    //
 
+    //
     public String getDefNom() {
         return defNom;
     }
@@ -58,7 +56,7 @@ public class UneDef implements Comparable<Object>{
     public void setDefNom(String defNom) {
         this.defNom = defNom;
     }
- 
+
     public String getDateCreation() {
         return dateCreation;
     }
@@ -93,21 +91,23 @@ public class UneDef implements Comparable<Object>{
 
     @Override
     public int compareTo(Object o) {
-        if ( o == null){
+        if (o == null) {
             return -1;
-        }else{
-            if ( o instanceof UneDef){
-                UneDef d = (UneDef)o;
-                return this.defNom.compareToIgnoreCase(d.defNom);
-                
-            }else{
+        } else {
+            if (o instanceof UneDef) {
+                UneDef d = (UneDef) o;
+                if (false) {
+                    return this.defNom.compareToIgnoreCase(d.defNom);
+                }
+                // TODO affinier avec la date de creation et de modification pour comparaison d'historique de commentaire 
+                return this.commentId.compareToIgnoreCase(d.commentId);
+
+            } else {
                 // TODO
-                System.err.printf("TODO UnDef comparaTo class %s\n",o.getClass().getSimpleName());
+                System.err.printf("TODO UnDef comparaTo class %s\n", o.getClass().getSimpleName());
                 return -1;
             }
         }
     }
-
-   
 
 }

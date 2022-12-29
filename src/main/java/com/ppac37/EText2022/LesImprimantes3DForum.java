@@ -6,6 +6,7 @@ import com.pnikosis.html2markdown.HTML2Md;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -64,15 +65,17 @@ public class LesImprimantes3DForum {
 
     public static boolean debugPrintUrlHeaders = false;
     public static boolean debugTimming = false;
-    
+
     static boolean modeDev = true;
-    static   String[] urls = {// Jeux d'essai pour le dev.
-                "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?sortby=date#comments",
-                "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/page/2/?sortby=date#comments",
-                "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/page/3/?sortby=date#comments"
-            //             , ""    
-            };
-    
+    public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
+    static String[] urls = {// Jeux d'essai pour le dev.
+        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments",
+        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "page/2/?sortby=date#comments",
+        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "page/3/?sortby=date#comments"
+    //             , ""    
+    };
+    static String lienVersCommentaireBase = HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?do=findComment&comment=";
+
     static SortedSet<UneDef> lesDef = new TreeSet<>();
 
     public static void main(String[] args) {
@@ -93,33 +96,123 @@ public class LesImprimantes3DForum {
             // TODO gestion des arguments             
         }
 
-        
-            //
-            System.out.printf("Nb Def = %d\n",lesDef.size());
-            //
-            SortedMap<UneDefAlias,String> aliasToId = new TreeMap<>();
-            int cptTotalAlias = 0;
-            for ( UneDef d : lesDef){
-                System.out.printf(" %35s [%d](%s)\n",d.defNom,d.defNomAlias.size(),d.defNomAlias.toString());    
-                cptTotalAlias+= d.defNomAlias.size();
-                for ( String a : d.defNomAlias){
-                    aliasToId.put(new UneDefAlias(a), d.commentId);
+        //
+        System.out.printf("Nb comment with Def = %d\n", lesDef.size());
+        FileWriter fwIndexComment = null;
+        try {
+            //FileWriter 
+            fwIndexComment = new FileWriter("indexComment.md");
+        } catch (IOException ex) {
+            Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //
+        SortedMap<UneDefAlias, String> aliasToId = new TreeMap<>();
+        int cptTotalAlias = 0;
+        for (UneDef d : lesDef) {
+            if (false) {
+                System.out.printf(" %35s [%d](%s)\n", d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
+            }
+
+            System.out.printf(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
+            if (fwIndexComment != null) {
+                try {
+                    fwIndexComment.append(String.format(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString()));
+                } catch (IOException ex) {
+                    Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            System.out.printf("Nb TotalAliasDef = %d\n",cptTotalAlias);    
-        
-            String lastFirstChar = "";  Collator usCollator = Collator.getInstance(Locale.FRENCH);
-            usCollator.setStrength(Collator.PRIMARY);
-            for ( UneDefAlias k : aliasToId.keySet()){
-               
-            
-                if ( usCollator.compare( lastFirstChar,k.a.substring(0, 1))!=0 ){
-                    System.out.printf("%s\n",k.a.substring(0, 1));
-                }
-                lastFirstChar=k.a.substring(0, 1);
-                System.out.printf(" %s\t%s\n",k.a,aliasToId.get(k));
+            cptTotalAlias += d.defNomAlias.size();
+            for (String a : d.defNomAlias) {
+                aliasToId.put(new UneDefAlias(a), d.commentId);
             }
-            
+        }
+        if (fwIndexComment != null) {
+            try {
+                fwIndexComment.flush();
+                fwIndexComment.close();
+            } catch (IOException ex) {
+                Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        // la pour le vrai sommaire
+        //FileWriter 
+        fwIndexComment = null;
+        try {
+            //FileWriter 
+            fwIndexComment = new FileWriter("SommaireGlossaireComment.html");
+            fwIndexComment.append(String.format("<h2>%s</h2>\n", " Sommaire "));
+        } catch (IOException ex) {
+            Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        System.out.printf("Nb TotalAliasDef = %d\n", cptTotalAlias);
+
+        String lastFirstChar = "";
+        Collator usCollator = Collator.getInstance(Locale.FRENCH);
+        usCollator.setStrength(Collator.PRIMARY);
+        for (UneDefAlias k : aliasToId.keySet()) {
+
+            if (usCollator.compare(lastFirstChar, k.a.substring(0, 1)) != 0) {
+                System.out.printf("%s\n", k.a.substring(0, 1));
+                if (fwIndexComment != null) {
+                    try {
+                        fwIndexComment.append(String.format("<h3>%s</h3>\n", k.a.substring(0, 1)));
+                    } catch (IOException ex) {
+                        Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+            lastFirstChar = k.a.substring(0, 1);
+            System.out.printf(" %s\t%s\n", k.a, aliasToId.get(k));
+            if (fwIndexComment != null) {
+                try {
+                    fwIndexComment.append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
+                } catch (IOException ex) {
+                    Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        if (fwIndexComment != null) {
+            try {
+                fwIndexComment.append(String.format("<br><p>Total %d alias pour %d definitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
+                fwIndexComment.append(String.format("<h2>%s</h2>\n", " Definitions "));
+                for (UneDef d : lesDef) {
+                    if (false) {
+                        System.out.printf(" %35s [%d](%s)\n", d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
+                    }
+
+                    if (false) {
+                        System.out.printf(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
+                    }
+
+                    if (fwIndexComment != null) {
+                        try {
+                            fwIndexComment.append(String.format("<hr><a href=\"%s%s\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId,d.defNomAlias));
+                            //fwIndexComment.append(String.format("<div>%s</div>\n<br>\n", ));
+                            fwIndexComment.append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
+
+                            if (false) {
+                                fwIndexComment.append(String.format(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString()));
+                            }
+                        } catch (IOException ex) {
+                            Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+//            cptTotalAlias += d.defNomAlias.size();
+//            for (String a : d.defNomAlias) {
+//                aliasToId.put(new UneDefAlias(a), d.commentId);
+//            }
+                }
+
+                fwIndexComment.flush();
+                fwIndexComment.close();
+            } catch (IOException ex) {
+                Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         System.out.printf("FIN : %s\n", LesImprimantes3DForum.class.getName());
         System.out.flush();
     }
@@ -138,16 +231,16 @@ public class LesImprimantes3DForum {
         System.out.println(sUrl + " ( in " + (t1 - t0) + " ms.)");
         //TODO si cache ex: Document doc = Jsoup.parse(bookmarkHtmlFile, "UTF-8");
 
-        if ( false ){
-        Elements titles = doc.select("title");
+        if (false) {
+            Elements titles = doc.select("title");
 
-        //print all titles in main page
-        for (Element e : titles) {
-            System.out.println("text: " + e.text());
-            if (false) {
-                System.out.println("html: " + e.html());
+            //print all titles in main page
+            for (Element e : titles) {
+                System.out.println("text: " + e.text());
+                if (false) {
+                    System.out.println("html: " + e.html());
+                }
             }
-        }
         }
         long t3 = System.currentTimeMillis();
         if (false) {
@@ -175,16 +268,15 @@ public class LesImprimantes3DForum {
         if (doComments) {
             String sSelect_A_id_comment = "a[id^=comment-]";
             Elements allElemAIdComment = doc.select(sSelect_A_id_comment);
-            
-            if ( false ) System.out.println("Total (" + sSelect_A_id_comment + "): " + allElemAIdComment.size());
 
-            
-            
+            if (false) {
+                System.out.println("Total (" + sSelect_A_id_comment + "): " + allElemAIdComment.size());
+            }
+
             for (Element eACommentId : allElemAIdComment) {
 
                 UneDef uneDef = new UneDef();
-                
-                
+
                 Element nextElementSibling = eACommentId.nextElementSibling();
                 if (false) {
                     System.out.printf(" \"%s\"\n", eACommentId.attr("id"));
@@ -193,9 +285,13 @@ public class LesImprimantes3DForum {
                 String tmpCommentId = "";
                 if (eACommentId.attr("id").startsWith("comment-")) {
                     tmpCommentId = eACommentId.attr("id").substring(8);
-                    if ( false ) System.out.printf("https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&comment=%s\n", tmpCommentId);
-                    if ( false ) System.out.printf(" comment id \"%s\"\n", tmpCommentId);
-                    
+                    if (false) {
+                        System.out.printf("%s%s\n", lienVersCommentaireBase, tmpCommentId);
+                    }
+                    if (false) {
+                        System.out.printf(" comment id \"%s\"\n", tmpCommentId);
+                    }
+
                     uneDef.setCommentId(tmpCommentId);
                 }
 
@@ -216,7 +312,7 @@ public class LesImprimantes3DForum {
                 }
 
                 // heures creation et ?modification
-                Elements dateMsg = nextElementSibling.select("time"); 
+                Elements dateMsg = nextElementSibling.select("time");
                 String sTmpLastDateTime = "";
                 for (Element d : dateMsg) {
                     if (false) {
@@ -226,13 +322,13 @@ public class LesImprimantes3DForum {
                     if (sDateTime.equals(sTmpLastDateTime)) {
                         // on ignore car on a deja sortie cette date précédament                        
                     } else {
-                        if ( sTmpLastDateTime.isEmpty()){
+                        if (sTmpLastDateTime.isEmpty()) {
                             uneDef.setDateCreation(sDateTime);
-                        }else{
+                        } else {
                             uneDef.setDateModification(sDateTime);
                         }
                         System.out.printf("  //  %s ( %s ) %s :: %s\n", d.attr("title"), d.text(), d.attr("datetime"), d.parent().text());
-                        
+
                     }
                     sTmpLastDateTime = sDateTime;
                 }
@@ -259,9 +355,9 @@ public class LesImprimantes3DForum {
                     System.out.printf("---\n%s\n---\n", commentContent.html());
                     System.out.printf("---\n%s\n---\n", HTML2Md.getTextContent(commentContent)); //HTML2Md.convertHtml(commentContent.html(), "UTF-8"));
                 }
-                
+
                 uneDef.setCommentCorpHTML(commentContent.html());
-                
+
                 // voir le le coprs du commentaire contien un titre 2
                 if (true && commentContent != null) {
                     Elements selectCommentH2 = commentContent.select("h2");
@@ -270,7 +366,7 @@ public class LesImprimantes3DForum {
                         for (Element c_elemH2 : selectCommentH2) {
                             if (c_elemH2.text().equalsIgnoreCase("Sommaire")) {
                                 System.out.printf(" H2: \"%s\" comment id %s\n", c_elemH2.text(), eACommentId.attr("id").substring(8));
-                                uneDef.setDefNom("0_"+c_elemH2.text());
+                                uneDef.setDefNom("0_" + c_elemH2.text());
                             } else {
                                 System.out.printf(" H2: \"%s\"\n", c_elemH2.text());
 
@@ -279,7 +375,7 @@ public class LesImprimantes3DForum {
                     }
 
                 }
-                
+
                 // les elements en gras qui sont en puce ( spécifique au glossaire pour identifier le terme définie ... ) 
                 if (true && commentContent != null) {
                     Elements selectCommentH2 = commentContent.select("ul li strong");
@@ -287,26 +383,30 @@ public class LesImprimantes3DForum {
                         // le commentaire contien au moins un "titre 2"
                         for (Element c_elemH2 : selectCommentH2) {
 
-                            if ( false ) System.out.printf(" * \"%s\"\n", c_elemH2.text());
-                            
+                            if (false) {
+                                System.out.printf(" * \"%s\"\n", c_elemH2.text());
+                            }
+
                             //uneDef.setDefNom(c_elemH2.text());
                             uneDef.addDefNom(c_elemH2.text());
                         }
                     }
 
                 }
-                
-                lesDef.add(uneDef);
-                
-                // On essais de convertire le Commentaire au format .md ( TODO revoir le dl des images, couleurs du texte , couleur de fond du texte , ... )
-                if ( false ) System.out.printf("---\n%s\n---\n", HTML2Md.getTextContent(commentContent)); //HTML2Md.convertHtml(commentContent.html(), "UTF-8"));
 
-                if ( false) System.out.println();
+                lesDef.add(uneDef);
+
+                // On essais de convertire le Commentaire au format .md ( TODO revoir le dl des images, couleurs du texte , couleur de fond du texte , ... )
+                if (false) {
+                    System.out.printf("---\n%s\n---\n", HTML2Md.getTextContent(commentContent)); //HTML2Md.convertHtml(commentContent.html(), "UTF-8"));
+                }
+                if (false) {
+                    System.out.println();
+                }
             }// fin boucle pour chaque commentaire 
 
             System.out.println();
-                
-            
+
         }
 
         System.out.flush();

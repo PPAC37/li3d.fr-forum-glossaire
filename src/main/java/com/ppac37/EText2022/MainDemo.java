@@ -10,7 +10,7 @@ package com.ppac37.EText2022;
 public class MainDemo {
     public static void main(String[] args) {
         System.out.println("Coucou !");
-        
+        LesImprimantes3DForum.main(args);
         // TODO commonCli gestion des arguments
         // definir les arguments a utiliser
         // repertoire des fichier html cache local 
