@@ -63,14 +63,12 @@ Un second fichier codeHTML.txt est créé. Il contient le code pour mettre en fo
 
 
 ### Liste des définition faite
-le sommaire du sujet 
+le sommaire du sujet https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/#comment-478055
 
 le repertoire de travaille du github
 
-### Les définitions a revoir ( 
-
-
-### Les définition en cours de modification / création sur le forum 
+### Les définitions a revoir ou en cours de modification / création sur le forum 
+https://www.lesimprimantes3d.fr/forum/topic/45962-cr%C3%A9ation-dun-glossaire-de-limpression-3d/?sortby=date#comments
 
 
 ### [Liste des definition a faire](DEF_TODO.md) 
