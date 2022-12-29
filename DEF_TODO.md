@@ -1,12 +1,14 @@
+
+<!--
 ## Les définitions deja faite
 cf le sommaire du sujet et du repertoire de travaille
 
 ## Les définitions a revoir
 ?
-
+-->
 ## LES DEFINITIONS A FAIRE
 
-( cf https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&comment=478058 )
+( cf https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&comment=478058 message masqué donc visible uniquement pour une modérateur / administrateur du forum )
 ~~~
 Propositions de membres
 
