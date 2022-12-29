@@ -4,7 +4,9 @@ package com.ppac37.EText2022;
 
 import com.pnikosis.html2markdown.HTML2Md;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -17,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jsoup.Jsoup;
@@ -238,6 +241,7 @@ public class LesImprimantes3DForum {
                     }
 
                 }
+                System.out.printf("---\n%s\n---\n", HTML2Md.getTextContent(commentContent)); //HTML2Md.convertHtml(commentContent.html(), "UTF-8"));
 
                 System.out.println();
             }
@@ -283,14 +287,63 @@ public class LesImprimantes3DForum {
         HttpURLConnection.setFollowRedirects(true);
 
         // TODO gestion des cookies ... 
-       
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            if (false) {
+                //TODO pour pouvoir etre authentifié ... on pique les cookies via un inspecter , network , ...  le curl que l'on sauve dans un fichier
+                // il reste a parser la req curl pour faire les bon connection.setRequestProperty("","");
+                try {
+
+                    File file = new File("/home/q6/req_curl_PPAC.txt");
+                    Scanner scr = null;
+                    int count = 0;
+                    try {
+                        scr = new Scanner(file);
+                        if (false) {
+                            // SSI sous windows 
+                            scr.useDelimiter("\r\n");
+                        }
+                        while (scr.hasNextLine()) {
+
+                            count++;
+                            String sTmpLine = scr.nextLine();
+                            if (false) {
+                                System.out.printf("line %4d [%4d]:  %s\n", count, sTmpLine.length(), sTmpLine);
+                            }
+                            if (sTmpLine.startsWith("  -H '")) {
+                                int posSeparatorKeyValue = sTmpLine.indexOf(": ");
+                                String k = sTmpLine.substring(6, posSeparatorKeyValue);
+                                String val = sTmpLine.substring(posSeparatorKeyValue + 2, sTmpLine.length() - 3);
+
+                                if (false) {
+                                    System.out.printf(">%s=%s\n", k, val);
+                                }
+                                connection.setRequestProperty(k, val);
+                            } else {
+                                if (false) {
+                                    System.out.printf("#%s\n", sTmpLine);
+                                }
+                            }
+
+                        }
+                        if (false) {
+                            System.out.println(count);
+                        }
+                        scr.close();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } catch (Exception e) {
+                    //... TODO mais pas critique on ne sera ju
+                    Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+            }
             //connection.setRequestProperty ( "User-agent", "Opera/9.80 (Windows NT 5.1; U; fr) Presto/2.7.62 Version/11.01");
             //        connection.setRequestProperty("User-agent", "Nokia6230i/2.0 (03.25) Profile/MIDP-2.0 Configuration/CLDC-1.1");
             Map<String, List<String>> requestProperties = connection.getRequestProperties();
             System.out.println(requestProperties.toString());
-            
 
             String header = connection.getHeaderField(0);
             System.out.println(header);
