@@ -8,10 +8,20 @@ import java.util.TreeSet;
 /**
  * TODO a revoir pour hériter d'une classe UnCommentaireDeSujet
  *
+ * 
  * @author q6
  */
 public class UneDef implements Comparable<Object>{
 
+    /*
+    Si l'on se base sur le Nom des pièeces - Impression 3D.pdf de www.youtube.com/Legueroloco
+    
+    Image
+    Noms français
+    Noms anglais
+    Description sommaire
+    
+    */
     String defNom = null;
     SortedSet<String> defNomAlias;
 
