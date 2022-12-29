@@ -25,6 +25,15 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'maven'
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
+      shell: bash
+      run:  |
+        java -jar target/li3dfrGlossaire*-with-dependencies.jar &&
+        echo "Hello ${{ github.event.inputs.name }}"
