@@ -156,7 +156,7 @@ public class LesImprimantes3DForum {
         //
         System.out.printf("Nb comment with Def = %d\n", lesDef.size());
 
-        UtilFileWriter fwIndexComment_ = new UtilFileWriter("indexComment.md");
+        UtilFileWriter fwIndexCommentMd = new UtilFileWriter("indexComment.md");
 
         //
         SortedMap<UneDefAlias, String> aliasToId = new TreeMap<>();
@@ -170,45 +170,85 @@ public class LesImprimantes3DForum {
                 System.out.printf(" comment-%s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
             }
 
-            fwIndexComment_.append(String.format(" * [ ] [comment-%s - %s ](%s%s)\n", d.commentId, d.defNomAlias.toString(), lienVersCommentaireBase, d.commentId));
+            fwIndexCommentMd.append(String.format(" * [ ] [comment-%s - %s ](%s%s)\n", d.commentId, d.defNomAlias.toString(), lienVersCommentaireBase, d.commentId));
 
             cptTotalAlias += d.defNomAlias.size();
             for (String a : d.defNomAlias) {
                 aliasToId.put(new UneDefAlias(a), d.commentId);
             }
         }
-        fwIndexComment_.flush();
-        fwIndexComment_.close();
+        fwIndexCommentMd.flush();
+        fwIndexCommentMd.close();
 
         // la pour un sommaire en html
         UtilFileWriter fwIndexOnlySommaireHtml = new UtilFileWriter("indexComment.html");
-        if ( false ){
-        // TODO entete a obtenir depuis un autre fichier et non codé en dur ici ou depuis la page en ligne
-        fwIndexOnlySommaireHtml.append("<p> Dans ce glossaire de l'impression 3D, vous trouverez des définitions qui se veulent simples et compréhensibles des mots techniques, liés à l'impression 3D FDM et à l’impression 3D résine, utilisés par les membres du forum ainsi que sur le blog du site </p> \n"
-                + "<p> &nbsp; </p> \n"
-                + "<p> <span style=\"color:#ffffff;\"><span style=\"background-color:#c0392b;\">Ce glossaire est en cours d'élaboration.</span></span> </p> \n"
-                + "<p> <span style=\"color:#ffffff;\"><span style=\"background-color:#c0392b;\">Si vous voulez y participer,</span></span> <a href=\"https://www.lesimprimantes3d.fr/forum/topic/45962-cr%C3%A9ation-dun-glossaire-de-limpression-3d/\" rel=\"\">rendez vous sur ce sujet</a>. </p> \n"
-                + "<p> &nbsp; </p> \n"
-                + "<p> <span style=\"background-color:#ffff00;\">Afin de faciliter votre recherche, vous pouvez utiliser le moteur de recherche de votre navigateur accessible via l'appui simultané sur les touches CTRL et F</span> </p> \n"
-                + "<p> &nbsp; </p>\n");       
-        
-        }else{
+        if (false) {
+            // TODO entete a obtenir depuis un autre fichier et non codé en dur ici ou depuis la page en ligne
+            fwIndexOnlySommaireHtml.append("<p> Dans ce glossaire de l'impression 3D, vous trouverez des définitions qui se veulent simples et compréhensibles des mots techniques, liés à l'impression 3D FDM et à l’impression 3D résine, utilisés par les membres du forum ainsi que sur le blog du site </p> \n"
+                    + "<p> &nbsp; </p> \n"
+                    + "<p> <span style=\"color:#ffffff;\"><span style=\"background-color:#c0392b;\">Ce glossaire est en cours d'élaboration.</span></span> </p> \n"
+                    + "<p> <span style=\"color:#ffffff;\"><span style=\"background-color:#c0392b;\">Si vous voulez y participer,</span></span> <a href=\"https://www.lesimprimantes3d.fr/forum/topic/45962-cr%C3%A9ation-dun-glossaire-de-limpression-3d/\" rel=\"\">rendez vous sur ce sujet</a>. </p> \n"
+                    + "<p> &nbsp; </p> \n"
+                    + "<p> <span style=\"background-color:#ffff00;\">Afin de faciliter votre recherche, vous pouvez utiliser le moteur de recherche de votre navigateur accessible via l'appui simultané sur les touches CTRL et F</span> </p> \n"
+                    + "<p> &nbsp; </p>\n");
+
+        } else {
             // en principe si un commentaire contenent un <h2>Sommaire</h2> a etait parsé
             //se qui se trouvé avant le sommaire dans se commentaire a etait mis dans enteteSommaireToUse ...
-            
+
             fwIndexOnlySommaireHtml.append(enteteSommaireToUse);
         }
         fwIndexOnlySommaireHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
-        
+
 // la pour un sommaire en html avec les definition 
-        UtilFileWriter fwIndexEtCommentHtml = new UtilFileWriter("indexSommaireEtComment.html");
-        fwIndexEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
+        UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter("indexSommaireEtComment.html");
+        fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
         // la pour une autre version en html mais avec plus de lien pour navigation local ( TODO gestion de tous les liens est de elements externe ( images, iframe video, iframe vers sujet ou commentaire. ) 
         UtilFileWriter fwIndexHtml_avec_lien_et_id_pour_navigation_embarque = new UtilFileWriter("indexCommentEmbarq.html");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h2 style=\"text-align:center;\" id=\"debut\">%s</h2>\n", " Sommaire "));
 
         System.out.printf("Nb TotalAliasDef = %d\n", cptTotalAlias);
 
+        // Pour générer une navigation dans le sommaire
+        // TODO a revoir pour éventuellement avoir le nombre d'elements dans chaque groupe... (mais cela change l'approche )
+        String navigationSommaire = "";
+        if (true) {
+            String lastFirstChar = "";
+            int ctpAfterLastChangeLastFirstChar = 0;
+            Collator usCollator = Collator.getInstance(Locale.FRENCH);
+            usCollator.setStrength(Collator.PRIMARY);
+            for (UneDefAlias k : aliasToId.keySet()) {
+
+                // Pour mettre un titre3 avec le caractére de début du groupe            
+                if (true) {
+                    String tmpFisrtChar = k.a.substring(0, 1);
+                    //TODO généraliser se fix
+                    if ("É".equals(tmpFisrtChar)) {
+                        tmpFisrtChar = "E";
+                    }
+                    ctpAfterLastChangeLastFirstChar++;
+                    if (usCollator.compare(lastFirstChar, tmpFisrtChar) != 0) {
+                        if (ctpAfterLastChangeLastFirstChar != 0 && !lastFirstChar.isEmpty()) {
+                            navigationSommaire += String.format("(%d) - ", ctpAfterLastChangeLastFirstChar);
+                        }
+                        ctpAfterLastChangeLastFirstChar = 0;
+                        if (false) {
+                            System.out.printf("%s\n", tmpFisrtChar);
+                        }
+
+                        navigationSommaire += String.format("<a href=\"#%s\">%s</a> ", tmpFisrtChar, tmpFisrtChar);
+                    }
+
+                    lastFirstChar = tmpFisrtChar;
+                }
+            }
+            if (!lastFirstChar.isEmpty()) {
+                navigationSommaire += String.format("(%d) . ", ctpAfterLastChangeLastFirstChar);
+            }
+            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div>%s</div>\n", navigationSommaire));
+        }
+
+        // Pour générer les groupes du sommaire
         String lastFirstChar = "";
         Collator usCollator = Collator.getInstance(Locale.FRENCH);
         usCollator.setStrength(Collator.PRIMARY);
@@ -228,8 +268,8 @@ public class LesImprimantes3DForum {
                     }
 
                     fwIndexOnlySommaireHtml.append(String.format("<h3>%s</h3>\n", tmpFisrtChar));
-                    fwIndexEtCommentHtml.append(String.format("<h3>%s</h3>\n", tmpFisrtChar));
-                    fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h3>%s</h3>\n", tmpFisrtChar));
+                    fwIndexSommaireEtCommentHtml.append(String.format("<h3>%s</h3>\n", tmpFisrtChar));
+                    fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h3 id=\"%s\">%s</h3>\n", tmpFisrtChar, tmpFisrtChar));
                 }
                 lastFirstChar = tmpFisrtChar;
             }
@@ -240,7 +280,7 @@ public class LesImprimantes3DForum {
             fwIndexOnlySommaireHtml
                     .append(String.format("<a href=\"%s%s\">%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
 
-            fwIndexEtCommentHtml
+            fwIndexSommaireEtCommentHtml
                     .append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                     .append(String.format("<a href=\"%s%s\"  target=\"_blank\">%s</a> <a href=\"#%s\" >(local)</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a, aliasToId.get(k)));
@@ -249,7 +289,7 @@ public class LesImprimantes3DForum {
         fwIndexOnlySommaireHtml
                 .append(String.format("<br><p>Total %d alias pour %d définitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
 
-        fwIndexEtCommentHtml
+        fwIndexSommaireEtCommentHtml
                 .append(String.format("<br><p>Total %d alias pour %d définitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                 .append(String.format("<br><p>Total %d alias pour %d définitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
@@ -257,7 +297,7 @@ public class LesImprimantes3DForum {
         //
         //
         //fwIndexHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
-        fwIndexEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
+        fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
         for (UneDef d : lesDef) {
             if (false) {
@@ -270,30 +310,30 @@ public class LesImprimantes3DForum {
 
             if (d.defNomAlias.isEmpty()) {
 
-                fwIndexEtCommentHtml
+                fwIndexSommaireEtCommentHtml
                         .append(String.format("<hr><a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<hr><a id=\"%s\" target=\"_blank\" href=\"%s%s\">comment-id %s :: %s</a> // <a href=\"#debut\" style=\"text-align:center;\" >(retour sommaire local)</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 //.append(String.format("<div>%s</div>\n<br>\n", ));
-                fwIndexEtCommentHtml
+                fwIndexSommaireEtCommentHtml
                         .append(String.format("<div><details><summary>...</summary>%s</details></div>\n<br>\n", d.commentCorpHTML));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<div><details><summary>...</summary>%s</details></div>\n<br>\n", d.commentCorpHTML));
 
             } else {
-                fwIndexEtCommentHtml
+                fwIndexSommaireEtCommentHtml
                         .append(String.format("<hr><a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<hr><a id=\"%s\" href=\"%s%s\" target=\"_blank\">comment-id %s :: %s</a> // <a href=\"#debut\" style=\"text-align:center;\" >(retour sommaire local)</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 //.append(String.format("<div>%s</div>\n<br>\n", ));
-                fwIndexEtCommentHtml
+                fwIndexSommaireEtCommentHtml
                         .append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
             }
 
             if (false) {
-                fwIndexEtCommentHtml.
+                fwIndexSommaireEtCommentHtml.
                         append(String.format(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString()));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.
                         append(String.format(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString()));
@@ -303,8 +343,8 @@ public class LesImprimantes3DForum {
         fwIndexOnlySommaireHtml.flush();
         fwIndexOnlySommaireHtml.close();
 
-        fwIndexEtCommentHtml.flush();
-        fwIndexEtCommentHtml.close();
+        fwIndexSommaireEtCommentHtml.flush();
+        fwIndexSommaireEtCommentHtml.close();
 
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.flush();
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.close();
@@ -480,16 +520,15 @@ public class LesImprimantes3DForum {
                             if (c_elemH2.text().equalsIgnoreCase("Sommaire")) {
                                 System.out.printf(" H2: \"%s\" comment id %s\n", c_elemH2.text(), eACommentId.attr("id").substring(8));
                                 uneDef.setDefNom("0_" + c_elemH2.text());
-                                
-    
-                                    // Pour réutiliser l'entete du sommaire, on supprime le sommaire ! ?
-                                    c_elemH2.nextElementSiblings().remove();
-                                    c_elemH2.remove();
-                                    
-                                    if ( false ) {
-                                        System.out.printf("%s\n",commentContent.html());
-                                    }
-                                    enteteSommaireToUse = commentContent.html();
+
+                                // Pour réutiliser l'entete du sommaire, on supprime le sommaire ! ?
+                                c_elemH2.nextElementSiblings().remove();
+                                c_elemH2.remove();
+
+                                if (false) {
+                                    System.out.printf("%s\n", commentContent.html());
+                                }
+                                enteteSommaireToUse = commentContent.html();
                             } else {
                                 System.out.printf(" H2: \"%s\"\n", c_elemH2.text());
 
