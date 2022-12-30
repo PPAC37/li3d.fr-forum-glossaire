@@ -221,7 +221,7 @@ public class LesImprimantes3DForum {
             
             System.out.printf(" %s\t%s\n", k.a, aliasToId.get(k));
             fwIndexHtml
-                    .append(String.format("<a href=\"%s%s\"  target=\"_blank\">%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
+                    .append(String.format("<a href=\"%s%s\">%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
 
             fwIndexEtCommentHtml
                     .append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
