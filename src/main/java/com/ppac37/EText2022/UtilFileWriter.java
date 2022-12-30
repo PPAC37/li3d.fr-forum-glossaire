@@ -26,7 +26,7 @@ public class UtilFileWriter {
             fwIndexComment = new FileWriter(sFile);
             
          File fTmp = new File(sFile);
-         System.out.printf("open (size=%10d) \"%s\"\n", fTmp.length(), fTmp.getAbsolutePath());
+         System.out.printf("open  (size=%10d) \"%s\"\n", fTmp.length(), fTmp.getAbsolutePath());
         } catch (IOException ex) {
             Logger.getLogger(UtilFileWriter.class.getName()).log(Level.SEVERE, null, ex);
         }

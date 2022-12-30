@@ -165,8 +165,9 @@ public class LesImprimantes3DForum {
                 System.out.printf(" %35s [%d](%s)\n", d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
             }
 
-            System.out.printf(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
-            fwIndexComment_.append(String.format(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString()));
+            if ( false ) System.out.printf(" comment-%s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
+            
+            fwIndexComment_.append(String.format(" * [ ] [comment-%s - %s ](%s%s)\n", d.commentId, d.defNomAlias.toString(),lienVersCommentaireBase, d.commentId));
 
             cptTotalAlias += d.defNomAlias.size();
             for (String a : d.defNomAlias) {
@@ -211,7 +212,8 @@ public class LesImprimantes3DForum {
                 }
                 if (usCollator.compare(lastFirstChar, tmpFisrtChar) != 0) {
                     
-                    System.out.printf("%s\n", tmpFisrtChar);
+                    if ( false ) System.out.printf("%s\n", tmpFisrtChar);
+                    
                     fwIndexHtml.append(String.format("<h3>%s</h3>\n", tmpFisrtChar));
                     fwIndexEtCommentHtml.append(String.format("<h3>%s</h3>\n", tmpFisrtChar));
                     fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h3>%s</h3>\n", tmpFisrtChar));
@@ -219,7 +221,7 @@ public class LesImprimantes3DForum {
                 lastFirstChar = tmpFisrtChar;
             }
             
-            System.out.printf(" %s\t%s\n", k.a, aliasToId.get(k));
+            if ( false )  System.out.printf(" %s\t%s\n", k.a, aliasToId.get(k));
             fwIndexHtml
                     .append(String.format("<a href=\"%s%s\">%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
 
