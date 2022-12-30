@@ -72,12 +72,16 @@ public class LesImprimantes3DForum {
     public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
 
     static String[] urls = {// Jeux d'essai pour le dev.
-        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments",
-        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "page/2/?sortby=date#comments",
-        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "page/3/?sortby=date#comments"
+        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments"
+//            ,
+//        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "page/2/?sortby=date#comments",
+//        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "page/3/?sortby=date#comments"
     //             , ""    
     };
 
+    /**
+     *
+     */
     static String lienVersCommentaireBase = HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?do=findComment&comment=";
 
     static SortedSet<UneDef> lesDef = new TreeSet<>();
@@ -86,12 +90,60 @@ public class LesImprimantes3DForum {
 
         System.out.printf("DEBUT : %s\n", LesImprimantes3DForum.class.getName());
 
+        boolean doToLastPage = true;
         if (modeDev) {
             for (String sUrl : urls) {
                 System.out.printf(" %s\n", sUrl);
                 try {
                     // TODO analyse de l'url (si ou non une parties de parametres)
-                    loadMayByCachedDocumentFromUrl(sUrl);
+                    Document doc = loadMayByCachedDocumentFromUrl(sUrl);
+                    if (doToLastPage) {
+                        if (true) {
+                            // TODO int pageMax = getSujetMaxPage(doc);
+                            int iPageNumActive =-1;
+                            int iPageNumLas =-1;
+                            String sUrlNextPage = "";
+                            
+                            Element pActive = doc.selectFirst("li.ipsPagination_active a");
+                            if (pActive != null) {
+                                String sNumPage = pActive.attr("data-page");
+
+                                System.out.printf("Page %s\n", sNumPage);
+                                try{
+                                    iPageNumActive = Integer.parseInt(sNumPage);
+                                }catch(NumberFormatException e){}
+                            }
+                            
+                            
+                            Element pNext = doc.selectFirst("li.ipsPagination_next a");
+                            if (pNext != null) {
+                                String sNumPage = pNext.attr("data-page");
+
+                                System.out.printf("Page Next %s\n", sNumPage);
+                                sUrlNextPage = pNext.attr("abs:href");
+                            }
+                            
+                            
+                            Element pLast = doc.selectFirst("li.ipsPagination_last a");
+                            if (pLast != null) {
+                                String sNumPage = pLast.attr("data-page");
+                                System.out.printf("Last Page %s\n", sNumPage);
+                                try{
+                                    iPageNumLas = Integer.parseInt(sNumPage);
+                                }catch(NumberFormatException e){}
+                            }
+                            
+                            if ( iPageNumActive < iPageNumLas){
+                                for ( int numPage = (iPageNumActive+1) ; numPage <= iPageNumLas ; numPage++ ) {
+                                    String sUrlOtherPageToDo = sUrlNextPage.replaceFirst("/page/.*/", "/page/"+numPage+"/");
+                                    System.out.printf("WillDo Next Url %s\n", sUrlOtherPageToDo);
+                                    loadMayByCachedDocumentFromUrl(sUrlOtherPageToDo);
+                                }
+                            }
+
+                        }
+                    }
+
                 } catch (IOException ex) {
                     Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -220,7 +272,7 @@ public class LesImprimantes3DForum {
         System.out.flush();
     }
 
-    public static void loadMayByCachedDocumentFromUrl(String sUrl) throws IOException {
+    public static Document loadMayByCachedDocumentFromUrl(String sUrl) throws IOException {
 
         HashMap<String, String> mapUrlElem = new HashMap<>();
 
@@ -252,6 +304,23 @@ public class LesImprimantes3DForum {
 
         if (false) {
             outDocumentHeadMetaProperty(doc);
+        }
+
+        if (true) {
+            // TODO int pageMax = getSujetMaxPage(doc);
+            int page_max = 1;
+            Element pActive = doc.selectFirst("li.ipsPagination_active a");
+            if (pActive != null) {
+                String sNumPage = pActive.attr("data-page");
+
+                System.out.printf("Page %s\n", sNumPage);
+            }
+            Element pLast = doc.selectFirst("li.ipsPagination_last a");
+            if (pLast != null) {
+                String sNumPage = pLast.attr("data-page");
+                System.out.printf("Last Page %s\n", sNumPage);
+            }
+
         }
 
         //nav.ipsBreadcrumb  > <ul data-role="breadcrumbList"> li ...
@@ -413,6 +482,8 @@ public class LesImprimantes3DForum {
         }
 
         System.out.flush();
+
+        return doc;
     }
 
     //
@@ -743,8 +814,7 @@ public class LesImprimantes3DForum {
     }
 
     //
-    
-      public static void mainDisplaySystemProperties(String[] args) {
+    public static void mainDisplaySystemProperties(String[] args) {
 
         Properties properties = System.getProperties();
         // Java 8
@@ -754,12 +824,9 @@ public class LesImprimantes3DForum {
         //for (Map.Entry<Object, Object> entry : properties.entrySet()) {
         //    System.out.println(entry.getKey() + " : " + entry.getValue());
         //}
-
         // No good, output is truncated, long lines end with ...
         //properties.list(System.out);
-        
-	
-		// Thanks Java 8
+        // Thanks Java 8
         LinkedHashMap<String, String> collect = properties.entrySet().stream()
                 .collect(Collectors.toMap(k -> (String) k.getKey(), e -> (String) e.getValue()))
                 .entrySet().stream().sorted(Map.Entry.comparingByKey())
