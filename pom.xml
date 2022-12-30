@@ -95,62 +95,8 @@ https://stackoverflow.com/questions/15763915/how-to-echo-in-maven-without-antrun
                 </configuration>
             </plugin>
             -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <!--https://stackoverflow.com/questions/3532135/using-maven-to-output-the-version-number-to-a-text-file -->
-                    <execution>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <tasks>
-                                <!-- -->
-                                <!--https://stackoverflow.com/questions/69569503/generated-desktop-file-for-external-launcher-does-not-work-for-non-script-target -->
-                                <!--    <copy file="${project.build.outputDirectory}/version.txt"
-                                toFile="..." overwrite="true" />-->
-                                <!--     <touch file="${basedir}${file.separator}dist${file.separator}java.jar.${ant.project.name}.desktop"/>
-                                                     <echo file="${basedir}${file.separator}dist${file.separator}java.jar.${ant.project.name}.desktop">#!/usr/bin/env xdg-open
-                        [Desktop Entry]
-                        Name=${ant.project.name} build ${BUILD}
-                        GenericName=${ant.project.name} build ${BUILD}
-                        Comment=${ant.project.name} v${VERSION_MAJOR}.${VERSION_MINOR} build ${BUILD} ${BUILD_DATE}
-                        Exec=java -jar ".${file.separator}${ant.project.name}.jar" %F
-                        Path=${basedir}${file.separator}dist
-                        Terminal=true
-                        Type=Application
-                        Icon=openjdk-6
-                        MimeType=application/x-java-archive;application/java-archive;application/x-jar;application/x-cbt;
-                        NoDisplay=false
-                        Categories=System;
-                        
-                        [X-Desktop Action Gallery]
-                        Exec=java -jar .${file.separator}${ant.project.name}.jar - -gallery
-                        Path=${basedir}${file.separator}dist
-                        Name=Browse Gallery
-                        
-                        [X-Desktop Action Create]
-                        Exec=java -jar .${file.separator}${ant.project.name}.jar - -create-new
-                        Path=${basedir}${file.separator}dist
-                        Name=Create a new Foo!
-                        Icon=fooview-new    
-                        </echo> 
-                        
-                        <chmod file="${basedir}${file.separator}dist${file.separator}java.jar.${ant.project.name}.desktop"  perm="ugo+rx"/>
-                              
-                           
-                                <echo message="desktop-file-validate ..." />
-                                -->
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                        
-                </executions>
-            </plugin>
-
+            
+            <!-- -->
             
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -184,20 +130,16 @@ https://stackoverflow.com/questions/15763915/how-to-echo-in-maven-without-antrun
                     </execution>
                 </executions>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <!--
-                    <showDeprecation>true</showDeprecation>
-                -->
                     <encoding>UTF-8</encoding>
                     <compilerArgs>
                         <compilerArg>-Xlint:unchecked</compilerArg>
-                        <!--
                         <compilerArg>-Xlint:deprecation</compilerArg>
-                    -->
                     </compilerArgs>
                     <debug>false</debug>
                     <showDeprecation>true</showDeprecation>
@@ -265,32 +207,47 @@ https://stackoverflow.com/questions/15763915/how-to-echo-in-maven-without-antrun
             <artifactId>commons-cli</artifactId>
             <version>1.5.0</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
             <version>1.3</version>
         </dependency>
+         -->
+         <!--
         <dependency>
             <groupId>org.ini4j</groupId>
             <artifactId>ini4j</artifactId>
             <version>0.5.4</version>
             <classifier>jdk14</classifier>
         </dependency>
+    -->
+    <!--
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-configuration2</artifactId>
             <version>2.7</version>
         </dependency>
+    
+    -->
+    
+    <!--
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>1.9</version>
         </dependency>
+    -->
+    
+    <!--
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
         </dependency>
+    -->
+    
+    
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -314,12 +271,15 @@ https://stackoverflow.com/questions/15763915/how-to-echo-in-maven-without-antrun
             <artifactId>nbm-maven-plugin</artifactId>
             <version>4.6</version>
         </dependency>
-                -->
+    -->
+    
+    <!--
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>1.8</version>
         </dependency>
+    -->
     </dependencies>
     
     <properties>
