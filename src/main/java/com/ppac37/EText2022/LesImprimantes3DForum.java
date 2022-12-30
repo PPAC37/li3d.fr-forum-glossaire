@@ -243,7 +243,7 @@ public class LesImprimantes3DForum {
                 }
             }
             if (!lastFirstChar.isEmpty()) {
-                navigationSommaire += String.format("(%d) . ", ctpAfterLastChangeLastFirstChar);
+                navigationSommaire += String.format("(%d) . ", ctpAfterLastChangeLastFirstChar+1);
             }
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div>%s</div>\n", navigationSommaire));
         }
@@ -282,8 +282,16 @@ public class LesImprimantes3DForum {
 
             fwIndexSommaireEtCommentHtml
                     .append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
+            
+            if ( false ){ // a vers forum
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
-                    .append(String.format("<a href=\"%s%s\"  target=\"_blank\">%s</a> <a href=\"#%s\" >(local)</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a, aliasToId.get(k)));
+                    .append(String.format("<a href=\"%s%s\"  target=\"_blank\">%s</a>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
+            }else{
+            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
+                    .append(String.format("<a href=\"#%s\" >%s</a>\n", aliasToId.get(k), k.a));
+            }
+            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
+                    .append(String.format("<br>\n"));
         }
 
         fwIndexOnlySommaireHtml
