@@ -47,7 +47,7 @@ jobs:
            mkdir ./www_tmp &&
            cp indexComment.html ./www_tmp/index.html &&
            cp indexCommentEmbarq.html ./www_tmp/index2.html &&
-           cp indexSommaireEtComment.html ./www_tmp/index2.html
+           cp indexSommaireEtComment.html ./www_tmp/index3.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v2
