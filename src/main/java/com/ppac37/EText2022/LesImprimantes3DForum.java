@@ -178,7 +178,7 @@ public class LesImprimantes3DForum {
 
         // la pour un sommaire en html
         UtilFileWriter fwIndexHtml = new UtilFileWriter("indexComment.html");
-        // TODO entete a obtenir depuis un autre fichier et non codé en dur ici.
+        // TODO entete a obtenir depuis un autre fichier et non codé en dur ici ou depuis la page en ligne
         fwIndexHtml.append("<p> Dans ce glossaire de l'impression 3D, vous trouverez des définitions qui se veulent simples et compréhensibles des mots techniques, liés à l'impression 3D FDM et à l’impression 3D résine, utilisés par les membres du forum ainsi que sur le blog du site </p> \n"
                 + "<p> &nbsp; </p> \n"
                 + "<p> <span style=\"color:#ffffff;\"><span style=\"background-color:#c0392b;\">Ce glossaire est en cours d'élaboration.</span></span> </p> \n"
@@ -202,13 +202,23 @@ public class LesImprimantes3DForum {
         usCollator.setStrength(Collator.PRIMARY);
         for (UneDefAlias k : aliasToId.keySet()) {
 
-            if (usCollator.compare(lastFirstChar, k.a.substring(0, 1)) != 0) {
-                System.out.printf("%s\n", k.a.substring(0, 1));
-                fwIndexHtml.append(String.format("<h3>%s</h3>\n", k.a.substring(0, 1)));
-                fwIndexEtCommentHtml.append(String.format("<h3>%s</h3>\n", k.a.substring(0, 1)));
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h3>%s</h3>\n", k.a.substring(0, 1)));
+            // Pour mettre un titre3 avec le caractére de début du groupe            
+            if ( true){
+                String tmpFisrtChar = k.a.substring(0, 1);
+                //TODO généraliser se fix
+                if ( "É".equals(tmpFisrtChar)){
+                    tmpFisrtChar = "E";
+                }
+                if (usCollator.compare(lastFirstChar, tmpFisrtChar) != 0) {
+                    
+                    System.out.printf("%s\n", tmpFisrtChar);
+                    fwIndexHtml.append(String.format("<h3>%s</h3>\n", tmpFisrtChar));
+                    fwIndexEtCommentHtml.append(String.format("<h3>%s</h3>\n", tmpFisrtChar));
+                    fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h3>%s</h3>\n", tmpFisrtChar));
+                }
+                lastFirstChar = tmpFisrtChar;
             }
-            lastFirstChar = k.a.substring(0, 1);
+            
             System.out.printf(" %s\t%s\n", k.a, aliasToId.get(k));
             fwIndexHtml
                     .append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
