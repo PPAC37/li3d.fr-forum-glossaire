@@ -221,12 +221,12 @@ public class LesImprimantes3DForum {
             
             System.out.printf(" %s\t%s\n", k.a, aliasToId.get(k));
             fwIndexHtml
-                    .append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
+                    .append(String.format("<a href=\"%s%s\"  target=\"_blank\">%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
 
             fwIndexEtCommentHtml
                     .append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
-                    .append(String.format("<a href=\"%s%s\" >%s</a> <a href=\"#%s\" >(local)</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a, aliasToId.get(k)));
+                    .append(String.format("<a href=\"%s%s\"  target=\"_blank\">%s</a> <a href=\"#%s\" >(local)</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a, aliasToId.get(k)));
         }
 
         fwIndexHtml
@@ -251,15 +251,29 @@ public class LesImprimantes3DForum {
                 System.out.printf(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
             }
 
+            if ( d.defNomAlias.isEmpty()){
+                
             fwIndexEtCommentHtml
-                    .append(String.format("<hr><a href=\"%s%s\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
+                    .append(String.format("<hr><a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
-                    .append(String.format("<hr><a id=\"%s\" href=\"%s%s\">comment-id %s :: %s</a> <a href=\"#debut\" style=\"text-align:center;\" >// retour sommaire</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
+                    .append(String.format("<hr><a id=\"%s\" target=\"_blank\" href=\"%s%s\">comment-id %s :: %s</a> <a href=\"#debut\" style=\"text-align:center;\" >// retour sommaire</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
+            //.append(String.format("<div>%s</div>\n<br>\n", ));
+            fwIndexEtCommentHtml
+                    .append(String.format("<div><details><summary>...</summary>%s</details></div>\n<br>\n", d.commentCorpHTML));
+            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
+                    .append(String.format("<div><details><summary>...</summary>%s</details></div>\n<br>\n", d.commentCorpHTML));
+            
+            }else{
+            fwIndexEtCommentHtml
+                    .append(String.format("<hr><a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
+            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
+                    .append(String.format("<hr><a id=\"%s\" href=\"%s%s\" target=\"_blank\">comment-id %s :: %s</a> <a href=\"#debut\" style=\"text-align:center;\" >// retour sommaire</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
             //.append(String.format("<div>%s</div>\n<br>\n", ));
             fwIndexEtCommentHtml
                     .append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                     .append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
+            }
 
             if (false) {
                 fwIndexEtCommentHtml.
