@@ -256,7 +256,7 @@ public class LesImprimantes3DForum {
             fwIndexEtCommentHtml
                     .append(String.format("<hr><a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
-                    .append(String.format("<hr><a id=\"%s\" target=\"_blank\" href=\"%s%s\">comment-id %s :: %s</a> <a href=\"#debut\" style=\"text-align:center;\" >// retour sommaire</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
+                    .append(String.format("<hr><a id=\"%s\" target=\"_blank\" href=\"%s%s\">comment-id %s :: %s</a> // <a href=\"#debut\" style=\"text-align:center;\" >(retour sommaire local)</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
             //.append(String.format("<div>%s</div>\n<br>\n", ));
             fwIndexEtCommentHtml
                     .append(String.format("<div><details><summary>...</summary>%s</details></div>\n<br>\n", d.commentCorpHTML));
@@ -267,7 +267,7 @@ public class LesImprimantes3DForum {
             fwIndexEtCommentHtml
                     .append(String.format("<hr><a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
-                    .append(String.format("<hr><a id=\"%s\" href=\"%s%s\" target=\"_blank\">comment-id %s :: %s</a> <a href=\"#debut\" style=\"text-align:center;\" >// retour sommaire</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
+                    .append(String.format("<hr><a id=\"%s\" href=\"%s%s\" target=\"_blank\">comment-id %s :: %s</a> // <a href=\"#debut\" style=\"text-align:center;\" >(retour sommaire local)</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
             //.append(String.format("<div>%s</div>\n<br>\n", ));
             fwIndexEtCommentHtml
                     .append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
