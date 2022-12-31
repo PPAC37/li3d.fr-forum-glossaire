@@ -1,6 +1,10 @@
 package com.ppac37.EText2022;
 
 import java.io.File;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.stream.Collectors;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -11,18 +15,26 @@ import org.apache.commons.cli.ParseException;
 /*
  */
 /**
- * Définie comme point d'entré du projet et du jar ( voir "MainDemo" dans le pom.xml ).
- * 
+ * Définie comme point d'entré du projet et du jar ( voir "MainDemo" dans le
+ * pom.xml ).
+ *
  * Truc java qui dit Coucou.<br>
- * A implémenter : gestion des arguments ...
- * .
+ * A implémenter : gestion des arguments ... .
  *
  * @author q6
  */
 public class MainDemo {
 
-    //
-    static String someVersion = "1.0";
+    /**
+     * Defined in uses Maven's resource filtering to update the VERSION based
+     * upon pom.xml. In this way we only define the VERSION once and prevent
+     * violating DRY.
+     */
+    public static final String GIT_VERSION = UtilPropertiesFile.getGitVersion();
+    /**
+     * Defined in src/resources/app.properties.
+     */
+    public static final String VERSION = UtilPropertiesFile.getAppVersion();
 
     //
     static boolean someBooleanFlag = true;
@@ -45,21 +57,26 @@ public class MainDemo {
         options.addOption("v", "version", false, "version");
 
         // add nolf option
-        options.addOption("nolf", "nolookandfeel", false, "disable java LookAndFeel usage.");
-
+//        options.addOption("nolf", "nolookandfeel", false, "disable java LookAndFeel usage.");
         // add t option
-        options.addOption("t", false, "display current time");
+//        options.addOption("t", false, "display current time");
         //
         //International Time option
         //
         // add c option
-        options.addOption("c", true, "country code");
-
+//        options.addOption("c", true, "country code");
         //
         // add src option
-        options.addOption("f", "file", true, "source file");
+//        options.addOption("f", "file", true, "source file");
         //options.addRequiredOption("f","file", true, "source file");
-
+//
+        // add src option
+//        options.addOption("o", "out", true, "dest dir");
+        //options.addRequiredOption("f","file", true, "source file");
+        //
+        // add src option
+//        options.addOption("u", "url", true, "source url");
+        //options.addRequiredOption("f","file", true, "source file");
         // automatically generate the help statement
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp(MainDemo.class.getSimpleName(), options);
@@ -77,17 +94,17 @@ public class MainDemo {
             //Retrieving the argument value
             //
             // 
-            if (line.hasOption("v")) {
+            if (line.hasOption("v") || true) {
                 // output the version
-//                System.out.println(EssaisCommunsCli.class.getSimpleName() + " version " + someVersion);
-//                System.out.println(EssaisCommunsCli.class.getPackage().getName() + " version " + someVersion);
-//                System.out.printf("%s version %s\n", new java.io.File(EssaisCommunsCli.class.getProtectionDomain()
-//                        .getCodeSource()
-//                        .getLocation()
-//                        .getPath())
-//                        .getName(), someVersion);
+                System.out.println(MainDemo.class.getSimpleName() + " version " + GIT_VERSION);
+                System.out.println(MainDemo.class.getPackage().getName() + " version " + GIT_VERSION);
+                System.out.printf("%s version %s\n", new java.io.File(MainDemo.class.getProtectionDomain()
+                        .getCodeSource()
+                        .getLocation()
+                        .getPath())
+                        .getName(), GIT_VERSION);
 
-                String sVersion = someVersion;
+                String sVersion = GIT_VERSION;
                 Class toUseAsRef = MainDemo.class;
                 String sAppName = toUseAsRef.getSimpleName();
 
@@ -177,4 +194,26 @@ public class MainDemo {
         }
     }
 
+    //
+    public static void mainDisplaySystemProperties(String[] args) {
+
+        Properties properties = System.getProperties();
+        // Java 8
+//        properties.forEach((k, v) -> System.out.println(k + ":" + v));
+
+        // Classic way to loop a map
+        //for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+        //    System.out.println(entry.getKey() + " : " + entry.getValue());
+        //}
+        // No good, output is truncated, long lines end with ...
+        //properties.list(System.out);
+        // Thanks Java 8
+        LinkedHashMap<String, String> collect = properties.entrySet().stream()
+                .collect(Collectors.toMap(k -> (String) k.getKey(), e -> (String) e.getValue()))
+                .entrySet().stream().sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+        collect.forEach((k, v) -> System.out.println(k + ":" + v));
+    }
 }
