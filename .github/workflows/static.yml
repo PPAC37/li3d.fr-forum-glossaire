@@ -46,6 +46,7 @@ jobs:
            java -jar target/li3dfrGlossaire*-with-dependencies.jar &&
            mkdir ./www_tmp &&
            cp indexComment.html ./www_tmp/index.html &&
+           cp indexComment.html ./www_tmp/index1.html &&
            cp indexCommentEmbarq.html ./www_tmp/index2.html &&
            cp indexSommaireEtComment.html ./www_tmp/index3.html
 
