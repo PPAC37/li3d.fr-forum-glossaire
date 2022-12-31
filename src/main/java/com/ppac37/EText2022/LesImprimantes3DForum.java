@@ -159,14 +159,16 @@ public class LesImprimantes3DForum {
         UtilFileWriter fwIndexCommentMd = new UtilFileWriter("indexComment.md");
 
         // Sommaure mais au format .md
+        boolean outDebugDefAlias = false;
+        boolean outDebugCommentIdAndDefAlias = false;
         SortedMap<UneDefAlias, String> aliasToId = new TreeMap<>();
         int cptTotalAlias = 0;
         for (UneDef d : lesDef) {
-            if (false) {
+            if (outDebugDefAlias) {
                 System.out.printf(" %35s [%d](%s)\n", d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
             }
 
-            if (false) {
+            if (outDebugCommentIdAndDefAlias) {
                 System.out.printf(" comment-%s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
             }
 
@@ -180,9 +182,18 @@ public class LesImprimantes3DForum {
         fwIndexCommentMd.flush();
         fwIndexCommentMd.close();
 
+        boolean useSommaireEnteteHardCoded = false;
         // la pour un sommaire en html
         UtilFileWriter fwIndexOnlySommaireHtml = new UtilFileWriter("indexComment.html");
-        if (false) {
+        fwIndexOnlySommaireHtml.append("<!DOCTYPE html>");
+        fwIndexOnlySommaireHtml.append("<html>");
+        fwIndexOnlySommaireHtml.append("<head>");
+        fwIndexOnlySommaireHtml.append("<title>");
+        fwIndexOnlySommaireHtml.append("Sommaire glossaire");
+        fwIndexOnlySommaireHtml.append("</title>");
+        fwIndexOnlySommaireHtml.append("</head>");
+        fwIndexOnlySommaireHtml.append("<body>");
+        if (useSommaireEnteteHardCoded) {
             // TODO entete a obtenir depuis un autre fichier et non codé en dur ici ou depuis la page en ligne
             fwIndexOnlySommaireHtml.append("<p> Dans ce glossaire de l'impression 3D, vous trouverez des définitions qui se veulent simples et compréhensibles des mots techniques, liés à l'impression 3D FDM et à l’impression 3D résine, utilisés par les membres du forum ainsi que sur le blog du site </p> \n"
                     + "<p> &nbsp; </p> \n"
@@ -210,6 +221,7 @@ public class LesImprimantes3DForum {
         System.out.printf("Nb TotalAliasDef = %d\n", cptTotalAlias);
 
         // Pour générer une navigation dans le sommaire
+        boolean outDebugNavCharGroupe = false;
         boolean outGroupeSize = true;
         String navigationSommaire = "";
         if (true) {
@@ -232,7 +244,7 @@ public class LesImprimantes3DForum {
                             navigationSommaire += String.format("(%d) - ", ctpAfterLastChangeLastFirstChar);
                         }
                         ctpAfterLastChangeLastFirstChar = 0;
-                        if (false) {
+                        if (outDebugNavCharGroupe) {
                             System.out.printf("%s\n", tmpFisrtChar);
                         }
 
@@ -249,6 +261,8 @@ public class LesImprimantes3DForum {
         }
 
         // Pour générer les groupes du sommaire
+        boolean outDebugCharGroupe = false;
+        boolean outDebugAliasDefToIdComment = false;
         String lastFirstChar = "";
         Collator usCollator = Collator.getInstance(Locale.FRENCH);
         usCollator.setStrength(Collator.PRIMARY);
@@ -263,7 +277,7 @@ public class LesImprimantes3DForum {
                 }
                 if (usCollator.compare(lastFirstChar, tmpFisrtChar) != 0) {
 
-                    if (false) {
+                    if (outDebugCharGroupe) {
                         System.out.printf("%s\n", tmpFisrtChar);
                     }
 
@@ -274,9 +288,10 @@ public class LesImprimantes3DForum {
                 lastFirstChar = tmpFisrtChar;
             }
 
-            if (false) {
+            if (outDebugAliasDefToIdComment) {
                 System.out.printf(" %s\t%s\n", k.a, aliasToId.get(k));
             }
+            
             fwIndexOnlySommaireHtml
                     .append(String.format("<a href=\"%s%s\">%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
 
@@ -355,6 +370,8 @@ public class LesImprimantes3DForum {
             }
         }
 
+        fwIndexOnlySommaireHtml.append("</body>");
+        fwIndexOnlySommaireHtml.append("</html>");
         fwIndexOnlySommaireHtml.flush();
         fwIndexOnlySommaireHtml.close();
 
@@ -368,6 +385,12 @@ public class LesImprimantes3DForum {
         System.out.flush();
     }
 
+    /**
+     * TODO a revoir - Séparer les niveau d'abstraction ( Parse vs Reformatage par creation de multiple class d'heriage ... bien décomposer en méthodes ...  )
+     * @param sUrl
+     * @return
+     * @throws IOException 
+     */
     public static Document loadMayByCachedDocumentFromUrl(String sUrl) throws IOException {
 
         HashMap<String, String> mapUrlElem = new HashMap<>();
@@ -393,6 +416,7 @@ public class LesImprimantes3DForum {
                 }
             }
         }
+        
         long t3 = System.currentTimeMillis();
         if (false) {
             System.out.println("in " + (t3 - t1) + " ms.");
@@ -402,13 +426,14 @@ public class LesImprimantes3DForum {
             outDocumentHeadMetaProperty(doc);
         }
 
-        if (true) {
-            // TODO int pageMax = getSujetMaxPage(doc);
+        // TODO revoir codage car ici on change de niveau d'abstraction
+        // Si une navigation de pages ... obtenir le numéroe de la page en cours et le numéro de la dernière page.
+        boolean outputPageNumInfo = false;
+        if (outputPageNumInfo) {
             int page_max = 1;
             Element pActive = doc.selectFirst("li.ipsPagination_active a");
             if (pActive != null) {
                 String sNumPage = pActive.attr("data-page");
-
                 System.out.printf("Page %s\n", sNumPage);
             }
             Element pLast = doc.selectFirst("li.ipsPagination_last a");
@@ -416,22 +441,23 @@ public class LesImprimantes3DForum {
                 String sNumPage = pLast.attr("data-page");
                 System.out.printf("Last Page %s\n", sNumPage);
             }
-
         }
 
-        //nav.ipsBreadcrumb  > <ul data-role="breadcrumbList"> li ...
-        if (false) {
+        // Le fil d'arian :: 
+        // Si il y a un fil d'ariane ( " Acceuil > NomSection [ > SousSection ] > TitreSujet " )
+        // "Accueil > Les imprimantes 3D > Discussion sur les imprimantes 3D > Glossaire de l'impression 3D"
+        boolean outFilDArian = false;
+        if (outFilDArian) {
             String sSelectNavBar = "nav.ipsBreadcrumb_top  > ul[data-role=breadcrumbList] > li";
             Elements elemNavBar = doc.select(sSelectNavBar);
             System.out.println("Total (" + sSelectNavBar + "): " + elemNavBar.size());
-
             for (Element e : elemNavBar) {
                 System.out.printf("  >%d %s\n", e.childrenSize(), e.html());
-
             }
         }
 
-        // Faud t'il traiter les commentaire un a un ?
+        // les elements de class "article" (sont les commentaire) 
+        // et là on va directement chercher le sous element proche du coprs du commentaire
         boolean doComments = true;
         if (doComments) {
             String sSelect_A_id_comment = "a[id^=comment-]";
@@ -519,6 +545,7 @@ public class LesImprimantes3DForum {
 
                 // le corps du commentaire
                 Element commentContent = nextElementSibling.selectFirst("div[data-role=commentContent]");
+                uneDef.setCommentCorpHTMLBrut(commentContent.html());
 
                 if (true) {
                     // L'ensemble des images pour ou non les sauver en local et modifier le src
@@ -537,11 +564,12 @@ public class LesImprimantes3DForum {
                 if (false) {
                     // pour debug 
                     System.out.printf("---\n%s\n---\n", commentContent.html());
+                    // TODO a revoir actuellement ma version de HTML2Md rapatrie les images dans un repertoire codé en dur et sans bien faire attention au posible ecrasement de deux images ayant le même nom ... 
                     System.out.printf("---\n%s\n---\n", HTML2Md.getTextContent(commentContent)); //HTML2Md.convertHtml(commentContent.html(), "UTF-8"));
                 }
 
                 //
-                //
+                // TODO codage a revoir car on passe encore a un autre niveau abstraction ,  spécifique au glossaire.
                 //
                 boolean haveH2Sommaire = false;
                 Element elemTitreSommaire = null;

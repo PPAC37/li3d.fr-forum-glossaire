@@ -37,6 +37,7 @@ public class UneDef implements Comparable<Object> {
     String commentAuteurNom;
 
     String commentCorpHTML;
+    String commentCorpHTMLBrut;
     //String commentMD;    
 
     public UneDef() {
@@ -137,5 +138,14 @@ public class UneDef implements Comparable<Object> {
         this.commentAuteurNom = commentAuteurNom;
     }
 
+    public String getCommentCorpHTMLBrut() {
+        return commentCorpHTMLBrut;
+    }
+
+    public void setCommentCorpHTMLBrut(String commentCorpHTMLBrut) {
+        this.commentCorpHTMLBrut = commentCorpHTMLBrut;
+    }
+
+    
     
 }
