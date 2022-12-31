@@ -6,7 +6,7 @@
     
     <groupId>com.ppac37</groupId>
     <artifactId>Li3dfrGlossaire</artifactId>
-    <version>0.4</version>
+    <version>0.0.5</version>
     <packaging>jar</packaging>
     
     <build>    
