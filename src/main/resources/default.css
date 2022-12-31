@@ -1,0 +1,54 @@
+/*
+*/
+/* 
+    Created on : 31 déc. 2022, 17:18:56
+    Author     : q6
+*/
+
+@media screen {
+
+}
+
+@media print {
+    .notPrintable {
+        display: none;
+    }
+
+    a:link:after, a:visited:after {
+        content: " (" attr(href) ") ";
+        font-size: 90%;
+    }
+
+    body { /* Modifications : la couleur de fond de page - la police - l'unité utilisée pour la taille de la police  */
+        background-color :
+            #fff;
+        font-family :Serif;
+        font-size :15pt;
+    }
+
+    #page { /* Modifications : suppression de la bordure - marges */
+        margin :0;
+        border :none;
+    }
+
+    #banner, #menuright, #footer { /* Les éléments qui ne seront pas affichés  */
+        display :none;
+    }
+
+    h1#top { /* Affichage du titre */
+        margin :0;
+        padding :0;
+        text-indent :0;
+        line-height :25pt;
+        font-size :25pt;
+    }
+
+    h2, h3, #contenu h3, #contenu a, a { /* Modification de la couleur des titres et liens */
+        color :
+            #000;
+    }
+}
+
+@media screen, print {
+
+}
