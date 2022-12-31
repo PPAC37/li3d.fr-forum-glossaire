@@ -11,7 +11,11 @@ import org.apache.commons.cli.ParseException;
 /*
  */
 /**
- * Truc java qui dit Coucou.
+ * Définie comme point d'entré du projet et du jar ( voir "MainDemo" dans le pom.xml ).
+ * 
+ * Truc java qui dit Coucou.<br>
+ * A implémenter : gestion des arguments ...
+ * .
  *
  * @author q6
  */
