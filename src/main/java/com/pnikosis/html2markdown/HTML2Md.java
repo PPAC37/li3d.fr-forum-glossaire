@@ -1,7 +1,6 @@
 package com.pnikosis.html2markdown;
 
 import com.pnikosis.html2markdown.MDLine.MDLineType;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +24,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.parser.Tag;
 import org.jsoup.safety.Cleaner;
-import org.jsoup.safety.Whitelist;
+import org.jsoup.safety.Safelist;
 
 /**
  * Convert Html to MarkDown
@@ -35,7 +34,7 @@ public class HTML2Md {
     public static boolean localSaveImg = true;
     public static String localPathToSaveImg = "./img_save/";
     public static Path mdFilePath = new File(".").toPath();
-    
+
     private static int indentation = -1;
     private static boolean orderedList = false;
 
@@ -138,22 +137,22 @@ public class HTML2Md {
     }
 
     private static boolean doDocWhiteList = false;
+
     private static String parseDocument(Document dirtyDoc) {
         indentation = -1;
 
         String title = dirtyDoc.title();
- 
-        Document doc = dirtyDoc;
-        if ( doDocWhiteList ){
-        Whitelist whitelist = Whitelist.relaxed();
-        Cleaner cleaner = new Cleaner(whitelist);
 
-        //Document 
-                doc = cleaner.clean(dirtyDoc);
+        Document doc = dirtyDoc;
+        if (doDocWhiteList) {
+            Safelist whitelist = Safelist.relaxed();
+            Cleaner cleaner = new Cleaner(whitelist);
+
+            //Document 
+            doc = cleaner.clean(dirtyDoc);
         }
         doc.outputSettings().escapeMode(EscapeMode.xhtml);
 
-        
         if (!title.trim().equals("")) {
             return "# " + title + "\n\n" + getTextContent(doc);
         } else {
@@ -207,8 +206,8 @@ public class HTML2Md {
     }
 
     /**
-     * Un ajout pour une gestion des tags blockquote / block de citation (qui peuvent etre
-     * inbriqué ).
+     * Un ajout pour une gestion des tags blockquote / block de citation (qui
+     * peuvent etre inbriqué ).
      *
      * TODO revoir pour ne pas avoir une ligne vide au debut et a la fin du
      * blcok de citation cf: "> " ...
@@ -232,13 +231,13 @@ public class HTML2Md {
                     if (!textNode.isBlank()) {
                         //line.append(textNode.text().replaceAll("#", "/#").replaceAll("\\*", "/\\*"));
                         line.append(textNode.text().replaceAll("#", "\\#")
-                         //       .replaceAll("\\*", "/\\*")
+                        //       .replaceAll("\\*", "/\\*")
                         );
                     }
                 } else {
                     //line.append(textNode.text().replaceAll("#", "/#").replaceAll("\\*", "/\\*"));
                     line.append(textNode.text().replaceAll("#", "\\#")
-                            //.replaceAll("\\*", "/\\*")
+                    //.replaceAll("\\*", "/\\*")
                     );
                 }
 
@@ -270,13 +269,18 @@ public class HTML2Md {
         return result.toString();
     }
 
-    /** Alors ... oui ?
+    /**
+     * Alors ... oui ?
      * <p>
-     * TODO voir pour garder les tags html des tables et les styles quand il y a des mise en couleur du texte ...
+     * TODO voir pour garder les tags html des tables et les styles quand il y a
+     * des mise en couleur du texte ...
      * <p>
-     * TODO voir aussi pour les images quand il y a des taille de définie ( pour garder les taille et donc le tag img plutot que de passer a du format md.)
+     * TODO voir aussi pour les images quand il y a des taille de définie ( pour
+     * garder les taille et donc le tag img plutot que de passer a du format
+     * md.)
+     *
      * @param element
-     * @param lines 
+     * @param lines
      */
     private static void processElement(Element element, ArrayList<MDLine> lines) {
         Tag tag = element.tag();
@@ -429,7 +433,7 @@ public class HTML2Md {
     private static void a(Element element, ArrayList<MDLine> lines) {
         MDLine line = getLastLine(lines);
         line.append("[");
-        line.append(getTextContent(element).replaceFirst("^\n","").replaceAll("\n\n", "  \n"));
+        line.append(getTextContent(element).replaceFirst("^\n", "").replaceAll("\n\n", "  \n"));
         line.append("]");
         line.append("(");
         //String url = element.attr("href");
@@ -451,110 +455,110 @@ public class HTML2Md {
         //data-srcset
         //srcset
         String imgSrcSet = element.attr("srcset");
-        if ( imgSrcSet != null && imgSrcSet.length()>0){
-            String [] srcs = imgSrcSet.split(", *");
-            for ( String src : srcs){
+        if (imgSrcSet != null && imgSrcSet.length() > 0) {
+            String[] srcs = imgSrcSet.split(", *");
+            for (String src : srcs) {
                 String[] p = src.split(" ");
                 line.append("\n![");
-        String alt = element.attr("alt");
-        line.append(alt);
-        line.append(" ");
-        if ( p.length > 1){
-            line.append(p[1]);
-        }else{
-            line.append(p[0]);
-        }//
-        line.append("]");
-        line.append("(");
-        String url = p[0];
-        line.append(url);
-        String title = element.attr("title");
-        if (!title.equals("")) {
-            line.append(" \"");
-            line.append(title);
-            line.append("\"");
-        }
-        line.append(")");
+                String alt = element.attr("alt");
+                line.append(alt);
+                line.append(" ");
+                if (p.length > 1) {
+                    line.append(p[1]);
+                } else {
+                    line.append(p[0]);
+                }//
+                line.append("]");
+                line.append("(");
+                String url = p[0];
+                line.append(url);
+                String title = element.attr("title");
+                if (!title.equals("")) {
+                    line.append(" \"");
+                    line.append(title);
+                    line.append("\"");
+                }
+                line.append(")");
             }
         }
-        
-        if ( localSaveImg ){
+
+        if (localSaveImg) {
             String url = element.attr("abs:src");
             String newLocalPath = "";
-            if ( url.length() == 0 ){
-                System.err.println(" url : "+element.attr("abs:src"));
-                System.err.println(" url from : "+element.outerHtml());
-            }else
+            if (url.length() == 0) {
+                System.err.println(" url : " + element.attr("abs:src"));
+                System.err.println(" url from : " + element.outerHtml());
+            } else
             try {
                 URL imgsrc = new URL(url);
                 BufferedImage read = ImageIO.read(imgsrc);
-                
+
                 Path p = Path.of(imgsrc.toURI().getPath());
                 File dirDest = new File(localPathToSaveImg);
                 dirDest.mkdirs();
-                String imageFileName =  p.getFileName().toString();
-                File dest = new File(localPathToSaveImg,imageFileName);
+                String imageFileName = p.getFileName().toString();
+                File dest = new File(localPathToSaveImg, imageFileName);
                 //newLocalPath = dest.getPath();
                 newLocalPath = mdFilePath.relativize(dest.toPath()).toString();
                 String imageFormat = "png";
-                imageFormat = imageFileName.substring(imageFileName.lastIndexOf(".")+1,imageFileName.length());
+                imageFormat = imageFileName.substring(imageFileName.lastIndexOf(".") + 1, imageFileName.length());
                 // TODO le cas de format d'image svg, webp et si codé en base 64 
                 ImageIO.write(read, imageFormat, dest);// TODO revoir pour obtenir le format de ?? une requette a l'url ?? 
             } catch (MalformedURLException ex) {
-                System.err.println(" url : "+element.attr("abs:src"));
+                System.err.println(" url : " + element.attr("abs:src"));
                 Logger.getLogger(HTML2Md.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(HTML2Md.class.getName()).log(Level.SEVERE, null, ex);
             } catch (URISyntaxException ex) {
                 Logger.getLogger(HTML2Md.class.getName()).log(Level.SEVERE, null, ex);
-            }catch (IllegalArgumentException ex) {
-                System.err.println(" url : "+element.attr("abs:src"));
-                
-                System.err.println(" url from : "+element.outerHtml());
+            } catch (IllegalArgumentException ex) {
+                System.err.println(" url : " + element.attr("abs:src"));
+
+                System.err.println(" url from : " + element.outerHtml());
                 //Logger.getLogger(HTML2Md.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if ( newLocalPath.length()>0){
-                 line.append("![");
-        String alt = element.attr("alt");
-        line.append(alt);
-        line.append("]");
-        line.append("(");
-        //String url = element.attr("src");
-        line.append(newLocalPath);
-        String title = element.attr("title");
-        if (!title.equals("")) {
-            line.append(" \"");
-            line.append(title);
-            line.append("\"");
-        }
-        line.append(")");
+            if (newLocalPath.length() > 0) {
+                line.append("![");
+                String alt = element.attr("alt");
+                line.append(alt);
+                line.append("]");
+                line.append("(");
+                //String url = element.attr("src");
+                line.append(newLocalPath);
+                String title = element.attr("title");
+                if (!title.equals("")) {
+                    line.append(" \"");
+                    line.append(title);
+                    line.append("\"");
+                }
+                line.append(")");
             }
         }
-        if ( !localSaveImg){
+        if (!localSaveImg) {
             // A revoir car un commentaire HTML fait bug si dans un lien ...
-        if ( localSaveImg ){
-            // TODO a revoir car si dans un lien cela plante completement avec un interpréteur basic de markdown ...
-            // donc plutot faire un fichier avec les urls d'origine ?
-            // ou en fin d'export un listing 
-            line.append("<!-- ");
-        }
-        line.append("![");
-        String alt = element.attr("alt");
-        line.append(alt);
-        line.append("]");
-        line.append("(");
-        String url = element.attr("abs:src");
-        line.append(url);
-        String title = element.attr("title");
-        if (!title.equals("")) {
-            line.append(" \"");
-            line.append(title);
-            line.append("\"");
-        }
-        line.append(")");
-        if ( localSaveImg ){
-            line.append(" -->");
-        }
+            if (localSaveImg) {
+                // TODO a revoir car si dans un lien cela plante completement avec un interpréteur basic de markdown ...
+                // donc plutot faire un fichier avec les urls d'origine ?
+                // ou en fin d'export un listing 
+                line.append("<!-- ");
+            }
+            line.append("![");
+            String alt = element.attr("alt");
+            line.append(alt);
+            line.append("]");
+            line.append("(");
+            String url = element.attr("abs:src");
+            line.append(url);
+            String title = element.attr("title");
+            if (!title.equals("")) {
+                line.append(" \"");
+                line.append(title);
+                line.append("\"");
+            }
+            line.append(")");
+            if (localSaveImg) {
+                line.append(" -->");
+            }
         }
     }
 
