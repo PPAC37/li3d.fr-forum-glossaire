@@ -739,15 +739,15 @@ public class LesImprimantes3DForum {
         //HttpURLConnection.setFollowRedirects(false);
         HttpURLConnection.setFollowRedirects(true);
 
-        // TODO gestion des cookies ... 
+        // TODO une vrai gestion des cookies ... 
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             if (true) {
-                //TODO pour pouvoir etre authentifié ... on pique les cookies via un inspecter , network , ...  le curl que l'on sauve dans un fichier
-                // il reste a parser la req curl pour faire les bon connection.setRequestProperty("","");
+                //pour etre authentifié ... on pique les cookies via un inspecter , network , ...  et l'on copie le curl que l'on met dans un fichier
+                // parser la req curl pour faire les bon connection.setRequestProperty("","");
                 try {
-
+                    
                     File file = new File("/home/q6/req_curl_PPAC.txt");
                     Scanner scr = null;
                     int count = 0;
