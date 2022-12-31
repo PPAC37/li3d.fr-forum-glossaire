@@ -185,14 +185,14 @@ public class LesImprimantes3DForum {
         boolean useSommaireEnteteHardCoded = false;
         // la pour un sommaire en html
         UtilFileWriter fwIndexOnlySommaireHtml = new UtilFileWriter("indexComment.html");
-        fwIndexOnlySommaireHtml.append("<!DOCTYPE html>");
-        fwIndexOnlySommaireHtml.append("<html>");
-        fwIndexOnlySommaireHtml.append("<head>");
+        fwIndexOnlySommaireHtml.append("<!DOCTYPE html>\n");
+        fwIndexOnlySommaireHtml.append("<html lang=\"fr\">\n");
+        fwIndexOnlySommaireHtml.append("<head>\n");
         fwIndexOnlySommaireHtml.append("<title>");
         fwIndexOnlySommaireHtml.append("Sommaire glossaire");
-        fwIndexOnlySommaireHtml.append("</title>");
-        fwIndexOnlySommaireHtml.append("</head>");
-        fwIndexOnlySommaireHtml.append("<body>");
+        fwIndexOnlySommaireHtml.append("</title>\n");
+        fwIndexOnlySommaireHtml.append("</head>\n");
+        fwIndexOnlySommaireHtml.append("<body>\n");
         if (useSommaireEnteteHardCoded) {
             // TODO entete a obtenir depuis un autre fichier et non codé en dur ici ou depuis la page en ligne
             fwIndexOnlySommaireHtml.append("<p> Dans ce glossaire de l'impression 3D, vous trouverez des définitions qui se veulent simples et compréhensibles des mots techniques, liés à l'impression 3D FDM et à l’impression 3D résine, utilisés par les membres du forum ainsi que sur le blog du site </p> \n"
@@ -213,11 +213,28 @@ public class LesImprimantes3DForum {
 
         // la pour un sommaire en html avec les definition 
         UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter("indexSommaireEtComment.html");
+        fwIndexSommaireEtCommentHtml.append("<!DOCTYPE html>\n");
+        fwIndexSommaireEtCommentHtml.append("<html lang=\"fr\">\n");
+        fwIndexSommaireEtCommentHtml.append("<head>\n");
+        fwIndexSommaireEtCommentHtml.append("<title>");
+        fwIndexSommaireEtCommentHtml.append("Glossaire");
+        fwIndexSommaireEtCommentHtml.append("</title>\n");
+        fwIndexSommaireEtCommentHtml.append("</head>\n");
+        fwIndexSommaireEtCommentHtml.append("<body>\n");
         fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
+        
         // la pour une autre version en html mais avec plus de lien pour navigation local ( TODO gestion de tous les liens est de elements externe ( images, iframe video, iframe vers sujet ou commentaire. ) 
         UtilFileWriter fwIndexHtml_avec_lien_et_id_pour_navigation_embarque = new UtilFileWriter("indexCommentEmbarq.html");
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<!DOCTYPE html>\n");
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<html lang=\"fr\">\n");
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<head>\n");
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<title>");
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("Glossaire nav interne");
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("</title>\n");
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("</head>\n");
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<body>\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h2 style=\"text-align:center;\" id=\"debut\">%s</h2>\n", " Sommaire "));
-
+        
         System.out.printf("Nb TotalAliasDef = %d\n", cptTotalAlias);
 
         // Pour générer une navigation dans le sommaire
@@ -370,14 +387,18 @@ public class LesImprimantes3DForum {
             }
         }
 
-        fwIndexOnlySommaireHtml.append("</body>");
-        fwIndexOnlySommaireHtml.append("</html>");
+        fwIndexOnlySommaireHtml.append("</body>\n");
+        fwIndexOnlySommaireHtml.append("</html>\n");
         fwIndexOnlySommaireHtml.flush();
         fwIndexOnlySommaireHtml.close();
 
+        fwIndexSommaireEtCommentHtml.append("</body>\n");
+        fwIndexSommaireEtCommentHtml.append("</html>\n");
         fwIndexSommaireEtCommentHtml.flush();
         fwIndexSommaireEtCommentHtml.close();
 
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("</body>\n");
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("</html>\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.flush();
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.close();
 
