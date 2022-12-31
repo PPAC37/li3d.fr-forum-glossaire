@@ -25,13 +25,16 @@ public class UneDef implements Comparable<Object> {
     String defNom = null;
     SortedSet<String> defNomAlias;
 
-    //String idSujet;     
-    //String sujetAuteurId;
+    //String idSujet;         
+    
     String dateCreation;
+    
     String dateModification;
+    String parModification;
 
     String commentId;
-    // String commentAuteurId
+    String commentAuteurId;
+    String commentAuteurNom;
 
     String commentCorpHTML;
     //String commentMD;    
@@ -110,4 +113,29 @@ public class UneDef implements Comparable<Object> {
         }
     }
 
+    public String getParModification() {
+        return parModification;
+    }
+
+    public void setParModification(String parModification) {
+        this.parModification = parModification;
+    }
+
+    public String getCommentAuteurId() {
+        return commentAuteurId;
+    }
+
+    public void setCommentAuteurId(String commentAuteurId) {
+        this.commentAuteurId = commentAuteurId;
+    }
+
+    public String getCommentAuteurNom() {
+        return commentAuteurNom;
+    }
+
+    public void setCommentAuteurNom(String commentAuteurNom) {
+        this.commentAuteurNom = commentAuteurNom;
+    }
+
+    
 }

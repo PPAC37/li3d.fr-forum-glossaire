@@ -158,7 +158,7 @@ public class LesImprimantes3DForum {
 
         UtilFileWriter fwIndexCommentMd = new UtilFileWriter("indexComment.md");
 
-        //
+        // Sommaure mais au format .md
         SortedMap<UneDefAlias, String> aliasToId = new TreeMap<>();
         int cptTotalAlias = 0;
         for (UneDef d : lesDef) {
@@ -200,7 +200,7 @@ public class LesImprimantes3DForum {
         }
         fwIndexOnlySommaireHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
 
-// la pour un sommaire en html avec les definition 
+        // la pour un sommaire en html avec les definition 
         UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter("indexSommaireEtComment.html");
         fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
         // la pour une autre version en html mais avec plus de lien pour navigation local ( TODO gestion de tous les liens est de elements externe ( images, iframe video, iframe vers sujet ou commentaire. ) 
@@ -210,7 +210,7 @@ public class LesImprimantes3DForum {
         System.out.printf("Nb TotalAliasDef = %d\n", cptTotalAlias);
 
         // Pour générer une navigation dans le sommaire
-        // TODO a revoir pour éventuellement avoir le nombre d'elements dans chaque groupe... (mais cela change l'approche )
+        boolean outGroupeSize = true;
         String navigationSommaire = "";
         if (true) {
             String lastFirstChar = "";
@@ -228,7 +228,7 @@ public class LesImprimantes3DForum {
                     }
                     ctpAfterLastChangeLastFirstChar++;
                     if (usCollator.compare(lastFirstChar, tmpFisrtChar) != 0) {
-                        if (ctpAfterLastChangeLastFirstChar != 0 && !lastFirstChar.isEmpty()) {
+                        if (outGroupeSize && ctpAfterLastChangeLastFirstChar != 0 && !lastFirstChar.isEmpty()) {
                             navigationSommaire += String.format("(%d) - ", ctpAfterLastChangeLastFirstChar);
                         }
                         ctpAfterLastChangeLastFirstChar = 0;
@@ -242,8 +242,8 @@ public class LesImprimantes3DForum {
                     lastFirstChar = tmpFisrtChar;
                 }
             }
-            if (!lastFirstChar.isEmpty()) {
-                navigationSommaire += String.format("(%d) . ", ctpAfterLastChangeLastFirstChar+1);
+            if (outGroupeSize && !lastFirstChar.isEmpty()) {
+                navigationSommaire += String.format("(%d) . ", ctpAfterLastChangeLastFirstChar + 1);
             }
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div>%s</div>\n", navigationSommaire));
         }
@@ -282,31 +282,32 @@ public class LesImprimantes3DForum {
 
             fwIndexSommaireEtCommentHtml
                     .append(String.format("<a href=\"%s%s\" >%s</a>\n<br>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
-            
-            if ( false ){ // a vers forum
-            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
-                    .append(String.format("<a href=\"%s%s\"  target=\"_blank\">%s</a>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
-            }else{
-            fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
-                    .append(String.format("<a href=\"#%s\" >%s</a>\n", aliasToId.get(k), k.a));
+
+            if (false) { // a vers forum
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
+                        .append(String.format("<a href=\"%s%s\"  target=\"_blank\">%s</a>\n", lienVersCommentaireBase, aliasToId.get(k), k.a));
+            } else {
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
+                        .append(String.format("<a href=\"#%s\" >%s</a>\n", aliasToId.get(k), k.a));
             }
             fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                     .append(String.format("<br>\n"));
         }
 
         fwIndexOnlySommaireHtml
-                .append(String.format("<br><p>Total %d alias pour %d définitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
+                .append(String.format("<br><p>Total %d alias pour %d définitions.</p>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
 
         fwIndexSommaireEtCommentHtml
-                .append(String.format("<br><p>Total %d alias pour %d définitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
+                .append(String.format("<br><p>Total %d alias pour %d définitions.</p>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
-                .append(String.format("<br><p>Total %d alias pour %d définitions.</p><br>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
+                .append(String.format("<br><p>Total %d alias pour %d définitions.</p>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
 
         //
+        // Les définition
         //
         //fwIndexHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
-        fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
-        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
+//        fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
+//        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
         for (UneDef d : lesDef) {
             if (false) {
                 System.out.printf(" %35s [%d](%s)\n", d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
@@ -324,9 +325,12 @@ public class LesImprimantes3DForum {
                         .append(String.format("<hr><a id=\"%s\" target=\"_blank\" href=\"%s%s\">comment-id %s :: %s</a> // <a href=\"#debut\" style=\"text-align:center;\" >(retour sommaire local)</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 //.append(String.format("<div>%s</div>\n<br>\n", ));
                 fwIndexSommaireEtCommentHtml
-                        .append(String.format("<div><details><summary>...</summary>%s</details></div>\n<br>\n", d.commentCorpHTML));
+                        .append(String.format("<div><details><summary>...</summary>%s</details></div>\n", d.commentCorpHTML));
+
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>C %s %s</code></div>\n", d.dateCreation, d.commentAuteurNom));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>M %s %s</code></div>\n", d.dateModification, d.parModification));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
-                        .append(String.format("<div><details><summary>...</summary>%s</details></div>\n<br>\n", d.commentCorpHTML));
+                        .append(String.format("<div><details><summary>...</summary>%s</details></div>\n", d.commentCorpHTML));
 
             } else {
                 fwIndexSommaireEtCommentHtml
@@ -335,9 +339,12 @@ public class LesImprimantes3DForum {
                         .append(String.format("<hr><a id=\"%s\" href=\"%s%s\" target=\"_blank\">comment-id %s :: %s</a> // <a href=\"#debut\" style=\"text-align:center;\" >(retour sommaire local)</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 //.append(String.format("<div>%s</div>\n<br>\n", ));
                 fwIndexSommaireEtCommentHtml
-                        .append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
+                        .append(String.format("<div>%s</div>\n", d.commentCorpHTML));
+
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>C %s %s</code></div>\n", d.dateCreation, d.commentAuteurNom));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>M %s %s</code></div>\n", d.dateModification, d.parModification));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
-                        .append(String.format("<div>%s</div>\n<br>\n", d.commentCorpHTML));
+                        .append(String.format("<div>%s</div>\n", d.commentCorpHTML));
             }
 
             if (false) {
@@ -461,6 +468,7 @@ public class LesImprimantes3DForum {
                 if (true) {
                     System.out.printf("  Auteur : %s ( %s )\n", h3AAuteur.text(), h3AAuteur.attr("abs:href"));
                 }
+                uneDef.setCommentAuteurNom(h3AAuteur.text());
                 // l'image de l'avatard de l'auteur 
                 Element auteurImg = nextElementSibling.selectFirst("div.cAuthorPane_photoWrap > a > img");
                 if (false) {
@@ -485,10 +493,25 @@ public class LesImprimantes3DForum {
                     } else {
                         if (sTmpLastDateTime.isEmpty()) {
                             uneDef.setDateCreation(sDateTime);
+                            System.out.printf("  //  %s ( %s ) %s :: %s\n", d.attr("title"), d.text(), d.attr("datetime"), d.parent().text());
                         } else {
                             uneDef.setDateModification(sDateTime);
+                            System.out.printf("  //  %s ( %s ) %s :: %s // \"%s\"\n", d.attr("title"), d.text(), d.attr("datetime"), d.parent().text(), d.nextSibling().toString());
+                            uneDef.setParModification(d.nextSibling().toString().substring(5));
+                            // on enleve cette info 
+                            /*
+                            <span class="ipsType_reset ipsType_medium ipsType_light" data-excludequote=""> <strong>Modifié (le) <time datetime="2022-02-05T20:32:36Z" title="05/02/2022 20:32 " data-short="Feb 5">Février 5</time> par Yo'</strong> </span>
+                             */
+                            boolean doRemoveModified = true;
+                            boolean doRemoveModifiedPreview = false;
+                            if (doRemoveModified) {
+                                if (doRemoveModifiedPreview) {
+                                    d.parent().parent().attr("style", "background-color:#c0392b;");
+                                } else {
+                                    d.parent().parent().remove();
+                                }
+                            }
                         }
-                        System.out.printf("  //  %s ( %s ) %s :: %s\n", d.attr("title"), d.text(), d.attr("datetime"), d.parent().text());
 
                     }
                     sTmpLastDateTime = sDateTime;
@@ -517,9 +540,49 @@ public class LesImprimantes3DForum {
                     System.out.printf("---\n%s\n---\n", HTML2Md.getTextContent(commentContent)); //HTML2Md.convertHtml(commentContent.html(), "UTF-8"));
                 }
 
+                boolean doRemoveRetourSommaire = true;
+                boolean doRemoveRetourSommairePreview = false;
+                if (doRemoveRetourSommaire) {
+                    //nettoyage de l'eventuel lien de retour au sommaire du glossaire et infos modification
+                    /*
+                <p> &nbsp; </p>
+                <p style="text-align:center;"> <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/" rel="">Retour au sommaire du glossaire</a> </p>
+                     */
+                    Element lienVersSujetGlossaire = commentContent.select("p>a[href^=\"https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/\"]").last();
+                    if (lienVersSujetGlossaire != null) {
+                        Element previousElementSibling = lienVersSujetGlossaire.parent().previousElementSibling();
+                        if (previousElementSibling != null && previousElementSibling.text().isBlank()) {
+                            if (doRemoveRetourSommairePreview) {
+                                previousElementSibling.attr("style", "background-color:#c0392b;");
+                                lienVersSujetGlossaire.parent().attr("style", "background-color:#c0392b;");
+                            } else {
+                                previousElementSibling.remove();
+                                lienVersSujetGlossaire.parent().remove();
+                            }
+                        }
+                    }
+                }
+                boolean doEmojieAlt = true;
+                boolean previewEmojieAlt = false;
+                if (doEmojieAlt) {
+                    Elements eImg_ipsEmoji = commentContent.select("img.ipsEmoji");
+                    if (eImg_ipsEmoji != null) {
+                        for (Element emoj : eImg_ipsEmoji) {
+                            String attrAlt = emoj.attr("alt");
+                            emoj.before(attrAlt);
+                            if (previewEmojieAlt) {
+                                emoj.attr("style", "background-color:#c0392b;");
+                            } else {
+                                emoj.remove();
+                            }
+                        }
+
+                    }
+                }
+
                 uneDef.setCommentCorpHTML(commentContent.html());
 
-                // voir le le coprs du commentaire contien un titre 2
+                // voir si le coprs du commentaire contien un titre 2 et si se serai pas le sommaire
                 if (true && commentContent != null) {
                     Elements selectCommentH2 = commentContent.select("h2");
                     if (!selectCommentH2.isEmpty()) {
@@ -530,7 +593,7 @@ public class LesImprimantes3DForum {
                                 uneDef.setDefNom("0_" + c_elemH2.text());
 
                                 // Pour réutiliser l'entete du sommaire, on supprime le sommaire ! ?
-                                c_elemH2.nextElementSiblings().remove();
+                                c_elemH2.nextElementSiblings().remove();//.attr("style", "background-color:#c0392b;");
                                 c_elemH2.remove();
 
                                 if (false) {
