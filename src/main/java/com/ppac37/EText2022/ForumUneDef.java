@@ -11,7 +11,7 @@ import java.util.TreeSet;
  *
  * @author q6
  */
-public class UneDef implements Comparable<Object> {
+public class ForumUneDef implements Comparable<Object> {
 
     /*
     Si l'on se base sur le Nom des pièeces - Impression 3D.pdf de www.youtube.com/Legueroloco
@@ -40,7 +40,7 @@ public class UneDef implements Comparable<Object> {
     String commentCorpHTMLBrut;
     //String commentMD;    
 
-    public UneDef() {
+    public ForumUneDef() {
         defNomAlias = new TreeSet<>();
     }
 
@@ -98,8 +98,8 @@ public class UneDef implements Comparable<Object> {
         if (o == null) {
             return -1;
         } else {
-            if (o instanceof UneDef) {
-                UneDef d = (UneDef) o;
+            if (o instanceof ForumUneDef) {
+                ForumUneDef d = (ForumUneDef) o;
                 if (false) {
                     return this.defNom.compareToIgnoreCase(d.defNom);
                 }

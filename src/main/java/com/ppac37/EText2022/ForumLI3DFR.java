@@ -58,7 +58,7 @@ import org.jsoup.select.Elements;
  *
  * @author q6
  */
-public class LesImprimantes3DForum {
+public class ForumLI3DFR {
 
     static String cacheBaseDir = "./www_cache_w/";//TODO a revoir car va changer dans la dist 
 
@@ -84,12 +84,12 @@ public class LesImprimantes3DForum {
      */
     static String lienVersCommentaireBase = HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?do=findComment&comment=";
 
-    static SortedSet<UneDef> lesDef = new TreeSet<>();
+    static SortedSet<ForumUneDef> lesDef = new TreeSet<>();
     static String enteteSommaireToUse = "";
 
     public static void main(String[] args) {
 
-        System.out.printf("DEBUT : %s\n", LesImprimantes3DForum.class.getName());
+        System.out.printf("DEBUT : %s\n", ForumLI3DFR.class.getName());
 
         boolean doToLastPage = true;
         if (modeDev) {
@@ -146,7 +146,7 @@ public class LesImprimantes3DForum {
                     }
 
                 } catch (IOException ex) {
-                    Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ForumLI3DFR.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } else {
@@ -161,9 +161,9 @@ public class LesImprimantes3DForum {
         // Sommaure mais au format .md
         boolean outDebugDefAlias = false;
         boolean outDebugCommentIdAndDefAlias = false;
-        SortedMap<UneDefAlias, String> aliasToId = new TreeMap<>();
+        SortedMap<ForumUneDefAlias, String> aliasToId = new TreeMap<>();
         int cptTotalAlias = 0;
-        for (UneDef d : lesDef) {
+        for (ForumUneDef d : lesDef) {
             if (outDebugDefAlias) {
                 System.out.printf(" %35s [%d](%s)\n", d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
             }
@@ -176,7 +176,7 @@ public class LesImprimantes3DForum {
 
             cptTotalAlias += d.defNomAlias.size();
             for (String a : d.defNomAlias) {
-                aliasToId.put(new UneDefAlias(a), d.commentId);
+                aliasToId.put(new ForumUneDefAlias(a), d.commentId);
             }
         }
         fwIndexCommentMd.flush();
@@ -246,7 +246,7 @@ public class LesImprimantes3DForum {
             int ctpAfterLastChangeLastFirstChar = 0;
             Collator usCollator = Collator.getInstance(Locale.FRENCH);
             usCollator.setStrength(Collator.PRIMARY);
-            for (UneDefAlias k : aliasToId.keySet()) {
+            for (ForumUneDefAlias k : aliasToId.keySet()) {
 
                 // Pour mettre un titre3 avec le caractére de début du groupe            
                 if (true) {
@@ -283,7 +283,7 @@ public class LesImprimantes3DForum {
         String lastFirstChar = "";
         Collator usCollator = Collator.getInstance(Locale.FRENCH);
         usCollator.setStrength(Collator.PRIMARY);
-        for (UneDefAlias k : aliasToId.keySet()) {
+        for (ForumUneDefAlias k : aliasToId.keySet()) {
 
             // Pour mettre un titre3 avec le caractére de début du groupe            
             if (true) {
@@ -340,7 +340,7 @@ public class LesImprimantes3DForum {
         //fwIndexHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
 //        fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
 //        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
-        for (UneDef d : lesDef) {
+        for (ForumUneDef d : lesDef) {
             if (false) {
                 System.out.printf(" %35s [%d](%s)\n", d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
             }
@@ -402,7 +402,7 @@ public class LesImprimantes3DForum {
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.flush();
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.close();
 
-        System.out.printf("FIN : %s\n", LesImprimantes3DForum.class.getName());
+        System.out.printf("FIN : %s\n", ForumLI3DFR.class.getName());
         System.out.flush();
     }
 
@@ -490,7 +490,7 @@ public class LesImprimantes3DForum {
 
             for (Element eACommentId : allElemAIdComment) {
 
-                UneDef uneDef = new UneDef();
+                ForumUneDef uneDef = new ForumUneDef();
 
                 Element nextElementSibling = eACommentId.nextElementSibling();
                 if (false) {
@@ -834,11 +834,11 @@ public class LesImprimantes3DForum {
                         }
                         scr.close();
                     } catch (FileNotFoundException ex) {
-                        Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ForumLI3DFR.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } catch (Exception e) {
                     //... TODO mais pas critique on ne sera ju
-                    Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, e);
+                    Logger.getLogger(ForumLI3DFR.class.getName()).log(Level.SEVERE, null, e);
                 }
 
             }
@@ -909,7 +909,7 @@ public class LesImprimantes3DForum {
             //TODO ... lecture
         } catch (IOException e) {
             //System.out.println(e);
-            Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ForumLI3DFR.class.getName()).log(Level.SEVERE, null, e);
 
         }
     }
@@ -1052,9 +1052,9 @@ public class LesImprimantes3DForum {
         } catch (MalformedURLException e) {
             System.out.println(e);
         } catch (IOException ex) {
-            Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ForumLI3DFR.class.getName()).log(Level.SEVERE, null, ex);
         } catch (URISyntaxException ex) {
-            Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ForumLI3DFR.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -1077,7 +1077,7 @@ public class LesImprimantes3DForum {
             //System.out.printf("sleep %20d + %d\n",System.currentTimeMillis(),tmpRand);
             Thread.sleep(tmpRand);
         } catch (InterruptedException ex) {
-            Logger.getLogger(LesImprimantes3DForum.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ForumLI3DFR.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

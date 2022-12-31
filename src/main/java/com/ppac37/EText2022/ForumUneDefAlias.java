@@ -9,16 +9,16 @@ import java.util.Locale;
  *
  * @author q6
  */
-public class UneDefAlias implements Comparable<UneDefAlias> {
+public class ForumUneDefAlias implements Comparable<ForumUneDefAlias> {
 
     String a;
 
-    public UneDefAlias(String a) {
+    public ForumUneDefAlias(String a) {
         this.a = a;
     }
 
     @Override
-    public int compareTo(UneDefAlias o) {
+    public int compareTo(ForumUneDefAlias o) {
 
         // Pause problème pour bien maitriser l'ordre ... cf codepoint value vs ordre d'usage de la lang ... ( Minuscule ?= majuscul ?= accentué, et ? '-' < '(' < a-Z ...
         //        return a.compareToIgnoreCase(o.a); 
