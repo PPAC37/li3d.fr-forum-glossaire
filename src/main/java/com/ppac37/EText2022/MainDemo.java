@@ -10,14 +10,13 @@ import org.apache.commons.cli.ParseException;
 
 /*
  */
-
 /**
  * Truc java qui dit Coucou.
+ *
  * @author q6
  */
 public class MainDemo {
-    
-    
+
     //
     static String someVersion = "1.0";
 
@@ -25,22 +24,16 @@ public class MainDemo {
     static boolean someBooleanFlag = true;
 
     // 
-    
     public static void main(String[] args) {
         System.out.println("Coucou !");
-        if ( false ) {
-        ForumLI3DFR.main(args);
-        }
-        // TODO commonCli gestion des arguments
+
+// TODO commonCli gestion des arguments
         // definir les arguments a utiliser
         // repertoire des fichier html cache local 
         // url du sujet
-        
-        
         //
         //Creating the Options
         //
-
         // create Options object
         Options options = new Options();
 
@@ -93,7 +86,7 @@ public class MainDemo {
                 String sVersion = someVersion;
                 Class toUseAsRef = MainDemo.class;
                 String sAppName = toUseAsRef.getSimpleName();
-                
+
                 File fSrcCodeSource = new java.io.File(toUseAsRef.getProtectionDomain()
                         .getCodeSource()
                         .getLocation()
@@ -106,12 +99,12 @@ public class MainDemo {
                 //
                 //
                 //
-                try{
+                try {
                     String sysPropKeySunJavaCommand = "sun.java.command";
                     String commandeLine = System.getProperty(sysPropKeySunJavaCommand);
-                    System.out.printf("%s : %s\n",sysPropKeySunJavaCommand, commandeLine);
-                    
-                }catch (Exception e){
+                    System.out.printf("%s : %s\n", sysPropKeySunJavaCommand, commandeLine);
+
+                } catch (Exception e) {
                     // ? Security Exception ?
                 }
             }
@@ -124,7 +117,7 @@ public class MainDemo {
             } else {
                 // print date for country specified by countryCode
             }
-            
+
             // has the buildfile argument been passed?
             if (line.hasOption("buildfile")) {
                 // initialise the member variable
@@ -139,30 +132,23 @@ public class MainDemo {
         //
         //Retrieving the argument value
         //
-        
-        
         //
         //
         //
         //
         // Savoir si l'on travail avec des fichier en cache ou avec la version en ligne du sujet du glossaire
-        
         // BF
         // avoir un fichier de configuration genre .ini qui permte de proposer des valeur pr defauts et un fichier de configuration .cfg pour les veaulr de l'utilisateur
-        
         // Obtenir le contenus en ligne d'aprés d'une URL et le parser avec JSoup
-        
         // html to md
-        
         // md to html
-        
         // diff
-        
-        
-        
+        if (true) {
+            ForumLI3DFR.main(args);
+        }
+
     }
-    
-    
+
     /**
      * https://stackoverflow.com/questions/11158235/get-name-of-executable-jar-from-within-main-method
      * TODO : * <code>new java.io.File(SomeClassInYourJar.class.getProtectionDomain()
@@ -187,5 +173,4 @@ public class MainDemo {
         }
     }
 
-    
 }

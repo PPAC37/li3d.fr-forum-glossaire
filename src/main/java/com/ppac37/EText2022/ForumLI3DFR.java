@@ -359,8 +359,8 @@ public class ForumLI3DFR {
                 fwIndexSommaireEtCommentHtml
                         .append(String.format("<div><details><summary>...</summary>%s</details></div>\n", d.commentCorpHTML));
 
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>C %s %s</code></div>\n", d.dateCreation, d.commentAuteurNom));
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>M %s %s</code></div>\n", d.dateModification, d.parModification));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>C %s %s</code></div>\n", d.commentDateCreation, d.commentAuteurNom));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>M %s %s</code></div>\n", d.commentModifDate, d.commentModifParNom));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<div><details><summary>...</summary>%s</details></div>\n", d.commentCorpHTML));
 
@@ -373,8 +373,8 @@ public class ForumLI3DFR {
                 fwIndexSommaireEtCommentHtml
                         .append(String.format("<div>%s</div>\n", d.commentCorpHTML));
 
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>C %s %s</code></div>\n", d.dateCreation, d.commentAuteurNom));
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>M %s %s</code></div>\n", d.dateModification, d.parModification));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>C %s %s</code></div>\n", d.commentDateCreation, d.commentAuteurNom));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>M %s %s</code></div>\n", d.commentModifDate, d.commentModifParNom));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<div>%s</div>\n", d.commentCorpHTML));
             }

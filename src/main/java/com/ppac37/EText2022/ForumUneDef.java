@@ -6,15 +6,15 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * TODO a revoir pour hériter d'une classe UnCommentaireDeSujet
+ *
  *
  *
  * @author q6
  */
-public class ForumUneDef implements Comparable<Object> {
+public class ForumUneDef extends ForumComment implements Comparable<Object> {
 
     /*
-    Si l'on se base sur le Nom des pièeces - Impression 3D.pdf de www.youtube.com/Legueroloco
+    Si l'on se base sur "le Nom des pièces - Impression 3D.pdf" de www.youtube.com/Legueroloco
     
     Image
     Noms français
@@ -24,27 +24,12 @@ public class ForumUneDef implements Comparable<Object> {
      */
     String defNom = null;
     SortedSet<String> defNomAlias;
-
-    //String idSujet;         
-    
-    String dateCreation;
-    
-    String dateModification;
-    String parModification;
-
-    String commentId;
-    String commentAuteurId;
-    String commentAuteurNom;
-
     String commentCorpHTML;
-    String commentCorpHTMLBrut;
-    //String commentMD;    
 
     public ForumUneDef() {
         defNomAlias = new TreeSet<>();
     }
 
-    //
     public void addDefNom(String s) {
         defNomAlias.add(s);
         if (defNom == null) {
@@ -52,37 +37,12 @@ public class ForumUneDef implements Comparable<Object> {
         }
     }
 
-    //
     public String getDefNom() {
         return defNom;
     }
 
     public void setDefNom(String defNom) {
         this.defNom = defNom;
-    }
-
-    public String getDateCreation() {
-        return dateCreation;
-    }
-
-    public void setDateCreation(String dateCreation) {
-        this.dateCreation = dateCreation;
-    }
-
-    public String getDateModification() {
-        return dateModification;
-    }
-
-    public void setDateModification(String dateModification) {
-        this.dateModification = dateModification;
-    }
-
-    public String getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(String commentId) {
-        this.commentId = commentId;
     }
 
     public String getCommentCorpHTML() {
@@ -114,38 +74,4 @@ public class ForumUneDef implements Comparable<Object> {
         }
     }
 
-    public String getParModification() {
-        return parModification;
-    }
-
-    public void setParModification(String parModification) {
-        this.parModification = parModification;
-    }
-
-    public String getCommentAuteurId() {
-        return commentAuteurId;
-    }
-
-    public void setCommentAuteurId(String commentAuteurId) {
-        this.commentAuteurId = commentAuteurId;
-    }
-
-    public String getCommentAuteurNom() {
-        return commentAuteurNom;
-    }
-
-    public void setCommentAuteurNom(String commentAuteurNom) {
-        this.commentAuteurNom = commentAuteurNom;
-    }
-
-    public String getCommentCorpHTMLBrut() {
-        return commentCorpHTMLBrut;
-    }
-
-    public void setCommentCorpHTMLBrut(String commentCorpHTMLBrut) {
-        this.commentCorpHTMLBrut = commentCorpHTMLBrut;
-    }
-
-    
-    
 }
