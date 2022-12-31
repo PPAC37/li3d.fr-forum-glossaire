@@ -540,6 +540,116 @@ public class LesImprimantes3DForum {
                     System.out.printf("---\n%s\n---\n", HTML2Md.getTextContent(commentContent)); //HTML2Md.convertHtml(commentContent.html(), "UTF-8"));
                 }
 
+                //
+                //
+                //
+                boolean haveH2Sommaire = false;
+                Element elemTitreSommaire = null;
+                // voir si le coprs du commentaire contien un titre 2 et si se serai pas le sommaire
+                if (true && commentContent != null) {
+                    Elements selectCommentH2 = commentContent.select("h2");
+                    if (!selectCommentH2.isEmpty()) {
+                        // le commentaire contien au moins un "titre 2"
+                        for (Element c_elemH2 : selectCommentH2) {
+                            if (c_elemH2.text().equalsIgnoreCase("Sommaire")) {
+                                haveH2Sommaire = true;
+                                elemTitreSommaire = c_elemH2;
+                                System.out.printf(" H2: \"%s\" comment id %s\n", c_elemH2.text(), eACommentId.attr("id").substring(8));
+                                uneDef.setDefNom("0_" + c_elemH2.text());
+
+                            } else {
+                                System.out.printf(" H2: \"%s\"\n", c_elemH2.text());
+
+                            }
+                        }
+                    }
+
+                }
+
+                boolean haveDefinitions = false;
+                // les elements en gras qui sont en puce ( spécifique au glossaire pour identifier le terme définie ... ) 
+                if (true && commentContent != null) {
+                    Elements selectCommentH2 = commentContent.select("ul li strong");
+                    if (!selectCommentH2.isEmpty()) {
+                        haveDefinitions = true;
+                        // le commentaire contien au moins un "titre 2"
+                        for (Element c_elemH2 : selectCommentH2) {
+
+                            if (false) {
+                                System.out.printf(" * \"%s\"\n", c_elemH2.text());
+                            }
+
+                            //uneDef.setDefNom(c_elemH2.text());
+                            uneDef.addDefNom(c_elemH2.text());
+                        }
+                    }
+
+                }
+
+                //
+                //
+                //
+                boolean doIFram = true;
+                if (doIFram && !haveH2Sommaire) {
+                    Elements elemsIFrame = commentContent.select("iframe, img");
+                    if (elemsIFrame != null) {
+                        for (Element eIframe : elemsIFrame) {
+                            String eIframeStyle = eIframe.attr("style");
+                            String eIframeSrc = eIframe.attr("src");
+                            String eIframedata_embed_src = eIframe.attr("data-embed-src");
+
+                            eIframe.attr("style", "background-color:#c0392b;" + eIframeStyle);
+                            if (!eIframeSrc.isBlank()) {
+                                eIframe.after(" ( src= " + eIframeSrc + " ) ");
+                            }
+                            if (!eIframedata_embed_src.isBlank()) {
+                                eIframe.after(" ( data-embed-src = " + eIframedata_embed_src + " ) ");
+                            }
+
+                        }
+
+                    }
+                }
+
+                boolean doEmojieAlt = true;
+                boolean previewEmojieAlt = false;
+                if (doEmojieAlt) {
+                    Elements eImg_ipsEmoji = commentContent.select("img.ipsEmoji");
+                    if (eImg_ipsEmoji != null) {
+                        for (Element emoj : eImg_ipsEmoji) {
+                            String attrAlt = emoj.attr("alt");
+                            emoj.before(attrAlt);
+                            if (previewEmojieAlt) {
+                                emoj.attr("style", "background-color:#c0392b;");
+                            } else {
+                                emoj.remove();
+                            }
+                        }
+
+                    }
+                }
+                boolean doHighLithA = true;
+                if (doHighLithA && !haveH2Sommaire) {
+                    Elements elemsA = commentContent.select("a");
+                    if (elemsA != null) {
+                        for (Element eA : elemsA) {
+                            String eATitle = eA.attr("title");
+                            String eAHref = eA.attr("href");
+                            String eAClass = eA.attr("class");
+                            String eAStyle = eA.attr("style");
+                            String eA_Text = eA.text();
+
+                            eA.attr("style", "background-color:#c0392b;" + eAStyle);
+                            if (eAHref.equals(eA_Text)) {
+
+                            } else {
+                                eA.after(" ( href= " + eAHref + " ) ");
+                            }
+
+                        }
+
+                    }
+                }
                 boolean doRemoveRetourSommaire = true;
                 boolean doRemoveRetourSommairePreview = false;
                 if (doRemoveRetourSommaire) {
@@ -562,69 +672,17 @@ public class LesImprimantes3DForum {
                         }
                     }
                 }
-                boolean doEmojieAlt = true;
-                boolean previewEmojieAlt = false;
-                if (doEmojieAlt) {
-                    Elements eImg_ipsEmoji = commentContent.select("img.ipsEmoji");
-                    if (eImg_ipsEmoji != null) {
-                        for (Element emoj : eImg_ipsEmoji) {
-                            String attrAlt = emoj.attr("alt");
-                            emoj.before(attrAlt);
-                            if (previewEmojieAlt) {
-                                emoj.attr("style", "background-color:#c0392b;");
-                            } else {
-                                emoj.remove();
-                            }
-                        }
-
-                    }
-                }
 
                 uneDef.setCommentCorpHTML(commentContent.html());
+                if (elemTitreSommaire != null) {
+                    // Pour réutiliser l'entete du sommaire, on supprime le sommaire ! ?
+                    elemTitreSommaire.nextElementSiblings().remove();//.attr("style", "background-color:#c0392b;");
+                    elemTitreSommaire.remove();
 
-                // voir si le coprs du commentaire contien un titre 2 et si se serai pas le sommaire
-                if (true && commentContent != null) {
-                    Elements selectCommentH2 = commentContent.select("h2");
-                    if (!selectCommentH2.isEmpty()) {
-                        // le commentaire contien au moins un "titre 2"
-                        for (Element c_elemH2 : selectCommentH2) {
-                            if (c_elemH2.text().equalsIgnoreCase("Sommaire")) {
-                                System.out.printf(" H2: \"%s\" comment id %s\n", c_elemH2.text(), eACommentId.attr("id").substring(8));
-                                uneDef.setDefNom("0_" + c_elemH2.text());
-
-                                // Pour réutiliser l'entete du sommaire, on supprime le sommaire ! ?
-                                c_elemH2.nextElementSiblings().remove();//.attr("style", "background-color:#c0392b;");
-                                c_elemH2.remove();
-
-                                if (false) {
-                                    System.out.printf("%s\n", commentContent.html());
-                                }
-                                enteteSommaireToUse = commentContent.html();
-                            } else {
-                                System.out.printf(" H2: \"%s\"\n", c_elemH2.text());
-
-                            }
-                        }
+                    if (false) {
+                        System.out.printf("%s\n", commentContent.html());
                     }
-
-                }
-
-                // les elements en gras qui sont en puce ( spécifique au glossaire pour identifier le terme définie ... ) 
-                if (true && commentContent != null) {
-                    Elements selectCommentH2 = commentContent.select("ul li strong");
-                    if (!selectCommentH2.isEmpty()) {
-                        // le commentaire contien au moins un "titre 2"
-                        for (Element c_elemH2 : selectCommentH2) {
-
-                            if (false) {
-                                System.out.printf(" * \"%s\"\n", c_elemH2.text());
-                            }
-
-                            //uneDef.setDefNom(c_elemH2.text());
-                            uneDef.addDefNom(c_elemH2.text());
-                        }
-                    }
-
+                    enteteSommaireToUse = commentContent.html();
                 }
 
                 lesDef.add(uneDef);
@@ -685,7 +743,7 @@ public class LesImprimantes3DForum {
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-            if (false) {
+            if (true) {
                 //TODO pour pouvoir etre authentifié ... on pique les cookies via un inspecter , network , ...  le curl que l'on sauve dans un fichier
                 // il reste a parser la req curl pour faire les bon connection.setRequestProperty("","");
                 try {
