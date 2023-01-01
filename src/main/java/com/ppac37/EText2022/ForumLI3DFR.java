@@ -6,12 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.text.Collator;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Entities;
@@ -51,9 +55,10 @@ public class ForumLI3DFR {
     public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
 
     static String[] urls = {// Jeux d'essai pour le dev.
-        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments"
-            //,        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/"
-    //             , ""    
+        //        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments"
+//        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/"
+    //             , 
+        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/?do=showReactionsComment&comment=524461&reaction=all"    
     };
 
     /**
@@ -74,7 +79,7 @@ public class ForumLI3DFR {
 
         if (true) {
             for (String sUrl : urls) {
-                UrlCParserForum urlCParser = new UrlCParserForum(sUrl,true);
+                UrlCParserForum urlCParser = new UrlCParserForum(sUrl, true);
             }
         }
 
@@ -106,6 +111,74 @@ public class ForumLI3DFR {
         }
         fwIndexCommentMd.flush();
         fwIndexCommentMd.close();
+
+        //
+        boolean isConcours = true;
+        if (isConcours) {
+            // essai de trie pour gagants concours ...
+            // un seul lot par gagnat -> regrouper par les post par utilisateur
+            // Avoir la liste des lots ( 1er message ) 
+            // Avoir la vérification des validitées des entrées ( une photo d'un print avec papier li3d.fr et ( et pas une incrustation sur la photo)
+            // cf un validateur vérife et notes si ok ou non ok supprime l'entrée ...
+            // si egalité ?
+            // avoir la version a la date heure de fin de prise en compte des likes ?
+            // ignorer les entrée qui on dépacé la date de fin "01/01/2023 23h59"
+
+            Map<String, ArrayList<ForumUneEntreeConcours>> mapUserToArrayListEntree = new HashMap<>();
+            for (ForumUneDef d : lesDef) {
+                if (!d.alImgsUrl.isEmpty()
+                        && !d.commentAuteurNom.equals("PPAC")
+                        && !d.commentAuteurNom.equals("LesImprimantes3D.fr")
+                        && !d.commentAuteurNom.equals("Motard Geek")
+                        ) {
+                    ForumUneEntreeConcours asC = new ForumUneEntreeConcours(d);
+                    ArrayList<ForumUneEntreeConcours> get = mapUserToArrayListEntree.get(asC.getCommentAuteurNom());
+
+                    if (get != null) {
+                        get.add(asC);
+                    } else {
+                        ArrayList<ForumUneEntreeConcours> a = new ArrayList<>();
+                        a.add(asC);
+                        mapUserToArrayListEntree.put(asC.getCommentAuteurNom(), a);
+                    }
+                }
+            }
+            // la plus liké de ses entré valide ( une image photo d'une impression avec li3d.fr sur post it ou incrusté dans desinge )
+            SortedSet<ForumUneEntreeConcours> sSetRes = new TreeSet<>();
+            System.out.printf("### Res concours A Trier\n");
+            for (String k : mapUserToArrayListEntree.keySet()) {
+                ArrayList<ForumUneEntreeConcours> a = mapUserToArrayListEntree.get(k);
+
+                SortedSet<ForumUneEntreeConcours> sSet = new TreeSet<>();
+                for (ForumUneEntreeConcours e : a) {
+                    sSet.add(e);
+                }
+
+                System.out.printf("%s\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n", k, a.size(),
+                        sSet.first().getReactionsTotals(),
+                        sSet.first().getCommentId()
+                );
+                sSetRes.add(sSet.first());
+            }
+            System.out.println("Nb Utilisateur ayant un post avec aux moins une images " + mapUserToArrayListEntree.size());
+
+            System.out.println("");
+            System.out.println("");
+
+            for (ForumUneEntreeConcours e : sSetRes) {
+                System.out.printf("%s\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
+                        e.commentAuteurNom, e.alImgsUrl.size(),
+                        e.getReactionsTotals(),
+                        e.getCommentId()
+                );
+
+            }
+
+        }
+        //
+
+        Document doc = Jsoup.parse("");
+        doc.appendElement("html");
 
         boolean useSommaireEnteteHardCoded = false;
         // la pour un sommaire en html
@@ -163,7 +236,13 @@ public class ForumLI3DFR {
                                                
                                                   @media screen {
                                                        .warn { background-color :yellow;}             
-                                                  
+                                                        img.vignettes {
+                                                          display: inline;
+                                                          max-width:250px;
+                                                          max-height:200px;
+                                                          width: auto;
+                                                          height: auto;
+                                                        }
                                                   }
                                                   
                                                   @media print {
@@ -343,6 +422,13 @@ public class ForumLI3DFR {
 
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>C %s %s</code></div>\n", d.commentDateCreation, d.commentAuteurNom));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>M %s %s</code></div>\n", d.commentModifDate, d.commentModifParNom));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>R %d</code></div>\n", d.getReactionsTotals()));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>I %d </code>\n<div>\n", d.alImgsUrl.size()));
+                for (String urlImg : d.alImgsUrl) {
+                    fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<img class=\"vignettes\" src=\"%s\"/> ", urlImg));
+                }
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("</div></div>\n"));
+
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<div><details><summary>...</summary>%s</details></div>\n", d.commentCorpHTML));
 
@@ -401,37 +487,18 @@ public class ForumLI3DFR {
 
         HashMap<String, String> mapUrlElem = new HashMap<>();
 
-        long t0 = System.currentTimeMillis();
         //Connection connect = Jsoup.connect(sUrlSectionPetg);
         //TODO si cache ex: Document doc = Jsoup.parse(bookmarkHtmlFile, "UTF-8");
-
         Document doc = UrlCDownloderCache.cacheAndParseUrl(sUrl, false, UrlCDownloderCache.debugPrintUrlHeaders, false);//connect.get();
         doc.outputSettings().escapeMode(Entities.EscapeMode.xhtml);
 
-        long t1 = System.currentTimeMillis();
-        System.out.println(" "+sUrl + " ( loaded in " + (t1 - t0) + " ms.)");
-
-        if (true) {
-            Elements titles = doc.select("title");
-            //print all titles in main page
-            for (Element e : titles) {
-                boolean outputTitelsElemetnsHtml = true;
-                
-                if (outputTitelsElemetnsHtml) {
-                    System.out.println("  title : " + e.html());
-                }else{
-                    System.out.println("  title : " + e.text());
-                }
-            }
+        boolean outputPageTitles = false;
+        if (outputPageTitles) {
+            outTitles(doc);
         }
 
         if (false) {
             UrlCParser.outDocumentHeadMetaProperty(doc);
-        }
-
-        long t3 = System.currentTimeMillis();
-        if (false) {
-            System.out.println("in " + (t3 - t1) + " ms.");
         }
 
         outFilDarian_Breadcrum_top(doc);
@@ -454,8 +521,31 @@ public class ForumLI3DFR {
                 ForumComment.parseComment(eACommentId, uneDef);
             }// fin boucle pour chaque commentaire 
 
-            System.out.println();
-
+            //System.out.println();
+        }
+        
+          
+        // ssi page des likes "/?do=showReactionsComment&comment=524461&reaction=all"
+        if ( true){
+            String docBaseUri = doc.baseUri();
+            
+            int posT1 = docBaseUri.lastIndexOf("/?do=showReactionsComment&comment=");
+            int posT2 = docBaseUri.lastIndexOf("&reaction=all");
+                System.out.println("? page historique like : "+( posT1 > 0 && posT2 > posT1 )) ;
+            Elements select = doc.select("ol.ipsGrid li.ipsGrid_span6");
+            if ( select != null ){
+                System.out.println("? li des likes ? cpt = "+select.size());
+                for ( Element l : select){
+                   String uA =  l.selectFirst("a[href~=https://www.lesimprimantes3d.fr/forum/profile/]").attr("href").substring(46);
+                    String dL = l.selectFirst("time").attr("datetime");
+                    String uIR = l.selectFirst("img[src~=https://www.lesimprimantes3d.fr/forum/uploads/reactions/]").attr("src").substring(56);
+                    System.out.printf("%s %s \t \t %s\n",dL,uA,uIR);
+                }
+                
+            }else{
+                                System.out.println("? li des likes ? NONE ");
+            }
+            
         }
 
         System.out.flush();
@@ -463,6 +553,19 @@ public class ForumLI3DFR {
         return doc;
     }
 
+    public static void outTitles(Document doc) {
+        Elements titles = doc.select("title");
+        //print all titles in main page
+        for (Element e : titles) {
+            boolean outputTitelsElemetnsHtml = true;
+
+            if (outputTitelsElemetnsHtml) {
+                System.out.println("  title : " + e.html());
+            } else {
+                System.out.println("  title : " + e.text());
+            }
+        }
+    }
 
     public static void outFilDarian_Breadcrum_top(Document doc) {
         // Le fil d'arian ::

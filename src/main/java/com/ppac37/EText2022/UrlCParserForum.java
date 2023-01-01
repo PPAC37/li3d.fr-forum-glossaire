@@ -10,6 +10,7 @@ import org.jsoup.nodes.Element;
 
 /**
  * Outil pour "parser" une page du forum.
+ *
  * @author q6
  */
 public class UrlCParserForum extends UrlCParser {
@@ -22,6 +23,7 @@ public class UrlCParserForum extends UrlCParser {
     String sUrlNextPage = "";
 
     boolean debugNums = false;
+    boolean debugToNextPage = true;
 
     /**
      *
@@ -39,8 +41,8 @@ public class UrlCParserForum extends UrlCParser {
                 if (iPageNumActive < iPageNumLastPage) {
                     for (int numPage = (iPageNumActive + 1); numPage <= iPageNumLastPage; numPage++) {
                         String sUrlOtherPageToDo = sUrlNextPage.replaceFirst("/page/.*/", "/page/" + numPage + "/");
-                        if (debugNums) {
-                            System.out.printf("WillDo Next Url %s\n", sUrlOtherPageToDo);
+                        if (debugNums || debugToNextPage) {
+                            System.out.printf(" to page %d/%d\n %s\n", numPage, iPageNumLastPage, sUrlOtherPageToDo);
                         }
                         loadMayByCachedDocumentFromUrl(sUrlOtherPageToDo);
                     }

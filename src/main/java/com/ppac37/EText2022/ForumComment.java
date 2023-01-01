@@ -3,15 +3,189 @@
 package com.ppac37.EText2022;
 
 import com.pnikosis.html2markdown.HTML2Md;
+import java.util.ArrayList;
+import java.util.SortedSet;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * Un commentaire  d'un sujet du forum.
+ * Un commentaire d'un sujet du forum.
+ *
  * @author q6
  */
 public class ForumComment implements Comparable<Object> {
 
+    String commentId;
+
+    String commentDateCreation;
+
+    String commentAuteurId;
+    String commentAuteurNom;
+
+    String commentCorpHTMLBrut;
+
+    String commentModifDate;
+    String commentModifParNom;
+
+    long reationsEnDateDe;
+    /**
+     * Attention forcement c'est les réactions a la date du fichier 
+     */
+    private int reactionsTotals; 
+    // liste des réaction ( date de réaction, type de réaction ,utilisateur) 
+    //cf https://www.lesimprimantes3d.fr/forum/topic/50575-X/?do=showReactionsComment&comment=526603&changed=1&reaction=all
+    private ArrayList<ForumCommentReactionBy> reactions = new ArrayList<>();
+    
+    // liste des url des images contenus dans le commentaire ( exception des emojie )
+    public ArrayList<String> alImgsUrl = new ArrayList<>();
+
+    /**
+     *
+     * @param o
+     * @return
+     */
+    @Override
+    public int compareTo(Object o) {
+
+        if (o == null) {
+            return -1;
+        } else {
+            if (o instanceof ForumUneDef) {
+                ForumUneDef d = (ForumUneDef) o;
+                // TODO affinier avec la date de creation et de modification pour comparaison d'historique de commentaire 
+                return this.commentId.compareToIgnoreCase(d.commentId);
+
+            } else {
+                // TODO
+                System.err.printf("TODO UnDef comparaTo class %s\n", o.getClass().getSimpleName());
+                return -1;
+            }
+        }
+    }
+
+    public int getReactionsTotals() {
+        return reactionsTotals;
+    }
+
+    public void setReactionsTotals(int reactionsTotals) {
+        this.reactionsTotals = reactionsTotals;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCommentAuteurId() {
+        return commentAuteurId;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCommentAuteurNom() {
+        return commentAuteurNom;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCommentCorpHTMLBrut() {
+        return commentCorpHTMLBrut;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCommentId() {
+        return commentId;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getDateCreation() {
+        return commentDateCreation;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getDateModification() {
+        return commentModifDate;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getParModification() {
+        return commentModifParNom;
+    }
+
+    /**
+     *
+     * @param commentAuteurId
+     */
+    public void setCommentAuteurId(String commentAuteurId) {
+        this.commentAuteurId = commentAuteurId;
+    }
+
+    /**
+     *
+     * @param commentAuteurNom
+     */
+    public void setCommentAuteurNom(String commentAuteurNom) {
+        this.commentAuteurNom = commentAuteurNom;
+    }
+
+    /**
+     *
+     * @param commentCorpHTMLBrut
+     */
+    public void setCommentCorpHTMLBrut(String commentCorpHTMLBrut) {
+        this.commentCorpHTMLBrut = commentCorpHTMLBrut;
+    }
+
+    /**
+     *
+     * @param commentId
+     */
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
+    /**
+     *
+     * @param dateCreation
+     */
+    public void setDateCreation(String dateCreation) {
+        this.commentDateCreation = dateCreation;
+    }
+
+    /**
+     *
+     * @param dateModification
+     */
+    public void setDateModification(String dateModification) {
+        this.commentModifDate = dateModification;
+    }
+
+    /**
+     *
+     * @param parModification
+     */
+    public void setParModification(String parModification) {
+        this.commentModifParNom = parModification;
+    }
+
+    //
+    //
+    //
     public static void parseComment(Element eACommentId, ForumUneDef uneDef) {
         Element nextElementSibling = eACommentId.nextElementSibling();
         if (false) {
@@ -28,6 +202,41 @@ public class ForumComment implements Comparable<Object> {
             }
             uneDef.setCommentId(tmpCommentId);
         }
+
+        // ? nblike
+        Elements selectReact_reactions = nextElementSibling.select("ul.ipsReact_reactions li.ipsReact_reactCount");
+        if (selectReact_reactions != null) {
+            if (false) {
+                System.out.println("Reactiosn? :");
+                System.out.println(selectReact_reactions.text());
+            }
+            if (false) {
+                System.out.printf("%s reaction : %s\n", tmpCommentId, selectReact_reactions.text());
+            }
+            int totalR = 0;
+            for (Element r : selectReact_reactions) {
+                String rAlt = r.selectFirst("img").attr("alt");
+                String rText = r.text();
+                int asNb = 0;
+                try {
+                    asNb = Integer.parseInt(rText);
+                    totalR += asNb;
+                } catch (NumberFormatException e) {
+
+                }
+
+                if (false) {
+                    System.out.printf(" \"%s\" : \"%s\"\n", rText, rAlt);
+                }
+            }
+            if (false) {
+                System.out.printf(" Total : %d\n", totalR);
+            }
+            uneDef.setReactionsTotals(totalR);
+            
+        }
+      
+
         // le nom de l'auteur et le lien vers son profil
         Element h3AAuteur = nextElementSibling.selectFirst("h3.cAuthorPane_author > a");
         if (false) {
@@ -90,7 +299,13 @@ public class ForumComment implements Comparable<Object> {
             // L'ensemble des images pour ou non les sauver en local et modifier le src
             Elements selectCommentImg = commentContent.select("img[src]");
             for (Element cimg : selectCommentImg) {
+                
                 String imgSrc = cimg.attr("src");
+                if ( cimg.hasClass("ipsEmoji")){
+                    // exception des emoji
+                }else{
+                    uneDef.alImgsUrl.add(imgSrc);
+                }
                 // voila là il est posible de modifier le src ...
                 //cimg.attr("src", "cacheBaseDir");
                 // TODO en fait je voudrais garder les liens d'origine pour les mettre en "sources" (ou commentaire HTML
@@ -261,153 +476,4 @@ public class ForumComment implements Comparable<Object> {
             System.out.println();
         }
     }
-
-    String commentId;
-    
-    String commentDateCreation;
-    
-    String commentAuteurId;
-    String commentAuteurNom;
-    
-    String commentCorpHTMLBrut;
-    
-    String commentModifDate;
-    String commentModifParNom;
-
-    /**
-     *
-     * @param o
-     * @return
-     */
-    @Override
-    public int compareTo(Object o) {
-
-        if (o == null) {
-            return -1;
-        } else {
-            if (o instanceof ForumUneDef) {
-                ForumUneDef d = (ForumUneDef) o;
-                // TODO affinier avec la date de creation et de modification pour comparaison d'historique de commentaire 
-                return this.commentId.compareToIgnoreCase(d.commentId);
-
-            } else {
-                // TODO
-                System.err.printf("TODO UnDef comparaTo class %s\n", o.getClass().getSimpleName());
-                return -1;
-            }
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getCommentAuteurId() {
-        return commentAuteurId;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getCommentAuteurNom() {
-        return commentAuteurNom;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getCommentCorpHTMLBrut() {
-        return commentCorpHTMLBrut;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getCommentId() {
-        return commentId;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getDateCreation() {
-        return commentDateCreation;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getDateModification() {
-        return commentModifDate;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getParModification() {
-        return commentModifParNom;
-    }
-
-    /**
-     *
-     * @param commentAuteurId
-     */
-    public void setCommentAuteurId(String commentAuteurId) {
-        this.commentAuteurId = commentAuteurId;
-    }
-
-    /**
-     *
-     * @param commentAuteurNom
-     */
-    public void setCommentAuteurNom(String commentAuteurNom) {
-        this.commentAuteurNom = commentAuteurNom;
-    }
-
-    /**
-     *
-     * @param commentCorpHTMLBrut
-     */
-    public void setCommentCorpHTMLBrut(String commentCorpHTMLBrut) {
-        this.commentCorpHTMLBrut = commentCorpHTMLBrut;
-    }
-
-    /**
-     *
-     * @param commentId
-     */
-    public void setCommentId(String commentId) {
-        this.commentId = commentId;
-    }
-
-    /**
-     *
-     * @param dateCreation
-     */
-    public void setDateCreation(String dateCreation) {
-        this.commentDateCreation = dateCreation;
-    }
-
-    /**
-     *
-     * @param dateModification
-     */
-    public void setDateModification(String dateModification) {
-        this.commentModifDate = dateModification;
-    }
-
-    /**
-     *
-     * @param parModification
-     */
-    public void setParModification(String parModification) {
-        this.commentModifParNom = parModification;
-    }
-
 }

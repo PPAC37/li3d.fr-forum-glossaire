@@ -32,6 +32,24 @@ public class ForumUneDef extends ForumComment implements Comparable<Object> {
     public ForumUneDef() {
         defNomAlias = new TreeSet<>();
     }
+    public ForumUneDef(ForumComment c) {
+        super();
+        this.commentAuteurId = c.commentAuteurId;
+        this.commentAuteurNom = c.commentAuteurNom;
+        
+        this.alImgsUrl = c.alImgsUrl;
+        this.commentCorpHTMLBrut = c.commentCorpHTMLBrut;
+        this.commentDateCreation = c.commentDateCreation;
+        this.commentId = c.commentId;
+        
+        this.commentDateCreation = c.commentDateCreation;
+        this.commentModifDate = c.commentModifDate;
+        this.commentModifParNom = c.commentModifParNom;
+        
+        this.setReactionsTotals(c.getReactionsTotals());
+                
+        defNomAlias = new TreeSet<>();
+    }
 
     /**
      *

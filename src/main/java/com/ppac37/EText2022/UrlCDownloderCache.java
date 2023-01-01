@@ -276,7 +276,9 @@ public class UrlCDownloderCache {
             }
             // Si le fichier de cache n'existe pas où se trouve vide le créer / telecharger.
             if (fCache.exists() && fCache.length() > 0) {
-                System.out.printf("  using cache file : %s\n", fDirDest.getAbsoluteFile());
+                if ( false ) {
+                    System.out.printf("  using cache file : %s\n", fDirDest.getAbsoluteFile());
+                }
                 // il y a un fichier // faut t'il l'effacer ?
 
             } else {
