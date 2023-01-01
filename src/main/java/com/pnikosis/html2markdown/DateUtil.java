@@ -15,7 +15,10 @@ import java.util.StringTokenizer;
  */
 public class DateUtil {
 
-  public DateUtil() {
+    /**
+     *
+     */
+    public DateUtil() {
 
   }
 

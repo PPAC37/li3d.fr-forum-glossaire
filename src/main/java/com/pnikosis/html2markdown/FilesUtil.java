@@ -79,6 +79,7 @@ public class FilesUtil {
    * read the specified line content of text file
    *
    * @param filePathAndName String file name with absolute path
+     * @param lineIndex
    * @param encoding String file encoding
    * @return String text content of the line
    */
@@ -136,6 +137,7 @@ public class FilesUtil {
    * read the specified line content of text file
    *
    * @param filePathAndName String file name with absolute path
+     * @param rowIndex
    * @return String text content of the line
    */
   public static String readLine(String filePathAndName, long rowIndex) {
@@ -208,6 +210,7 @@ public class FilesUtil {
    * delete file
    *
    * @param filePathAndName String file path and name
+     * @return 
    */
   public static boolean delFile(String filePathAndName) {
     try {
@@ -479,7 +482,7 @@ public class FilesUtil {
    * get all files in a folder
    *
    * @param path String folder path
-   * @return List<File>
+   * @return files list
    */
   public static List<File> getAllFiles(String path) {
     List<File> fileList = new ArrayList<File>();
@@ -514,7 +517,7 @@ public class FilesUtil {
    *
    * @param path String folder path
    * @param suffix String the specified suffix
-   * @return List<File>
+   * @return files list
    */
   public static List<File> getAllFiles(String path, String suffix) {
     List<File> fileList = new ArrayList<File>();
@@ -565,7 +568,7 @@ public class FilesUtil {
    * @param path String folder path
    * @param suffix String the specified suffix
    * @param isDepth boolean is need to scan all subdirectories
-   * @return List<String>
+   * @return files list
    */
   public static List<String> getAllFileNames(String path, String suffix, boolean isDepth) {
     List<String> fileNamesList = new ArrayList<String>();
@@ -608,7 +611,7 @@ public class FilesUtil {
    * get all file names in a folder
    *
    * @param path String folder path
-   * @return List<String>
+   * @return file list
    */
   public static List<String> getAllFileNames(String path) {
     List<String> fileNamesList = new ArrayList<String>();
@@ -638,7 +641,7 @@ public class FilesUtil {
    * get all file names in a folder
    *
    * @param path String folder path
-   * @return Map<String, String>
+   * @return string to string map
    */
   public static Map<String, String> getAllFileNamesByMap(String path) {
     Map<String, String> fileNamesMap = new HashMap<String, String>();

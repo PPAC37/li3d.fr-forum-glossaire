@@ -31,37 +31,81 @@ import org.jsoup.safety.Safelist;
  */
 public class HTML2Md {
 
+    /**
+     *
+     */
     public static boolean localSaveImg = true;
+
+    /**
+     *
+     */
     public static String localPathToSaveImg = "./img_save/";
+
+    /**
+     *
+     */
     public static Path mdFilePath = new File(".").toPath();
 
     private static int indentation = -1;
     private static boolean orderedList = false;
 
+    /**
+     *
+     * @param theHTML
+     * @param baseURL
+     * @return
+     */
     public static String convert(String theHTML, String baseURL) {
         Document doc = Jsoup.parse(theHTML, baseURL);
 
         return parseDocument(doc);
     }
 
+    /**
+     *
+     * @param url
+     * @param timeoutMillis
+     * @return
+     * @throws IOException
+     */
     public static String convert(URL url, int timeoutMillis) throws IOException {
         Document doc = Jsoup.parse(url, timeoutMillis);
 
         return parseDocument(doc);
     }
 
+    /**
+     *
+     * @param html
+     * @param charset
+     * @return
+     * @throws IOException
+     */
     public static String convertHtml(String html, String charset) throws IOException {
         Document doc = Jsoup.parse(html, charset);
 
         return parseDocument(doc);
     }
 
+    /**
+     *
+     * @param file
+     * @param charset
+     * @return
+     * @throws IOException
+     */
     public static String convertFile(File file, String charset) throws IOException {
         Document doc = Jsoup.parse(file, charset);
 
         return parseDocument(doc);
     }
 
+    /**
+     *
+     * @param htmlPath
+     * @param mdPath
+     * @param charset
+     */
     public static void htmlToJekyllMd(String htmlPath, String mdPath, String charset) {
         try {
             List<File> fileList = FilesUtil.getAllFiles(htmlPath, "html");
@@ -93,6 +137,12 @@ public class HTML2Md {
         }
     }
 
+    /**
+     *
+     * @param htmlPath
+     * @param mdPath
+     * @param charset
+     */
     public static void htmlToHexoMd(String htmlPath, String mdPath, String charset) {
         try {
             List<File> fileList = FilesUtil.getAllFiles(htmlPath, "html");
@@ -161,6 +211,12 @@ public class HTML2Md {
     }
 
     //private
+
+    /**
+     *
+     * @param element
+     * @return
+     */
     public static String getTextContent(Element element) {
         ArrayList<MDLine> lines = new ArrayList<MDLine>();
 

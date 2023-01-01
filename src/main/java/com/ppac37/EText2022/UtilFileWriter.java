@@ -15,8 +15,16 @@ import java.util.logging.Logger;
 public class UtilFileWriter {
 
     private FileWriter fwIndexComment = null;
+
+    /**
+     *
+     */
     protected String sFile = "tmp.txt";
 
+    /**
+     *
+     * @param fileToWrite
+     */
     public UtilFileWriter(String fileToWrite) {
         this.sFile = fileToWrite;
         try {
@@ -28,6 +36,10 @@ public class UtilFileWriter {
         }
     }
 
+    /**
+     *
+     * @param csq
+     */
     public void append(CharSequence csq) {
         //return fwIndexComment.append(csq);
         if (fwIndexComment != null) {
@@ -39,6 +51,9 @@ public class UtilFileWriter {
         }
     }
 
+    /**
+     *
+     */
     public void flush() {
         if (fwIndexComment != null) {
             try {
@@ -49,6 +64,9 @@ public class UtilFileWriter {
         }
     }
 
+    /**
+     *
+     */
     public void close() {
         if (fwIndexComment != null) {
             try {

@@ -29,9 +29,25 @@ import org.jsoup.nodes.Document;
 public class UrlCDownloderCache {
 
     static String cacheBaseDir = "./www_cache_w/"; //TODO a revoir car va changer dans la dist
+
+    /**
+     *
+     */
     public static DateFormat dateFormat = DateFormat.getInstance();
+
+    /**
+     *
+     */
     public static boolean debugPrintUrlHeaders = false;
+
+    /**
+     *
+     */
     public static boolean debugTimming = false;
+
+    /**
+     *
+     */
     public static NumberFormat numberFormat = NumberFormat.getInstance();
     private static Random rand = new Random();
     private static long minTempo = 1000;

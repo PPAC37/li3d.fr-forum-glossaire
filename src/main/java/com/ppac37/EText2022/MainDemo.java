@@ -1,3 +1,5 @@
+/*
+ */
 package com.ppac37.EText2022;
 
 import java.io.File;
@@ -12,14 +14,9 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-/*
- */
 /**
  * Définie comme point d'entré du projet et du jar ( voir "MainDemo" dans le
  * pom.xml ).
- *
- * Truc java qui dit Coucou.<br>
- * A implémenter : gestion des arguments ... .
  *
  * @author q6
  */
@@ -38,125 +35,139 @@ public class MainDemo {
 
     //
     static boolean someBooleanFlag = true;
+    static boolean debugSystemProperties = false;
 
-    // 
+    /**
+     * Gestion des arguments de la ligne de commande avec commonCli. 
+     * 
+     * <p>definir les arguments a
+     * utiliser : repertoire des fichier html cache local , url du sujet ou
+     * idDuSujet? ou idComment? ou idUser?<br>
+     *</p>
+     * 
+     * <p>
+     * </p>
+     * 
+     * -o -out dirPath<br>
+     * -url -url httpurl<br>
+     *
+     * -d domaine ex : www.li3d.fr<br>
+     * -t topicId ex : 54<br>
+     * -u userId ex 45000<br>
+     *
+     * -s sectionId ex <br>
+     *
+     *
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        System.out.println("Coucou !");
 
-// TODO commonCli gestion des arguments
-        // definir les arguments a utiliser
-        // repertoire des fichier html cache local 
-        // url du sujet
-        //
-        //Creating the Options
-        //
-        // create Options object
         Options options = new Options();
 
-        // add v option
-        options.addOption("v", "version", false, "version");
-
-        // add nolf option
-//        options.addOption("nolf", "nolookandfeel", false, "disable java LookAndFeel usage.");
-        // add t option
-//        options.addOption("t", false, "display current time");
-        //
-        //International Time option
-        //
-        // add c option
-//        options.addOption("c", true, "country code");
-        //
-        // add src option
-//        options.addOption("f", "file", true, "source file");
-        //options.addRequiredOption("f","file", true, "source file");
-//
-        // add src option
-//        options.addOption("o", "out", true, "dest dir");
-        //options.addRequiredOption("f","file", true, "source file");
-        //
-        // add src option
-//        options.addOption("u", "url", true, "source url");
-        //options.addRequiredOption("f","file", true, "source file");
-        // automatically generate the help statement
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp(MainDemo.class.getSimpleName(), options);
-
-        //
-        //Parsing the command line arguments
-        //
-        // create the parser
-        CommandLineParser parser = new DefaultParser();
         try {
-            // parse the command line arguments
-            CommandLine line = parser.parse(options, args);
+            boolean addCliOptions = true;
+            if (addCliOptions) {
 
-            //
-            //Retrieving the argument value
-            //
-            // 
-            if (line.hasOption("v") || true) {
-                // output the version
-                System.out.println(MainDemo.class.getSimpleName() + " version " + GIT_VERSION);
-                System.out.println(MainDemo.class.getPackage().getName() + " version " + GIT_VERSION);
-                System.out.printf("%s version %s\n", new java.io.File(MainDemo.class.getProtectionDomain()
-                        .getCodeSource()
-                        .getLocation()
-                        .getPath())
-                        .getName(), GIT_VERSION);
+                options.addOption("v", "version", false, "version");
 
-                String sVersion = GIT_VERSION;
-                Class toUseAsRef = MainDemo.class;
-                String sAppName = toUseAsRef.getSimpleName();
+                //        options.addOption("nolf", "nolookandfeel", false, "disable java LookAndFeel usage.");
+                //        options.addOption("t", false, "display current time");
+                //        options.addOption("c", true, "country code");
+                //        options.addOption("f", "file", true, "source file");
+                //options.addRequiredOption("f","file", true, "source file");
+                //        options.addOption("o", "out", true, "dest dir");
+                //        options.addOption("u", "url", true, "source url");
+            }
 
-                File fSrcCodeSource = new java.io.File(toUseAsRef.getProtectionDomain()
-                        .getCodeSource()
-                        .getLocation()
-                        .getPath());
-                System.out.printf("%s version %s (%s)\n", toUseAsRef.getSimpleName(), sVersion, fSrcCodeSource.toString());
-                System.out.printf("%s version %s (%s)\n", toUseAsRef.getSimpleName(), sVersion, fSrcCodeSource.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (true) {
+            if (args.length == 0) {
 
-                System.out.printf("Usage : java -jar %3$s\n", toUseAsRef.getSimpleName(), sVersion, fSrcCodeSource.toString());
+                HelpFormatter formatter = new HelpFormatter();
+                if (true) {
+                    // output usage
+                    formatter.printHelp(MainDemo.class.getSimpleName(), options);
+                }
 
-                //
-                //
-                //
-                try {
-                    String sysPropKeySunJavaCommand = "sun.java.command";
-                    String commandeLine = System.getProperty(sysPropKeySunJavaCommand);
-                    System.out.printf("%s : %s\n", sysPropKeySunJavaCommand, commandeLine);
-
-                } catch (Exception e) {
-                    // ? Security Exception ?
+            } else {
+                if (true) {
+                    for (String s : args) {
+                        System.out.println("arg -> " + s);
+                    }
                 }
             }
+            // create the parser for the command line arguments
+            CommandLineParser parser = new DefaultParser();
+            try {
+                // parse the command line arguments
+                CommandLine line = parser.parse(options, args);
 
-            // get c option value
-            String countryCode = line.getOptionValue("c");
+                //
+                //Retrieving the argument value
+                //
+                if (line.hasOption("v")) {
+                    // output the version
+                    System.out.println(MainDemo.class.getSimpleName() + " version " + GIT_VERSION);
+                    System.out.println(MainDemo.class.getPackage().getName() + " version " + GIT_VERSION);
+                    System.out.printf("%s version %s\n", new java.io.File(MainDemo.class.getProtectionDomain()
+                            .getCodeSource()
+                            .getLocation()
+                            .getPath())
+                            .getName(), GIT_VERSION);
 
-            if (countryCode == null) {
-                // print default date
-            } else {
-                // print date for country specified by countryCode
+                    String sVersion = GIT_VERSION;
+                    Class toUseAsRef = MainDemo.class;
+                    String sAppName = toUseAsRef.getSimpleName();
+
+                    File fSrcCodeSource = new java.io.File(toUseAsRef.getProtectionDomain()
+                            .getCodeSource()
+                            .getLocation()
+                            .getPath());
+                    System.out.printf("%s version %s (%s)\n", toUseAsRef.getSimpleName(), sVersion, fSrcCodeSource.toString());
+                    System.out.printf("%s version %s (%s)\n", toUseAsRef.getSimpleName(), sVersion, fSrcCodeSource.getName());
+
+                    System.out.printf("Usage : java -jar %3$s\n", toUseAsRef.getSimpleName(), sVersion, fSrcCodeSource.toString());
+
+                    //
+                    try {
+                        String sysPropKeySunJavaCommand = "sun.java.command";
+                        String commandeLine = System.getProperty(sysPropKeySunJavaCommand);
+                        System.out.printf("%s : %s\n", sysPropKeySunJavaCommand, commandeLine);
+                    } catch (Exception e) {
+                        // ? Security Exception ?
+                    }
+                }
+
+                String countryCode = line.getOptionValue("c");
+                if (countryCode == null) {
+                    // print default date
+                } else {
+                    // print date for country specified by countryCode
+                }
+
+                if (line.hasOption("buildfile")) {
+                    //this.buildfile = line.getOptionValue("buildfile");
+                }
+
+            } catch (ParseException exp) {
+                // oops, something went wrong
+                //System.err.println("Parsing failed.  Reason: " + exp.getMessage());
+                exp.printStackTrace();
+            } catch (Exception exp) {
+                // oops, something went wrong
+                //System.err.println("Parsing failed.  Reason: " + exp.getMessage());
+                exp.printStackTrace();
             }
 
-            // has the buildfile argument been passed?
-            if (line.hasOption("buildfile")) {
-                // initialise the member variable
-                //this.buildfile = line.getOptionValue("buildfile");
-            }
-
-        } catch (ParseException exp) {
-            // oops, something went wrong
-            System.err.println("Parsing failed.  Reason: " + exp.getMessage());
+        }
+        //
+        if (debugSystemProperties) {
+            outSystemProperties();
         }
 
-        //
-        //Retrieving the argument value
-        //
-        //
-        //
-        //
-        //
         // Savoir si l'on travail avec des fichier en cache ou avec la version en ligne du sujet du glossaire
         // BF
         // avoir un fichier de configuration genre .ini qui permte de proposer des valeur pr defauts et un fichier de configuration .cfg pour les veaulr de l'utilisateur
@@ -172,7 +183,7 @@ public class MainDemo {
 
     /**
      * https://stackoverflow.com/questions/11158235/get-name-of-executable-jar-from-within-main-method
-     * TODO : * <code>new java.io.File(SomeClassInYourJar.class.getProtectionDomain()
+     * TODO : <code>new java.io.File(SomeClassInYourJar.class.getProtectionDomain()
      * .getCodeSource()
      * .getLocation()
      * .getPath())
@@ -194,26 +205,38 @@ public class MainDemo {
         }
     }
 
-    //
-    public static void mainDisplaySystemProperties(String[] args) {
+    /**
+     * For debug : Output System.getProperties.
+     */
+    private static void outSystemProperties() {
 
         Properties properties = System.getProperties();
-        // Java 8
-//        properties.forEach((k, v) -> System.out.println(k + ":" + v));
+        if (false) {
+            // Java 8
+            properties.forEach((k, v) -> System.out.println(k + ":" + v));
+        }
 
-        // Classic way to loop a map
-        //for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-        //    System.out.println(entry.getKey() + " : " + entry.getValue());
-        //}
-        // No good, output is truncated, long lines end with ...
-        //properties.list(System.out);
-        // Thanks Java 8
-        LinkedHashMap<String, String> collect = properties.entrySet().stream()
-                .collect(Collectors.toMap(k -> (String) k.getKey(), e -> (String) e.getValue()))
-                .entrySet().stream().sorted(Map.Entry.comparingByKey())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        if (false) {
+            // Classic way to loop a map
+            for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+                System.out.println(entry.getKey() + " : " + entry.getValue());
+            }
+        }
 
-        collect.forEach((k, v) -> System.out.println(k + ":" + v));
+        if (false) {
+            // No good, output is truncated, long lines end with ...
+            properties.list(System.out);
+        }
+
+        if (true) {
+            // Java 8
+            LinkedHashMap<String, String> collect = properties.entrySet().stream()
+                    .collect(Collectors.toMap(k -> (String) k.getKey(), e -> (String) e.getValue()))
+                    .entrySet().stream().sorted(Map.Entry.comparingByKey())
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                            (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+            collect.forEach((k, v) -> System.out.println(k + ":" + v));
+        }
     }
 }

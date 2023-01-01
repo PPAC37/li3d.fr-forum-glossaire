@@ -26,10 +26,17 @@ public class ForumUneDef extends ForumComment implements Comparable<Object> {
     SortedSet<String> defNomAlias;
     String commentCorpHTML;
 
+    /**
+     *
+     */
     public ForumUneDef() {
         defNomAlias = new TreeSet<>();
     }
 
+    /**
+     *
+     * @param s
+     */
     public void addDefNom(String s) {
         defNomAlias.add(s);
         if (defNom == null) {
@@ -37,22 +44,43 @@ public class ForumUneDef extends ForumComment implements Comparable<Object> {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDefNom() {
         return defNom;
     }
 
+    /**
+     *
+     * @param defNom
+     */
     public void setDefNom(String defNom) {
         this.defNom = defNom;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCommentCorpHTML() {
         return commentCorpHTML;
     }
 
+    /**
+     *
+     * @param commentCorpHTML
+     */
     public void setCommentCorpHTML(String commentCorpHTML) {
         this.commentCorpHTML = commentCorpHTML;
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(Object o) {
         if (o == null) {

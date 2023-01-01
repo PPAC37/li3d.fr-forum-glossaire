@@ -13,10 +13,19 @@ public class ForumUneDefAlias implements Comparable<ForumUneDefAlias> {
 
     String a;
 
+    /**
+     *
+     * @param a
+     */
     public ForumUneDefAlias(String a) {
         this.a = a;
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(ForumUneDefAlias o) {
 

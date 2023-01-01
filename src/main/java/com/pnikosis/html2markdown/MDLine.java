@@ -1,17 +1,32 @@
 package com.pnikosis.html2markdown;
 
+/**
+ *
+ * @author q6
+ */
 public class MDLine {
   private int level = 0;
   private MDLineType type;
   private StringBuilder content;
 
-  public MDLine(MDLineType type, int level, String content) {
+    /**
+     *
+     * @param type
+     * @param level
+     * @param content
+     */
+    public MDLine(MDLineType type, int level, String content) {
     this.type = type;
     this.level = level;
     this.content = new StringBuilder(content);
   }
 
-  public MDLine create(String line) {
+    /**
+     *
+     * @param line
+     * @return
+     */
+    public MDLine create(String line) {
     int spaces = 0;
     while ((spaces < line.length()) && (line.charAt(spaces) == ' ')) {
       spaces++;
@@ -60,19 +75,35 @@ public class MDLine {
     return new MDLine(MDLineType.None, newLevel, content);
   }
 
-  public MDLineType getListTypeName() {
+    /**
+     *
+     * @return
+     */
+    public MDLineType getListTypeName() {
     return type;
   }
 
-  public int getLevel() {
+    /**
+     *
+     * @return
+     */
+    public int getLevel() {
     return level;
   }
 
-  public void setLevel(int i) {
+    /**
+     *
+     * @param i
+     */
+    public void setLevel(int i) {
     level = Math.max(i, 0);
   }
 
-  public String toString() {
+    /**
+     *
+     * @return
+     */
+    public String toString() {
     StringBuilder newLine = new StringBuilder();
     for (int j = 0; j < getLevel(); j++) {
       newLine.append("    ");
@@ -101,11 +132,19 @@ public class MDLine {
     return newLine.toString();
   }
 
-  public String getContent() {
+    /**
+     *
+     * @return
+     */
+    public String getContent() {
     return content.toString();
   }
 
-  public void append(String appendContent) {
+    /**
+     *
+     * @param appendContent
+     */
+    public void append(String appendContent) {
     if (content.length() == 0) {
       int i = 0;
       while (i < appendContent.length() && Character.isWhitespace(appendContent.charAt(i))) {
@@ -117,20 +156,70 @@ public class MDLine {
     }
   }
 
-  @Override
+    /**
+     *
+     * @param o
+     * @return
+     */
+    @Override
   public boolean equals(Object o) {
     return o instanceof MDLine && ((MDLine) o).type.equals(this.type);
   }
 
-  public boolean isList() {
+    /**
+     *
+     * @return
+     */
+    public boolean isList() {
     return (type.equals(MDLineType.Ordered) || type.equals(MDLineType.Unordered));
   }
 
-  public void setListType(MDLineType type2) {
+    /**
+     *
+     * @param type2
+     */
+    public void setListType(MDLineType type2) {
     type = type2;
   }
 
-  public enum MDLineType {
-    Ordered, Unordered, None, Head1, Head2, Head3, HR
-  }
+    /**
+     *
+     */
+    public enum MDLineType {
+
+        /**
+         *
+         */
+        Ordered, 
+
+        /**
+         *
+         */
+        Unordered, 
+
+        /**
+         *
+         */
+        None, 
+
+        /**
+         *
+         */
+        Head1, 
+
+        /**
+         *
+         */
+        Head2, 
+
+        /**
+         *
+         */
+        Head3, 
+
+        /**
+         *
+         */
+        HR
+    }
 }

@@ -14,8 +14,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
+/**
+ *
+ * @author q6
+ */
 public class Testbed {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         URL url;
         try {

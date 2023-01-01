@@ -2,33 +2,17 @@
  */
 package com.ppac37.EText2022;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.pnikosis.html2markdown.HTML2Md;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.Collator;
-import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Entities;
@@ -57,17 +41,21 @@ import org.jsoup.select.Elements;
  */
 public class ForumLI3DFR {
 
+    //import org.slf4j.Logger;
+    //import org.slf4j.LoggerFactory;
+    private static final Logger logger = LoggerFactory.getLogger(ForumLI3DFR.class);
+    //logger.debug("version: {}", version);
 
     static boolean modeDev = true;
 
+    /**
+     *
+     */
     public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
 
     static String[] urls = {// Jeux d'essai pour le dev.
-        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments",
-        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/"
-//            ,
-//        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "page/2/?sortby=date#comments",
-//        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "page/3/?sortby=date#comments"
+        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments"
+            //,        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/"
     //             , ""    
     };
 
@@ -79,18 +67,20 @@ public class ForumLI3DFR {
     static SortedSet<ForumUneDef> lesDef = new TreeSet<>();
     static String enteteSommaireToUse = "";
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
-        System.out.printf("DEBUT : %s\n", ForumLI3DFR.class.getName());
+        logger.debug("debut: {}", ForumLI3DFR.class.getName());
 
-        
         if (modeDev) {
             for (String sUrl : urls) {
-                UrlCParser urlCParser = new UrlCParser(sUrl);
-                
+                UrlCParserForum urlCParser = new UrlCParserForum(sUrl,true);
             }
         } else {
-            // TODO gestion des arguments             
+            // ?TODO gestion des arguments             
         }
 
         //
@@ -762,6 +752,5 @@ public class ForumLI3DFR {
 
         return doc;
     }
-
 
 }

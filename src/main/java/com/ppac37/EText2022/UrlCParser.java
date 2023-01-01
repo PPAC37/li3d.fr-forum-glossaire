@@ -36,6 +36,10 @@ public class UrlCParser {
     String sUrl;
     Document doc;
 
+    /**
+     *
+     * @param sUrl
+     */
     public UrlCParser(String sUrl) {
         this.sUrl = sUrl;
         System.out.printf(" %s\n", sUrl);

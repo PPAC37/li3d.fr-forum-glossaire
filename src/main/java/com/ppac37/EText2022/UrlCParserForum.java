@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import org.jsoup.nodes.Element;
 
 /**
- *
+ * Outil pour "parser" une page du forum.
  * @author q6
  */
 public class UrlCParserForum extends UrlCParser {
@@ -23,6 +23,11 @@ public class UrlCParserForum extends UrlCParser {
 
     boolean debugNums = false;
 
+    /**
+     *
+     * @param sUrl
+     * @param doToLastPage
+     */
     public UrlCParserForum(String sUrl, boolean doToLastPage) {
         super(sUrl);
 
