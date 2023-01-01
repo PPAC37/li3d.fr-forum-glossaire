@@ -28,7 +28,7 @@ public final class UtilPropertiesFile {
     public static String getAppVersion() {
         final Properties prop = loadProperties(APP_PROPERTIES_FILENAME, false);
         String version = prop.getProperty("app.version");
-        logger.debug("version: {}", version);
+        logger.trace("version: {}", version);
         return version;
     }
 
@@ -48,7 +48,7 @@ public final class UtilPropertiesFile {
             }
         }
 
-        logger.debug("fullGitRevision: {}", fullGitRevision);
+        logger.trace("fullGitRevision: {}", fullGitRevision);
         return fullGitRevision;
     }
 

@@ -38,16 +38,16 @@ public class MainDemo {
     static boolean debugSystemProperties = false;
 
     /**
-     * Gestion des arguments de la ligne de commande avec commonCli. 
-     * 
-     * <p>definir les arguments a
-     * utiliser : repertoire des fichier html cache local , url du sujet ou
-     * idDuSujet? ou idComment? ou idUser?<br>
-     *</p>
-     * 
+     * Gestion des arguments de la ligne de commande avec commonCli.
+     *
+     * <p>
+     * definir les arguments a utiliser : repertoire des fichier html cache
+     * local , url du sujet ou idDuSujet? ou idComment? ou idUser?<br>
+     * </p>
+     *
      * <p>
      * </p>
-     * 
+     *
      * -o -out dirPath<br>
      * -url -url httpurl<br>
      *
@@ -86,10 +86,22 @@ public class MainDemo {
         if (true) {
             if (args.length == 0) {
 
+                Class toUseAsRef = MainDemo.class;
+                String sAppName = toUseAsRef.getSimpleName();
+                if (true) {
+                    System.out.printf("// %s (git version %s)\n", sAppName, GIT_VERSION);
+                }
+
                 HelpFormatter formatter = new HelpFormatter();
                 if (true) {
+
+                    File fSrcCodeSource = new java.io.File(toUseAsRef.getProtectionDomain()
+                            .getCodeSource()
+                            .getLocation()
+                            .getPath());
                     // output usage
-                    formatter.printHelp(MainDemo.class.getSimpleName(), options);
+                    formatter.printHelp(String.format("java -jar %3$s\n", sAppName, GIT_VERSION, fSrcCodeSource.toString()), options);
+                    System.err.println("");
                 }
 
             } else {
@@ -110,26 +122,12 @@ public class MainDemo {
                 //
                 if (line.hasOption("v")) {
                     // output the version
-                    System.out.println(MainDemo.class.getSimpleName() + " version " + GIT_VERSION);
-                    System.out.println(MainDemo.class.getPackage().getName() + " version " + GIT_VERSION);
-                    System.out.printf("%s version %s\n", new java.io.File(MainDemo.class.getProtectionDomain()
-                            .getCodeSource()
-                            .getLocation()
-                            .getPath())
-                            .getName(), GIT_VERSION);
-
-                    String sVersion = GIT_VERSION;
-                    Class toUseAsRef = MainDemo.class;
-                    String sAppName = toUseAsRef.getSimpleName();
-
-                    File fSrcCodeSource = new java.io.File(toUseAsRef.getProtectionDomain()
-                            .getCodeSource()
-                            .getLocation()
-                            .getPath());
-                    System.out.printf("%s version %s (%s)\n", toUseAsRef.getSimpleName(), sVersion, fSrcCodeSource.toString());
-                    System.out.printf("%s version %s (%s)\n", toUseAsRef.getSimpleName(), sVersion, fSrcCodeSource.getName());
-
-                    System.out.printf("Usage : java -jar %3$s\n", toUseAsRef.getSimpleName(), sVersion, fSrcCodeSource.toString());
+                    System.out.println("// " + MainDemo.class.getSimpleName() + " version " + GIT_VERSION);
+                    System.out.println("// " + MainDemo.class.getPackage().getName() + " version " + GIT_VERSION);
+                    System.out.printf("// %s version %s\n",
+                            new java.io.File(MainDemo.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName(),
+                            GIT_VERSION
+                    );
 
                     //
                     try {

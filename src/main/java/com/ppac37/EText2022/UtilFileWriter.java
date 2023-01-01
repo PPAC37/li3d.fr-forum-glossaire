@@ -7,12 +7,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author q6
  */
 public class UtilFileWriter {
+    
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(UtilFileWriter.class);
+    //logger.trace("version: {}", version);
 
     private FileWriter fwIndexComment = null;
 
@@ -21,6 +25,7 @@ public class UtilFileWriter {
      */
     protected String sFile = "tmp.txt";
 
+    static boolean debugOpen = false;
     /**
      *
      * @param fileToWrite
@@ -30,7 +35,7 @@ public class UtilFileWriter {
         try {
             fwIndexComment = new FileWriter(sFile);
             File fTmp = new File(sFile);
-            System.out.printf("open  (size=%10d) \"%s\"\n", fTmp.length(), fTmp.getAbsolutePath());
+            if ( debugOpen ) System.out.printf("open  (size=%10d) \"%s\"\n", fTmp.length(), fTmp.getAbsolutePath());
         } catch (IOException ex) {
             Logger.getLogger(UtilFileWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -77,6 +82,7 @@ public class UtilFileWriter {
         }
         File fTmp = new File(sFile);
         System.out.printf("close (size=%10d) \"%s\"\n", fTmp.length(), fTmp.getAbsolutePath());
+        //logger.trace("close: {} {}", fTmp.length(), fTmp.getAbsolutePath());
     }
 
 }

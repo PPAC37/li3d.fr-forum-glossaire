@@ -4,7 +4,6 @@ package com.ppac37.EText2022;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.pnikosis.html2markdown.HTML2Md;
 import java.io.IOException;
 import java.text.Collator;
 import java.util.HashMap;
@@ -46,8 +45,6 @@ public class ForumLI3DFR {
     private static final Logger logger = LoggerFactory.getLogger(ForumLI3DFR.class);
     //logger.debug("version: {}", version);
 
-    static boolean modeDev = true;
-
     /**
      *
      */
@@ -73,14 +70,12 @@ public class ForumLI3DFR {
      */
     public static void main(String[] args) {
 
-        logger.debug("debut: {}", ForumLI3DFR.class.getName());
+        logger.trace("debut: {}", ForumLI3DFR.class.getName());
 
-        if (modeDev) {
+        if (true) {
             for (String sUrl : urls) {
                 UrlCParserForum urlCParser = new UrlCParserForum(sUrl,true);
             }
-        } else {
-            // ?TODO gestion des arguments             
         }
 
         //
@@ -408,23 +403,30 @@ public class ForumLI3DFR {
 
         long t0 = System.currentTimeMillis();
         //Connection connect = Jsoup.connect(sUrlSectionPetg);
+        //TODO si cache ex: Document doc = Jsoup.parse(bookmarkHtmlFile, "UTF-8");
 
         Document doc = UrlCDownloderCache.cacheAndParseUrl(sUrl, false, UrlCDownloderCache.debugPrintUrlHeaders, false);//connect.get();
         doc.outputSettings().escapeMode(Entities.EscapeMode.xhtml);
 
         long t1 = System.currentTimeMillis();
-        System.out.println(sUrl + " ( in " + (t1 - t0) + " ms.)");
-        //TODO si cache ex: Document doc = Jsoup.parse(bookmarkHtmlFile, "UTF-8");
+        System.out.println(" "+sUrl + " ( loaded in " + (t1 - t0) + " ms.)");
 
-        if (false) {
+        if (true) {
             Elements titles = doc.select("title");
             //print all titles in main page
             for (Element e : titles) {
-                System.out.println("text: " + e.text());
-                if (false) {
-                    System.out.println("html: " + e.html());
+                boolean outputTitelsElemetnsHtml = true;
+                
+                if (outputTitelsElemetnsHtml) {
+                    System.out.println("  title : " + e.html());
+                }else{
+                    System.out.println("  title : " + e.text());
                 }
             }
+        }
+
+        if (false) {
+            UrlCParser.outDocumentHeadMetaProperty(doc);
         }
 
         long t3 = System.currentTimeMillis();
@@ -432,22 +434,7 @@ public class ForumLI3DFR {
             System.out.println("in " + (t3 - t1) + " ms.");
         }
 
-        if (false) {
-            UrlCParser.outDocumentHeadMetaProperty(doc);
-        }
-
-        // Le fil d'arian :: 
-        // Si il y a un fil d'ariane ( " Acceuil > NomSection [ > SousSection ] > TitreSujet " )
-        // "Accueil > Les imprimantes 3D > Discussion sur les imprimantes 3D > Glossaire de l'impression 3D"
-        boolean outFilDArian = false;
-        if (outFilDArian) {
-            String sSelectNavBar = "nav.ipsBreadcrumb_top  > ul[data-role=breadcrumbList] > li";
-            Elements elemNavBar = doc.select(sSelectNavBar);
-            System.out.println("Total (" + sSelectNavBar + "): " + elemNavBar.size());
-            for (Element e : elemNavBar) {
-                System.out.printf("  >%d %s\n", e.childrenSize(), e.html());
-            }
-        }
+        outFilDarian_Breadcrum_top(doc);
 
         // les elements de class "article" (sont les commentaire) 
         // et là on va directement chercher le sous element proche du coprs du commentaire
@@ -464,284 +451,7 @@ public class ForumLI3DFR {
 
                 ForumUneDef uneDef = new ForumUneDef();
 
-                Element nextElementSibling = eACommentId.nextElementSibling();
-                if (false) {
-                    System.out.printf(" \"%s\"\n", eACommentId.attr("id"));
-                }
-
-                String tmpCommentId = "";
-                if (eACommentId.attr("id").startsWith("comment-")) {
-                    tmpCommentId = eACommentId.attr("id").substring(8);
-                    if (false) {
-                        System.out.printf("%s%s\n", lienVersCommentaireBase, tmpCommentId);
-                    }
-                    if (false) {
-                        System.out.printf(" comment id \"%s\"\n", tmpCommentId);
-                    }
-
-                    uneDef.setCommentId(tmpCommentId);
-                }
-
-                // le nom de l'auteur et le lien vers son profil
-                Element h3AAuteur = nextElementSibling.selectFirst("h3.cAuthorPane_author > a");
-                if (true) {
-                    System.out.printf("  Auteur : %s ( %s )\n", h3AAuteur.text(), h3AAuteur.attr("abs:href"));
-                }
-                uneDef.setCommentAuteurNom(h3AAuteur.text());
-                // l'image de l'avatard de l'auteur 
-                Element auteurImg = nextElementSibling.selectFirst("div.cAuthorPane_photoWrap > a > img");
-                if (false) {
-                    System.out.printf("  Auteur : %s ( %s )\n", auteurImg.attr("alt"), auteurImg.attr("src"));
-                }
-                // group
-                Element auteurGroup = nextElementSibling.selectFirst("li[data-role=group]");
-                if (false) {
-                    System.out.printf("  Auteur :   ( %s )\n", auteurGroup.text());
-                }
-
-                // heures creation et ?modification
-                Elements dateMsg = nextElementSibling.select("time");
-                String sTmpLastDateTime = "";
-                for (Element d : dateMsg) {
-                    if (false) {
-                        System.out.printf("  dateMsg :  %s ( %s ) %s :: %s\n", d.attr("title"), d.text(), d.attr("datetime"), d.parent().text());
-                    }
-                    String sDateTime = d.attr("datetime");
-                    if (sDateTime.equals(sTmpLastDateTime)) {
-                        // on ignore car on a deja sortie cette date précédament                        
-                    } else {
-                        if (sTmpLastDateTime.isEmpty()) {
-                            uneDef.setDateCreation(sDateTime);
-                            System.out.printf("  //  %s ( %s ) %s :: %s\n", d.attr("title"), d.text(), d.attr("datetime"), d.parent().text());
-                        } else {
-                            uneDef.setDateModification(sDateTime);
-                            System.out.printf("  //  %s ( %s ) %s :: %s // \"%s\"\n", d.attr("title"), d.text(), d.attr("datetime"), d.parent().text(), d.nextSibling().toString());
-                            uneDef.setParModification(d.nextSibling().toString().substring(5));
-                            // on enleve cette info 
-                            /*
-                            <span class="ipsType_reset ipsType_medium ipsType_light" data-excludequote=""> <strong>Modifié (le) <time datetime="2022-02-05T20:32:36Z" title="05/02/2022 20:32 " data-short="Feb 5">Février 5</time> par Yo'</strong> </span>
-                             */
-                            boolean doRemoveModified = true;
-                            boolean doRemoveModifiedPreview = false;
-                            if (doRemoveModified) {
-                                if (doRemoveModifiedPreview) {
-                                    d.parent().parent().attr("style", "background-color:#c0392b;");
-                                } else {
-                                    d.parent().parent().remove();
-                                }
-                            }
-                        }
-
-                    }
-                    sTmpLastDateTime = sDateTime;
-                }
-
-                // le corps du commentaire
-                Element commentContent = nextElementSibling.selectFirst("div[data-role=commentContent]");
-                uneDef.setCommentCorpHTMLBrut(commentContent.html());
-
-                if (true) {
-                    // L'ensemble des images pour ou non les sauver en local et modifier le src
-                    Elements selectCommentImg = commentContent.select("img[src]");
-                    for (Element cimg : selectCommentImg) {
-                        String imgSrc = cimg.attr("src");
-                        // voila là il est posible de modifier le src ...
-                        //cimg.attr("src", "cacheBaseDir");
-                        // TODO en fait je voudrais garder les liens d'origine pour les mettre en "sources" (ou commentaire HTML
-                        // mais donc là ... 
-                        // avoir le répertoire de mise en cache ?
-                        // ? utiliser ImageIO pour le telechargement ou le faire a coup de HttpRequest ?
-                    }
-                }
-                //
-                if (false) {
-                    // pour debug 
-                    System.out.printf("---\n%s\n---\n", commentContent.html());
-                    // TODO a revoir actuellement ma version de HTML2Md rapatrie les images dans un repertoire codé en dur et sans bien faire attention au posible ecrasement de deux images ayant le même nom ... 
-                    System.out.printf("---\n%s\n---\n", HTML2Md.getTextContent(commentContent)); //HTML2Md.convertHtml(commentContent.html(), "UTF-8"));
-                }
-
-                //
-                // TODO codage a revoir car on passe encore a un autre niveau abstraction ,  spécifique au glossaire.
-                //
-                boolean haveH2Sommaire = false;
-                Element elemTitreSommaire = null;
-                // voir si le coprs du commentaire contien un titre 2 et si se serai pas le sommaire
-                if (true && commentContent != null) {
-                    Elements selectCommentH2 = commentContent.select("h2");
-                    if (!selectCommentH2.isEmpty()) {
-                        // le commentaire contien au moins un "titre 2"
-                        for (Element c_elemH2 : selectCommentH2) {
-                            if (c_elemH2.text().equalsIgnoreCase("Sommaire")) {
-                                haveH2Sommaire = true;
-                                elemTitreSommaire = c_elemH2;
-                                System.out.printf(" H2: \"%s\" comment id %s\n", c_elemH2.text(), eACommentId.attr("id").substring(8));
-                                uneDef.setDefNom("0_" + c_elemH2.text());
-
-                            } else {
-                                System.out.printf(" H2: \"%s\"\n", c_elemH2.text());
-
-                            }
-                        }
-                    }
-
-                }
-
-                boolean haveDefinitions = false;
-                // les elements en gras qui sont en puce ( spécifique au glossaire pour identifier le terme définie ... ) 
-                if (true && commentContent != null) {
-                    Elements selectCommentH2 = commentContent.select("ul li strong");
-                    if (!selectCommentH2.isEmpty()) {
-                        haveDefinitions = true;
-                        // le commentaire contien au moins un "titre 2"
-                        for (Element c_elemH2 : selectCommentH2) {
-
-                            if (false) {
-                                System.out.printf(" * \"%s\"\n", c_elemH2.text());
-                            }
-
-                            //uneDef.setDefNom(c_elemH2.text());
-                            uneDef.addDefNom(c_elemH2.text());
-                        }
-                    }
-
-                }
-
-                //
-                //
-                //
-                boolean doIFram = true;
-                if (doIFram && !haveH2Sommaire) {
-                    Elements elemsIFrame = commentContent.select("iframe, img");
-                    if (elemsIFrame != null) {
-                        for (Element eIframe : elemsIFrame) {
-                            String eIframeStyle = eIframe.attr("style");
-                            String eIframeSrc = eIframe.attr("src");
-                            String eIframedata_embed_src = eIframe.attr("data-embed-src");
-
-                            eIframe.attr("style", "background-color:#c0392b;" + eIframeStyle);
-                            if (!eIframeSrc.isBlank()) {
-                                eIframe.after(" ( src= " + eIframeSrc + " ) ");
-                            }
-                            if (!eIframedata_embed_src.isBlank()) {
-                                eIframe.after(" ( data-embed-src = " + eIframedata_embed_src + " ) ");
-                            }
-
-                        }
-
-                    }
-                }
-
-                boolean doEmojieAlt = true;
-                boolean previewEmojieAlt = false;
-                if (doEmojieAlt) {
-                    Elements eImg_ipsEmoji = commentContent.select("img.ipsEmoji");
-                    if (eImg_ipsEmoji != null) {
-                        for (Element emoj : eImg_ipsEmoji) {
-                            String attrAlt = emoj.attr("alt");
-                            emoj.before(attrAlt);
-                            if (previewEmojieAlt) {
-                                emoj.attr("style", "background-color:#c0392b;");
-                            } else {
-                                emoj.remove();
-                            }
-                        }
-
-                    }
-                }
-                boolean doForLocal = true;
-                boolean doForLocalPreview = false;
-                if (doForLocal && !haveH2Sommaire) {
-                    Elements elemsA = commentContent.select("a[href~=" + HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "]");
-                    if (elemsA != null) {
-                        for (Element eA : elemsA) {
-                            String eAHref = eA.attr("href");
-                            if (eAHref.length() > HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754.length()) {
-
-                                eA.attr("href", "#" + eAHref.substring(eAHref.length() - 6));
-                                //                            String eAStyle = eA.attr("style");
-                                if (doForLocalPreview) {
-                                    eA.after("<strong class=\"warn\">( was href= " + eAHref + " )</strong>");
-                                }
-
-                            }
-
-                        }
-
-                    }
-                }
-                boolean doHighLithA = true;
-                if (doHighLithA && !haveH2Sommaire) {
-                    Elements elemsA = commentContent.select("a");
-                    if (elemsA != null) {
-                        for (Element eA : elemsA) {
-                            String eATitle = eA.attr("title");
-                            String eAHref = eA.attr("href");
-                            String eAClass = eA.attr("class");
-                            String eAStyle = eA.attr("style");
-                            String eA_Text = eA.text();
-
-                            if (eAHref.startsWith("#")) {
-                                //eA.attr("style", "background-color:green;" + eAStyle);
-                            } else {
-                                //eA.attr("style", "background-color:#c0392b;" + eAStyle);
-                                if (eAHref.equals(eA_Text)) {
-
-                                } else {
-                                    eA.after("<strong class=\"warn\">( href= " + eAHref + " )</strong>");
-                                }
-
-                            }
-
-                        }
-
-                    }
-                }
-
-                boolean doRemoveRetourSommaire = true;
-                boolean doRemoveRetourSommairePreview = false;
-                if (doRemoveRetourSommaire) {
-                    //nettoyage de l'eventuel lien de retour au sommaire du glossaire et infos modification
-                    /*
-                <p> &nbsp; </p>
-                <p style="text-align:center;"> <a href="https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/" rel="">Retour au sommaire du glossaire</a> </p>
-                     */
-                    Element lienVersSujetGlossaire = commentContent.select("p>a[href^=\"https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/\"]").last();
-                    if (lienVersSujetGlossaire != null) {
-                        Element previousElementSibling = lienVersSujetGlossaire.parent().previousElementSibling();
-                        if (previousElementSibling != null && previousElementSibling.text().isBlank()) {
-                            if (doRemoveRetourSommairePreview) {
-                                previousElementSibling.attr("style", "background-color:#c0392b;");
-                                lienVersSujetGlossaire.parent().attr("style", "background-color:#c0392b;");
-                            } else {
-                                previousElementSibling.remove();
-                                lienVersSujetGlossaire.parent().remove();
-                            }
-                        }
-                    }
-                }
-
-                uneDef.setCommentCorpHTML(commentContent.html());
-                if (elemTitreSommaire != null) {
-                    // Pour réutiliser l'entete du sommaire, on supprime le sommaire ! ?
-                    elemTitreSommaire.nextElementSiblings().remove();//.attr("style", "background-color:#c0392b;");
-                    elemTitreSommaire.remove();
-
-                    if (false) {
-                        System.out.printf("%s\n", commentContent.html());
-                    }
-                    enteteSommaireToUse = commentContent.html();
-                }
-
-                lesDef.add(uneDef);
-
-                // On essais de convertire le Commentaire au format .md ( TODO revoir le dl des images, couleurs du texte , couleur de fond du texte , ... )
-                if (false) {
-                    System.out.printf("---\n%s\n---\n", HTML2Md.getTextContent(commentContent)); //HTML2Md.convertHtml(commentContent.html(), "UTF-8"));
-                }
-                if (false) {
-                    System.out.println();
-                }
+                ForumComment.parseComment(eACommentId, uneDef);
             }// fin boucle pour chaque commentaire 
 
             System.out.println();
@@ -751,6 +461,22 @@ public class ForumLI3DFR {
         System.out.flush();
 
         return doc;
+    }
+
+
+    public static void outFilDarian_Breadcrum_top(Document doc) {
+        // Le fil d'arian ::
+        // Si il y a un fil d'ariane ( " Acceuil > NomSection [ > SousSection ] > TitreSujet " )
+        // "Accueil > Les imprimantes 3D > Discussion sur les imprimantes 3D > Glossaire de l'impression 3D"
+        boolean outFilDArian = false;
+        if (outFilDArian) {
+            String sSelectNavBar = "nav.ipsBreadcrumb_top  > ul[data-role=breadcrumbList] > li";
+            Elements elemNavBar = doc.select(sSelectNavBar);
+            System.out.println("Total (" + sSelectNavBar + "): " + elemNavBar.size());
+            for (Element e : elemNavBar) {
+                System.out.printf("  >%d %s\n", e.childrenSize(), e.html());
+            }
+        }
     }
 
 }

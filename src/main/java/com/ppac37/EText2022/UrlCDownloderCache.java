@@ -52,7 +52,7 @@ public class UrlCDownloderCache {
     private static Random rand = new Random();
     private static long minTempo = 1000;
     //
-    static boolean showDebugCacheDirFileDest = true;
+    static boolean showDebugCacheDirFileDest = false;
     private static boolean showDebugCacheDirBase = false;
     // Pour ne pas trop "sur-charger le serveur" on va mettre des petit delais (aleatoire)
     private static boolean noTempo = true;
@@ -76,7 +76,7 @@ public class UrlCDownloderCache {
         if (fBaseCacheDir.exists() && fBaseCacheDir.isDirectory() && fBaseCacheDir.canRead() && fBaseCacheDir.canWrite()) {
             // ok
             if (showDebugCacheDirBase) {
-                System.out.printf(" using cache dir : %s\n", fBaseCacheDir.getAbsolutePath());
+                System.out.printf("  using cache dir : %s\n", fBaseCacheDir.getAbsolutePath());
             }
         } else {
             //todo
@@ -245,7 +245,7 @@ public class UrlCDownloderCache {
             // Si on fait en mode vrac ...
             File fDirDest = new File(fBaseCacheDir, url.getPath());
             if (UrlCDownloderCache.showDebugCacheDirFileDest) {
-                System.out.printf(" fDirDest : %s\n", fDirDest.getAbsoluteFile());
+                System.out.printf("  cache dir : %s\n", fDirDest.getAbsoluteFile());
             }
             fDirDest.mkdirs();
             String outputcacheFile = "index.html";
@@ -276,12 +276,16 @@ public class UrlCDownloderCache {
             }
             // Si le fichier de cache n'existe pas où se trouve vide le créer / telecharger.
             if (fCache.exists() && fCache.length() > 0) {
+                System.out.printf("  using cache file : %s\n", fDirDest.getAbsoluteFile());
                 // il y a un fichier // faut t'il l'effacer ?
+
             } else {
+                System.out.printf("  save to cache file : %s\n", fDirDest.getAbsoluteFile());
                 long tsub0 = System.currentTimeMillis();
                 UrlCDownloderCache.urlHttpConnecteAndWriteToFile(url, fCache);
                 long tsub1 = System.currentTimeMillis();
                 if (debugTimming) {
+
                     System.out.println(sUrlToParse + " ( cached in " + (tsub1 - tsub0) + " ms )");
                 }
             }
