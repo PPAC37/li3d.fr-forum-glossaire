@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -60,23 +59,20 @@ public class ForumLI3DFR {
      * redirections lors des changemetn de titre ... ( TODO test unitaire pour
      * le formu )
      */
-    public static String li3dfrForumTopicTemplate = "https://www.lesimprimantes3d.fr/forum/topic/%s-x/";
+    public static String li3dfrForumTopicTemplate = "https://www.lesimprimantes3d.fr/forum/topic/%s-x/";// + "?sortby=date#comments";
     /**
-     *
+     * TODO a supprimer mais forcement c'est utilisé ailleur ... a revoir
      */
     public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
 
     static String[] urls = {// Jeux d'essai pour le dev.
-        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments"
-//        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/"
-
-//        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/?do=showReactionsComment&comment=524461&reaction=all"    
+//        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments"
     };
 
     /**
      *
      */
-    static String lienVersCommentaireBase = HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?do=findComment&comment=";
+//    static String lienVersCommentaireBase = HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?do=findComment&comment=";
 
     static SortedSet<ForumUneDef> lesDef = new TreeSet<>();
     static String enteteSommaireToUse = "";
@@ -141,6 +137,8 @@ public class ForumLI3DFR {
 
         }
 
+        
+        String lienVersCommentaireBase = HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?do=findComment&comment=";
         if (false) {
             for (String sUrl : urls) {
                 lienVersCommentaireBase = sUrl + "?do=findComment&comment="; // TODO a revoir c'est pas top ....
@@ -151,6 +149,7 @@ public class ForumLI3DFR {
             if (!idTopic.isBlank()) {
                 String sUrlVersTopic = String.format(li3dfrForumTopicTemplate, idTopic.strip());
                 UrlCParserForum urlCParser = new UrlCParserForum(sUrlVersTopic, true);
+                lienVersCommentaireBase = sUrlVersTopic+ "?do=findComment&comment=";
             }
 
         }

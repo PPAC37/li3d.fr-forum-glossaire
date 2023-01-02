@@ -256,9 +256,7 @@ public class ForumComment implements Comparable<Object> {
         String tmpCommentId = "";
         if (eACommentId.attr("id").startsWith("comment-")) {
             tmpCommentId = eACommentId.attr("id").substring(8);
-            if (false) {
-                System.out.printf("%s%s\n", ForumLI3DFR.lienVersCommentaireBase, tmpCommentId);
-            }
+          
             if (false) {
                 System.out.printf(" comment id \"%s\"\n", tmpCommentId);
             }
