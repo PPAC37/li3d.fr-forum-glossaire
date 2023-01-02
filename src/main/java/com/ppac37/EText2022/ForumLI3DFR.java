@@ -94,6 +94,10 @@ public class ForumLI3DFR {
         String outTotauxSpan = "Total %d alias pour %d définitions.";
         String retour_h2_local = "(retour sommaire local)";
 
+        String c_datemodif_by_s_s = "M %s %s";
+        String c_datec_by_s_s = "C %s %s";
+        String nb_Img_d_hors_citation___d__dans_citation = "Nb Img %d (hors citation)  + %d ( dans citation )";
+
         File fInDir = new File(inDirPath);
         if (fInDir.exists()) {
             for (File f : fInDir.listFiles()) {
@@ -110,6 +114,10 @@ public class ForumLI3DFR {
                         sForTitreH1 = prop.getProperty("out.titre.h1");
                         outTotauxSpan = prop.getProperty("out.totaux.span");
                         retour_h2_local = prop.getProperty("out.retour.text");
+                        c_datemodif_by_s_s = prop.getProperty("out.c.d.M.format");
+                        c_datec_by_s_s = prop.getProperty("out.c.d.C.format");
+                        nb_Img_d_hors_citation___d__dans_citation = prop.getProperty("out.c.img.text");
+
                         String sIdTopic = prop.getProperty("topic.id");
 
                         idTopic = sIdTopic;
@@ -503,7 +511,6 @@ public class ForumLI3DFR {
             if (false) {
                 System.out.printf(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
             }
-
             if (d.defNomAlias.isEmpty()) {
 
                 fwIndexSommaireEtCommentHtml
@@ -516,23 +523,33 @@ public class ForumLI3DFR {
                                 d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 //.append(String.format("<div>%s</div>\n<br>\n", ));
                 fwIndexSommaireEtCommentHtml
-                        .append(String.format("<div><details><summary>"
+                        .append(String.format("<div>"
+                                + "<details><summary>"
                                 + "..."
-                                + "</summary>%s</details></div>\n", d.commentCorpHTML));
+                                + "</summary>%s</details>"
+                                + "</div>\n", d.commentCorpHTML));
 
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
-                        + "C %s %s"
+                        + c_datec_by_s_s
                         + "</code></div>\n", d.commentDateCreation, d.commentAuteurNom));
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
-                        + "M %s %s"
-                        + "</code></div>\n", d.commentModifDate, d.commentModifParNom));
+                if (d.commentModifDate != null) {
+                    fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
+                            + c_datemodif_by_s_s
+                            + "</code></div>\n", d.commentModifDate, d.commentModifParNom));
+                }
                 //TODO a revoir plus générique pour d'autre site ou forum car là dommaine en dur et fonctionne seulement si le moteur du forum gére une redirection pour quand un titre d'un sujet a changé.
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><a href=\"https://www.lesimprimantes3d.fr/forum/topic/%s-qqchose/?do=showReactionsComment&comment=%s&changed=1&reaction=all\" target=\"_blank\">R %d</a></div>\n", d.getSujetId(), d.commentId, d.getReactionsTotals()));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(
+                        String.format(""
+                                + "<div><a href=\"https://www.lesimprimantes3d.fr/forum/topic/%s-qqchose/"
+                                + "?do=showReactionsComment&comment=%s&changed=1&reaction=all\""
+                                + " target=\"_blank\">R %d</a></div>\n",
+                                d.getSujetId(), d.commentId, d.getReactionsTotals()));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
-                        + "Nb Img %d (hors citation)  + %d ( dans citation )"
+                        + nb_Img_d_hors_citation___d__dans_citation
                         + "</code>\n<div>\n", d.alImgsUrl.size(), d.alImgsUrlDansCitation.size()));
                 for (String urlImg : d.alImgsUrl) {
-                    fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<img class=\"vignettes\" src=\"%s\"/> ", urlImg));
+                    fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(
+                            String.format("<img class=\"vignettes\" src=\"%s\"/> ", urlImg));
                 }
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("</div></div>\n"));
 
@@ -543,10 +560,13 @@ public class ForumLI3DFR {
 
             } else {
                 fwIndexSommaireEtCommentHtml
-                        .append(String.format("<hr><a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
+                        .append(String.format(
+                                "<hr><a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n",
+                                lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<hr><a id=\"%s\" href=\"%s%s\" target=\"_blank\">"
-                                + "comment-id %s :: %s</a> // <a href=\"#debut\" style=\"text-align:center;\" >"
+                                + "comment-id %s :: %s</a> // "
+                                + "<a href=\"#debut\" style=\"text-align:center;\" >"
                                 + retour_h2_local
                                 + "</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 //.append(String.format("<div>%s</div>\n<br>\n", ));
@@ -554,11 +574,13 @@ public class ForumLI3DFR {
                         .append(String.format("<div>%s</div>\n", d.commentCorpHTML));
 
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
-                        + "C %s %s"
+                        + c_datec_by_s_s
                         + "</code></div>\n", d.commentDateCreation, d.commentAuteurNom));
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
-                        + "M %s %s"
-                        + "</code></div>\n", d.commentModifDate, d.commentModifParNom));
+                if (d.commentModifDate != null) {
+                    fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
+                            + c_datemodif_by_s_s
+                            + "</code></div>\n", d.commentModifDate, d.commentModifParNom));
+                }
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<div>%s</div>\n", d.commentCorpHTML));
             }
