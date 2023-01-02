@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>com.ppac37</groupId>
+    <!-- ATTENTION : Voir pour rendre les workflow github plus générique car j'y ai codé en dure le nom du jar quand je l'execute et donc forcement si on le change ici le workflow git hub va planter car ne trouvera pas le fichier attendu-->
     <artifactId>li3dfrGlossaire</artifactId>
     <version>0.0.5</version>
     <packaging>jar</packaging>

@@ -26,3 +26,4 @@ hs_err_pid*
 /img_save/
 /www_cache_w*
 /old_local/
+/out/
