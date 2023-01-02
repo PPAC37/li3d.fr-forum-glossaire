@@ -43,12 +43,7 @@ jobs:
       - name: run java jar
         shell: bash
         run:  |
-           java -jar target/li3dfrGlossaire*-with-dependencies.jar &&
-           mkdir ./www_tmp &&
-           cp indexComment.html ./www_tmp/index.html &&
-           cp indexComment.html ./www_tmp/index1.html &&
-           cp indexCommentEmbarq.html ./www_tmp/index2.html &&
-           cp indexSommaireEtComment.html ./www_tmp/index3.html
+           java -jar target/li3dfrGlossaire*-with-dependencies.jar -o www_tmp
 
       - name: Setup Pages
         uses: actions/configure-pages@v2
