@@ -36,6 +36,10 @@ public class MainDemo {
     //
     static boolean someBooleanFlag = true;
     static boolean debugSystemProperties = false;
+    //
+    
+    public static final String CLI_OPT_O = "o";
+    
 
     /**
      * Gestion des arguments de la ligne de commande avec commonCli.
@@ -71,13 +75,21 @@ public class MainDemo {
 
                 options.addOption("v", "version", false, "version");
 
-                //        options.addOption("nolf", "nolookandfeel", false, "disable java LookAndFeel usage.");
                 //        options.addOption("t", false, "display current time");
                 //        options.addOption("c", true, "country code");
+                
                 //        options.addOption("f", "file", true, "source file");
                 //options.addRequiredOption("f","file", true, "source file");
-                //        options.addOption("o", "out", true, "dest dir");
-                //        options.addOption("u", "url", true, "source url");
+                
+                // Pour un eventuel fichier ou repertoire de destination des fichiers de sorties de notre application ...
+                options.addOption(CLI_OPT_O, "out", true, "repertoire de destination");
+                
+                // Pour spécifier un id de topic sur le forum 
+                options.addOption("t", "idTopic", true, "NOT IMPLEMENTED Id de Topic du forum");
+                
+                options.addOption("u", "url", true, "NOT IMPLEMENTED source url");
+                
+                options.addOption("cc", "clean-cache", false, "NOT IMPLEMENTED Pour recréer le repertoire de cache");
             }
 
         } catch (Exception e) {
@@ -139,6 +151,15 @@ public class MainDemo {
                     }
                 }
 
+                if (line.hasOption(CLI_OPT_O)) {
+                    String optionValue = line.getOptionValue(CLI_OPT_O);
+                    System.out.println("output dir from cli: "+optionValue);
+                    
+                    // TODO revoir pour ne pas faire en static mais en passage d'argument ou setter.
+                    ForumLI3DFR.baseDirOutput = optionValue;
+                    
+                }
+                
                 String countryCode = line.getOptionValue("c");
                 if (countryCode == null) {
                     // print default date

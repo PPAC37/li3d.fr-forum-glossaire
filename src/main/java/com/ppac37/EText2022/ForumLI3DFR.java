@@ -2,6 +2,7 @@
  */
 package com.ppac37.EText2022;
 
+import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -50,6 +51,15 @@ public class ForumLI3DFR {
     //logger.debug("version: {}", version);
 
     /**
+     * Template String.format pour d'un id arriver a une url de page sur le forum.
+     * <code>
+     * String idTopic = "45754" ; // 45754 c'est normalement l'id du topic du glossaire
+     * String urlGenericVerTopic = String.format(li3dfrForumTopicTemplate, idTopic); 
+     * </code>
+     * Fonctionne uniquement cat le moteur du forum fait les redirections lors des changemetn de titre ... ( TODO test unitaire pour le formu )
+     */
+    public static String li3dfrForumTopicTemplate = "https://www.lesimprimantes3d.fr/forum/topic/%s-x/";
+    /**
      *
      */
     public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
@@ -69,6 +79,8 @@ public class ForumLI3DFR {
     static SortedSet<ForumUneDef> lesDef = new TreeSet<>();
     static String enteteSommaireToUse = "";
 
+    
+    static String baseDirOutput = "out";
     /**
      *
      * @param args
@@ -87,7 +99,17 @@ public class ForumLI3DFR {
         //
         System.out.printf("Nb comment with Def = %d\n", lesDef.size());
 
-        UtilFileWriter fwIndexCommentMd = new UtilFileWriter("indexComment.md");
+        // création si n'existe pas du repertoire pour les fichiers de sortie.
+        File destDir = new File(baseDirOutput);
+        if ( destDir.exists()){
+            //TODO ? supprimer des truc ?
+        }else{
+            destDir.mkdirs();
+        }
+        // 
+        System.out.println("Using as output dir : "+destDir.getAbsolutePath());
+        
+        UtilFileWriter fwIndexCommentMd = new UtilFileWriter(baseDirOutput+File.separator+"indexComment.md");
 
         // Sommaure mais au format .md
         boolean outDebugDefAlias = false;
@@ -183,7 +205,7 @@ public class ForumLI3DFR {
 
         boolean useSommaireEnteteHardCoded = false;
         // la pour un sommaire en html
-        UtilFileWriter fwIndexOnlySommaireHtml = new UtilFileWriter("indexComment.html");
+        UtilFileWriter fwIndexOnlySommaireHtml = new UtilFileWriter(baseDirOutput+File.separator+"indexComment.html");
         fwIndexOnlySommaireHtml.append("<!DOCTYPE html>\n");
         fwIndexOnlySommaireHtml.append("<html lang=\"fr\">\n");
         fwIndexOnlySommaireHtml.append("<head>\n");
@@ -211,7 +233,7 @@ public class ForumLI3DFR {
         fwIndexOnlySommaireHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
 
         // la pour un sommaire en html avec les definition 
-        UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter("indexSommaireEtComment.html");
+        UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter(baseDirOutput+File.separator+"indexSommaireEtComment.html");
         fwIndexSommaireEtCommentHtml.append("<!DOCTYPE html>\n");
         fwIndexSommaireEtCommentHtml.append("<html lang=\"fr\">\n");
         fwIndexSommaireEtCommentHtml.append("<head>\n");
@@ -223,7 +245,7 @@ public class ForumLI3DFR {
         fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
 
         // la pour une autre version en html mais avec plus de lien pour navigation local ( TODO gestion de tous les liens est de elements externe ( images, iframe video, iframe vers sujet ou commentaire. ) 
-        UtilFileWriter fwIndexHtml_avec_lien_et_id_pour_navigation_embarque = new UtilFileWriter("indexCommentEmbarq.html");
+        UtilFileWriter fwIndexHtml_avec_lien_et_id_pour_navigation_embarque = new UtilFileWriter(baseDirOutput+File.separator+"indexCommentEmbarq.html");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<!DOCTYPE html>\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<html lang=\"fr\">\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<head>\n");
