@@ -205,7 +205,7 @@ public class ForumLI3DFR {
 
         boolean useSommaireEnteteHardCoded = false;
         // la pour un sommaire en html
-        UtilFileWriter fwIndexOnlySommaireHtml = new UtilFileWriter(baseDirOutput+File.separator+"indexComment.html");
+        UtilFileWriter fwIndexOnlySommaireHtml = new UtilFileWriter(baseDirOutput+File.separator+"index.html");
         fwIndexOnlySommaireHtml.append("<!DOCTYPE html>\n");
         fwIndexOnlySommaireHtml.append("<html lang=\"fr\">\n");
         fwIndexOnlySommaireHtml.append("<head>\n");
@@ -233,7 +233,7 @@ public class ForumLI3DFR {
         fwIndexOnlySommaireHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
 
         // la pour un sommaire en html avec les definition 
-        UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter(baseDirOutput+File.separator+"indexSommaireEtComment.html");
+        UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter(baseDirOutput+File.separator+"index2.html");
         fwIndexSommaireEtCommentHtml.append("<!DOCTYPE html>\n");
         fwIndexSommaireEtCommentHtml.append("<html lang=\"fr\">\n");
         fwIndexSommaireEtCommentHtml.append("<head>\n");
@@ -245,7 +245,7 @@ public class ForumLI3DFR {
         fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
 
         // la pour une autre version en html mais avec plus de lien pour navigation local ( TODO gestion de tous les liens est de elements externe ( images, iframe video, iframe vers sujet ou commentaire. ) 
-        UtilFileWriter fwIndexHtml_avec_lien_et_id_pour_navigation_embarque = new UtilFileWriter(baseDirOutput+File.separator+"indexCommentEmbarq.html");
+        UtilFileWriter fwIndexHtml_avec_lien_et_id_pour_navigation_embarque = new UtilFileWriter(baseDirOutput+File.separator+"index3.html");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<!DOCTYPE html>\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<html lang=\"fr\">\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<head>\n");
