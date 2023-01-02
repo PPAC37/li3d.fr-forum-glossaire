@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -208,6 +209,13 @@ public class ForumLI3DFR {
 
         //
         boolean isConcours = true;
+
+        Document docSiConcours = Jsoup.parse("");
+        Element divResum = docSiConcours.body().appendElement("div");
+
+        Element resultatOrdonne = divResum.appendElement("div");
+        divResum.appendElement("br");
+
         if (isConcours) {
             // essai de trie pour gagants concours .
             // un seul lot par gagnat -> regrouper par les post par utilisateur
@@ -220,10 +228,18 @@ public class ForumLI3DFR {
 
             Map<String, ArrayList<ForumUneEntreeConcours>> mapUserToArrayListEntree = new HashMap<>();
             for (ForumUneDef d : lesDef) {
+                String sApprobation = propDeIdTopic.getProperty("comment." + d.commentId);
+                boolean isEntreeInValideFromApprobation = true;
+                if (sApprobation != null && sApprobation.startsWith("no ")) {
+                    isEntreeInValideFromApprobation = false;
+                } else {
+
+                }
                 if (!d.alImgsUrl.isEmpty()
-                        && !d.commentAuteurNom.equals("PPAC")
-                        && !d.commentAuteurNom.equals("LesImprimantes3D.fr")
-                        && !d.commentAuteurNom.equals("Motard Geek")) {
+                        //                        && !d.commentAuteurNom.equals("PPAC")
+                        //                        && !d.commentAuteurNom.equals("LesImprimantes3D.fr")
+                        //                        && !d.commentAuteurNom.equals("Motard Geek")
+                        && isEntreeInValideFromApprobation) {
                     ForumUneEntreeConcours asC = new ForumUneEntreeConcours(d);
                     ArrayList<ForumUneEntreeConcours> get = mapUserToArrayListEntree.get(asC.getCommentAuteurNom());
 
@@ -239,6 +255,7 @@ public class ForumLI3DFR {
             // la plus liké de ses entré valide ( une image photo d'une impression avec li3d.fr sur post it ou incrusté dans desinge )
             SortedSet<ForumUneEntreeConcours> sSetRes = new TreeSet<>();
             System.out.printf("### Res concours A Trier\n");
+            int totalnbe = 0;
             for (String k : mapUserToArrayListEntree.keySet()) {
                 ArrayList<ForumUneEntreeConcours> a = mapUserToArrayListEntree.get(k);
 
@@ -247,18 +264,113 @@ public class ForumLI3DFR {
                     sSet.add(e);
                 }
 
-                System.out.printf("%s\t%d\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n", k, sSet.size(), a.size(),
+                System.out.printf("%s\t%d\t%d\t%d\t"
+                        + "https://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
+                        k, sSet.size(), a.size(),
                         sSet.first().getReactionsTotals(),
                         sSet.first().getCommentId()
                 );
+
+                Element append = divResum.appendElement("div");
+//                append.append("Par ");
+//                append.append(k);
+//                append.append(String.format(" %d entrée(s)", sSet.size()));
+                Iterator<ForumUneEntreeConcours> iterator = sSet.iterator();
+                while (iterator.hasNext()) {
+                    totalnbe++;
+
+                    ForumUneEntreeConcours eC = iterator.next();
+                    Element appends = divResum.appendElement("div");
+                    appends.attr("id", eC.getCommentId());
+                    /*
+                    
+               
+                     */
+                    if (false) {
+                        appends.append(
+                                String.format(
+                                        "&nbsp;&nbsp; %d likes sur \t"
+                                        + "https://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
+                                        eC.getReactionsTotals(),
+                                        eC.getCommentId()
+                                ));
+                    } else {
+                        appends.appendText(k);
+                        Element tmpUrlToComment = appends.appendElement("a").attr("href",
+                                "https://www.lesimprimantes3d.fr/forum/topic/"
+                                + idTopic + "-qqchose/?do=findComment&comment=" + eC.getCommentId()
+                        );
+                        tmpUrlToComment.attr("target", "_blank");
+                        tmpUrlToComment.append(" allez au commentaire sur le forum.");
+                        appends.appendChild(tmpUrlToComment);
+                        appends.appendElement("a").attr("href", "#top." + eC.getCommentId()).appendText(" | retour");
+                    }
+
+                    Element appendsImgs = divResum.appendElement("div");
+                    //appendsImgs.attr("height", "100px");
+                    for (String sImgUrl : eC.getAlImgsUrl()) {
+                        Element appendElementImg = appendsImgs.appendElement("img");
+                        appendElementImg.attr("src", sImgUrl);
+                        appendElementImg.attr("class", "vignettes");
+                        appendElementImg.attr("style","max-width:150px;max-height:150px;width: auto;height: auto;");
+                    }
+
+                }
+
                 sSetRes.add(sSet.first());
             }
+            divResum.appendElement("div").append("entrées " + totalnbe);
+
+            divResum.appendElement("div").append("utilisateurs avec au moins une etrées : " + mapUserToArrayListEntree.size());
+
             System.out.println("Nb Utilisateur ayant un post avec aux moins une images " + mapUserToArrayListEntree.size());
 
-            System.out.println("");
+            System.out.println("Nb entrées r :" + totalnbe);
             System.out.println("");
 
+            int pos = 1;
+            Element tableResOrdo = resultatOrdonne.appendElement("table");
+            Element tableResOrdoHeader = tableResOrdo.appendElement("tr");
+            tableResOrdoHeader.appendElement("th").appendText("Pos");
+            tableResOrdoHeader.appendElement("th").appendText("Utilisateur");
+            tableResOrdoHeader.appendElement("th").appendText("Réactions");
+            tableResOrdoHeader.appendElement("th").appendText("Commentaire");
+
+            Element lastElementPost = null; // pour marquer qd il y a un conflict ( même nb de réaction ) 
+            int lastNbReaction = -1;
+            boolean lastPosHaveBeenMark = false;
+            boolean nextlastPosIsToMark = false;
             for (ForumUneEntreeConcours e : sSetRes) {
+
+                if (e.getReactionsTotals() != lastNbReaction) {
+
+                } else {
+                    if (lastElementPost != null) {
+                        lastElementPost.appendText("*");
+                        lastPosHaveBeenMark = true;
+                        nextlastPosIsToMark = true;
+                    }
+                }
+
+                Element appendElement = tableResOrdo.appendElement("tr");
+                lastElementPost = appendElement.appendElement("td").appendText("" + pos);
+                lastNbReaction = e.getReactionsTotals();
+                pos++;
+                if (nextlastPosIsToMark == true) {
+                    lastElementPost.appendText("*");
+                    nextlastPosIsToMark = false;
+                } else {
+
+                }
+                appendElement.appendElement("td").appendText(e.commentAuteurNom);
+                appendElement.appendElement("td").appendText("" + e.getReactionsTotals());
+                Element tmpUrlToComment = appendElement.appendElement("a").attr("href",
+                        "#" + e.getCommentId()
+                //                        "https://www.lesimprimantes3d.fr/forum/topic/"
+                //                        + idTopic + "-qqchose/?do=findComment&comment=" + e.getCommentId()
+                ).attr("id", "top." + e.getCommentId());
+                tmpUrlToComment.append("->");
+                appendElement.appendElement("td").appendChild(tmpUrlToComment);
                 System.out.printf("%s\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
                         e.commentAuteurNom, e.alImgsUrl.size(),
                         e.getReactionsTotals(),
@@ -389,8 +501,11 @@ public class ForumLI3DFR {
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<body>\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(
                 String.format("<h2 style=\"text-align:center;\" id=\"debut\">%s</h2>\n", sForTitreH1));
-
-        System.out.printf("Nb TotalAliasDef = %d\n", cptTotalAlias);
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(
+                divResum.toString());
+        if (false) {
+            System.out.printf("Nb TotalAliasDef = %d\n", cptTotalAlias);
+        }
 
         // Pour générer une navigation dans le sommaire
         boolean outDebugNavCharGroupe = false;
