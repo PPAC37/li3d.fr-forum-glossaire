@@ -59,7 +59,7 @@ jobs:
       with:
         upload_url: ${{ env.UPLOAD_URL }}
         release_id: ${{ env.RELEASE_ID }}{
-        asset_path: out/indexComment.html # path to archive to upload
+        asset_path: out/index.html # path to archive to upload
         asset_name: li3dfrGlossaire-Sommaire-$$.html # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
         asset_content_type: text/html;charset=UTF-8 # required by GitHub API
         max_releases: 1 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
@@ -72,7 +72,7 @@ jobs:
       with:
         upload_url: ${{ env.UPLOAD_URL }}
         release_id: ${{ env.RELEASE_ID }}{
-        asset_path: out/indexSommaireEtComment.html # path to archive to upload
+        asset_path: out/index2.html # path to archive to upload
         asset_name: li3dfrGlossaire-SommaireEtDéfinition-$$.html # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
         asset_content_type: text/html;charset=UTF-8 # required by GitHub API
         max_releases: 1 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
@@ -83,7 +83,7 @@ jobs:
       shell: bash
       run: |
         mkdir -p target/universal-package &&
-        cp out/indexComment.html target/universal-package/ &&
+        cp -r out target/universal-package/ &&
         cp README.md target/universal-package/ &&
         cp target/li3dfrGlossaire*-with-dependencies.jar target/universal-package/ &&
         cd target/universal-package/ &&
