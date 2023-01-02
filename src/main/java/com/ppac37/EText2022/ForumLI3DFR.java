@@ -56,9 +56,9 @@ public class ForumLI3DFR {
 
     static String[] urls = {// Jeux d'essai pour le dev.
         //        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments"
-//        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/"
-    //             , 
-        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/?do=showReactionsComment&comment=524461&reaction=all"    
+        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/"
+                 
+//        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/?do=showReactionsComment&comment=524461&reaction=all"    
     };
 
     /**
@@ -79,6 +79,7 @@ public class ForumLI3DFR {
 
         if (true) {
             for (String sUrl : urls) {
+                lienVersCommentaireBase = sUrl+ "?do=findComment&comment="; // TODO a revoir c'est pas top ....
                 UrlCParserForum urlCParser = new UrlCParserForum(sUrl, true);
             }
         }
@@ -154,7 +155,7 @@ public class ForumLI3DFR {
                     sSet.add(e);
                 }
 
-                System.out.printf("%s\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n", k, a.size(),
+                System.out.printf("%s\t%d\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n", k, sSet.size(),a.size(),
                         sSet.first().getReactionsTotals(),
                         sSet.first().getCommentId()
                 );
@@ -422,8 +423,9 @@ public class ForumLI3DFR {
 
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>C %s %s</code></div>\n", d.commentDateCreation, d.commentAuteurNom));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>M %s %s</code></div>\n", d.commentModifDate, d.commentModifParNom));
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>R %d</code></div>\n", d.getReactionsTotals()));
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>I %d </code>\n<div>\n", d.alImgsUrl.size()));
+                //TODO a revoir plus générique pour d'autre site ou forum car là dommaine en dur et fonctionne seulement si le moteur du forum gére une redirection pour quand un titre d'un sujet a changé.
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><a href=\"https://www.lesimprimantes3d.fr/forum/topic/%s-qqchose/?do=showReactionsComment&comment=%s&changed=1&reaction=all\" target=\"_blank\">R %d</a></div>\n", d.getSujetId(),d.commentId,d.getReactionsTotals()));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>Nb Img %d (hors citation)  + %d ( dans citation )</code>\n<div>\n", d.alImgsUrl.size(), d.alImgsUrlDansCitation.size()));
                 for (String urlImg : d.alImgsUrl) {
                     fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<img class=\"vignettes\" src=\"%s\"/> ", urlImg));
                 }
@@ -492,6 +494,18 @@ public class ForumLI3DFR {
         Document doc = UrlCDownloderCache.cacheAndParseUrl(sUrl, false, UrlCDownloderCache.debugPrintUrlHeaders, false);//connect.get();
         doc.outputSettings().escapeMode(Entities.EscapeMode.xhtml);
 
+        // todo a refaire avec un Matcheur ?
+        String idSujet ="";
+        int posPreIdTopic = doc.baseUri().indexOf("/topic/");        
+        if (posPreIdTopic >-1 ){
+            int posPosIdTopic = doc.baseUri().indexOf("-",posPreIdTopic+7);
+            if ( posPosIdTopic > posPreIdTopic ){
+                idSujet = doc.baseUri().substring(posPreIdTopic+7, posPosIdTopic );
+                System.out.println(" id sujet = "+idSujet);
+            }
+        }
+        
+        //
         boolean outputPageTitles = false;
         if (outputPageTitles) {
             outTitles(doc);
@@ -517,6 +531,7 @@ public class ForumLI3DFR {
             for (Element eACommentId : allElemAIdComment) {
 
                 ForumUneDef uneDef = new ForumUneDef();
+                uneDef.setSujetId(idSujet);
 
                 ForumComment.parseComment(eACommentId, uneDef);
             }// fin boucle pour chaque commentaire 

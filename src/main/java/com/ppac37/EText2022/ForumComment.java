@@ -5,6 +5,8 @@ package com.ppac37.EText2022;
 import com.pnikosis.html2markdown.HTML2Md;
 import java.util.ArrayList;
 import java.util.SortedSet;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -15,6 +17,7 @@ import org.jsoup.select.Elements;
  */
 public class ForumComment implements Comparable<Object> {
 
+    String sujetId;
     String commentId;
 
     String commentDateCreation;
@@ -38,6 +41,7 @@ public class ForumComment implements Comparable<Object> {
     
     // liste des url des images contenus dans le commentaire ( exception des emojie )
     public ArrayList<String> alImgsUrl = new ArrayList<>();
+    public ArrayList<String> alImgsUrlDansCitation = new ArrayList<>();
 
     /**
      *
@@ -63,6 +67,64 @@ public class ForumComment implements Comparable<Object> {
         }
     }
 
+    public String getSujetId() {
+        return sujetId;
+    }
+
+    public void setSujetId(String sujetId) {
+        this.sujetId = sujetId;
+    }
+
+    public String getCommentDateCreation() {
+        return commentDateCreation;
+    }
+
+    public void setCommentDateCreation(String commentDateCreation) {
+        this.commentDateCreation = commentDateCreation;
+    }
+
+    public String getCommentModifDate() {
+        return commentModifDate;
+    }
+
+    public void setCommentModifDate(String commentModifDate) {
+        this.commentModifDate = commentModifDate;
+    }
+
+    public String getCommentModifParNom() {
+        return commentModifParNom;
+    }
+
+    public void setCommentModifParNom(String commentModifParNom) {
+        this.commentModifParNom = commentModifParNom;
+    }
+
+    public long getReationsEnDateDe() {
+        return reationsEnDateDe;
+    }
+
+    public void setReationsEnDateDe(long reationsEnDateDe) {
+        this.reationsEnDateDe = reationsEnDateDe;
+    }
+
+    public ArrayList<ForumCommentReactionBy> getReactions() {
+        return reactions;
+    }
+
+    public void setReactions(ArrayList<ForumCommentReactionBy> reactions) {
+        this.reactions = reactions;
+    }
+
+    public ArrayList<String> getAlImgsUrl() {
+        return alImgsUrl;
+    }
+
+    public void setAlImgsUrl(ArrayList<String> alImgsUrl) {
+        this.alImgsUrl = alImgsUrl;
+    }
+
+    
+    
     public int getReactionsTotals() {
         return reactionsTotals;
     }
@@ -297,7 +359,28 @@ public class ForumComment implements Comparable<Object> {
         uneDef.setCommentCorpHTMLBrut(commentContent.html());
         if (true) {
             // L'ensemble des images pour ou non les sauver en local et modifier le src
-            Elements selectCommentImg = commentContent.select("img[src]");
+            // pour le concours je n'est normalement pas a prednre en compte lesles citations...
+            
+            
+             Document parseBodyFragment = Jsoup.parseBodyFragment(commentContent.html());
+             
+        // TODO il me faudrais tout de même avoir le nombre d'image total ( pour vérification )
+             boolean separationDesImageEnCitation = true;
+            if (separationDesImageEnCitation) {
+                Elements selectCommentImgInCitation = parseBodyFragment.select("blockquote.ipsQuote img, div.ipsQuote_contents img");
+                for (Element cimg : selectCommentImgInCitation) {
+
+                    String imgSrc = cimg.attr("src");
+                    if (cimg.hasClass("ipsEmoji")) {
+                        // exception des emoji
+                    } else {
+                        uneDef.alImgsUrlDansCitation.add(imgSrc);
+                    }
+                }
+                selectCommentImgInCitation.remove();
+            }
+            
+            Elements selectCommentImg = parseBodyFragment.select("img[src]");
             for (Element cimg : selectCommentImg) {
                 
                 String imgSrc = cimg.attr("src");
