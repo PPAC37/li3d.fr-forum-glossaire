@@ -2,6 +2,7 @@
  */
 package com.ppac37.EText2022;
 
+import java.io.FileInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -52,7 +53,7 @@ public final class UtilPropertiesFile {
         return fullGitRevision;
     }
 
-    private static Properties loadProperties(String filename, boolean optionnal) throws IllegalStateException {
+    protected static Properties loadProperties(String filename, boolean optionnal) throws IllegalStateException {
         final Properties prop = new Properties();
         try (final InputStream input = MainDemo.class.getClassLoader().getResourceAsStream(filename)) {
             if (!optionnal && input == null) {
@@ -65,6 +66,23 @@ public final class UtilPropertiesFile {
 
         } catch (IllegalStateException | IOException ex) {
             logger.error("Failed to load {}", filename, ex);
+        }
+        return prop;
+    }
+    
+    protected static Properties loadPropertiesLocal(String filename, boolean optionnal) throws IllegalStateException {
+        final Properties prop = new Properties();
+        try (final InputStream input = new FileInputStream(filename)) {
+            if (!optionnal && input == null) {
+                throw new IllegalStateException("unable to find local " + filename);
+            }
+            if (input != null) {
+                //load a properties file from class path
+                prop.load(input);
+            }
+
+        } catch (IllegalStateException | IOException ex) {
+            logger.error("Failed to load local {}", filename, ex);
         }
         return prop;
     }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -51,12 +52,13 @@ public class ForumLI3DFR {
     //logger.debug("version: {}", version);
 
     /**
-     * Template String.format pour d'un id arriver a une url de page sur le forum.
-     * <code>
+     * Template String.format pour d'un id arriver a une url de page sur le
+     * forum.      <code>
      * String idTopic = "45754" ; // 45754 c'est normalement l'id du topic du glossaire
-     * String urlGenericVerTopic = String.format(li3dfrForumTopicTemplate, idTopic); 
-     * </code>
-     * Fonctionne uniquement cat le moteur du forum fait les redirections lors des changemetn de titre ... ( TODO test unitaire pour le formu )
+     * String urlGenericVerTopic = String.format(li3dfrForumTopicTemplate, idTopic);
+     * </code> Fonctionne uniquement cat le moteur du forum fait les
+     * redirections lors des changemetn de titre ... ( TODO test unitaire pour
+     * le formu )
      */
     public static String li3dfrForumTopicTemplate = "https://www.lesimprimantes3d.fr/forum/topic/%s-x/";
     /**
@@ -65,9 +67,9 @@ public class ForumLI3DFR {
     public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
 
     static String[] urls = {// Jeux d'essai pour le dev.
-                HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments"
+        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments"
 //        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/"
-                 
+
 //        "https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/?do=showReactionsComment&comment=524461&reaction=all"    
     };
 
@@ -79,8 +81,8 @@ public class ForumLI3DFR {
     static SortedSet<ForumUneDef> lesDef = new TreeSet<>();
     static String enteteSommaireToUse = "";
 
-    
     static String baseDirOutput = "out";
+
     /**
      *
      * @param args
@@ -89,27 +91,83 @@ public class ForumLI3DFR {
 
         logger.trace("debut: {}", ForumLI3DFR.class.getName());
 
-        if (true) {
-            for (String sUrl : urls) {
-                lienVersCommentaireBase = sUrl+ "?do=findComment&comment="; // TODO a revoir c'est pas top ....
-                UrlCParserForum urlCParser = new UrlCParserForum(sUrl, true);
+        String idTopic = "";
+        Properties propDeIdTopic = null;
+        String inDirPath = "in";
+        File fInDir = new File(inDirPath);
+        if (fInDir.exists()) {
+            for (File f : fInDir.listFiles()) {
+
+                if (f.isFile()) {
+                    if (f.getName().endsWith(".properties")) {
+                        System.out.printf("load in dir loading: %s\n", f.getPath());
+                        Properties prop
+                                = UtilPropertiesFile.loadPropertiesLocal(f.getPath(), false);
+                        String sDadeDebut = prop.getProperty("concours.date.debut");
+                        String sDadeLimit = prop.getProperty("concours.date.limite-inscriptions");
+                        String sDadeFin = prop.getProperty("concours.date.fin-votes");
+
+                        String sIdTopic = prop.getProperty("topic.id");
+
+                        idTopic = sIdTopic;
+                        propDeIdTopic = prop;
+                        int cpt = 0;
+                        for (Object o : prop.keySet()) {
+                            String k = (String) o;
+                            if (false) {
+                                System.out.printf(" \"%s\" = \"%s\"\n", k, prop.get(k));
+                            }
+                            if (k.startsWith("comment")) {
+                                cpt++;
+                                if (false) {
+                                    System.out.printf(" \"%s\" = \"%s\"\n", k, prop.get(k));
+                                }
+                            } else {
+                                System.out.printf(" \"%s\" = \"%s\"\n", k, prop.get(k));
+                            }
+
+                        }
+                        System.out.printf(" \"%s\" cpt = %d\n", "comment.*", cpt);
+                    } else {
+                        // TODO autre type de fichiers   
+                        logger.trace("load in dir error: not a properties file: {}", f.getPath());
+                    }
+                } else {
+                    // TODO
+                    logger.trace("load in dir error: not a file: {}", f.getPath());
+                }
+
             }
+
         }
 
+        if (false) {
+            for (String sUrl : urls) {
+                lienVersCommentaireBase = sUrl + "?do=findComment&comment="; // TODO a revoir c'est pas top ....
+                UrlCParserForum urlCParser = new UrlCParserForum(sUrl, true);
+            }
+        } else {
+
+            if (!idTopic.isBlank()) {
+                String sUrlVersTopic = String.format(li3dfrForumTopicTemplate, idTopic.strip());
+                UrlCParserForum urlCParser = new UrlCParserForum(sUrlVersTopic, true);
+            }
+
+        }
         //
         System.out.printf("Nb comment with Def = %d\n", lesDef.size());
 
         // création si n'existe pas du repertoire pour les fichiers de sortie.
         File destDir = new File(baseDirOutput);
-        if ( destDir.exists()){
+        if (destDir.exists()) {
             //TODO ? supprimer des truc ?
-        }else{
+        } else {
             destDir.mkdirs();
         }
         // 
-        System.out.println("Using as output dir : "+destDir.getAbsolutePath());
-        
-        UtilFileWriter fwIndexCommentMd = new UtilFileWriter(baseDirOutput+File.separator+"indexComment.md");
+        System.out.println("Using as output dir : " + destDir.getAbsolutePath());
+
+        UtilFileWriter fwIndexCommentMd = new UtilFileWriter(baseDirOutput + File.separator + "indexComment.md");
 
         // Sommaure mais au format .md
         boolean outDebugDefAlias = false;
@@ -152,8 +210,7 @@ public class ForumLI3DFR {
                 if (!d.alImgsUrl.isEmpty()
                         && !d.commentAuteurNom.equals("PPAC")
                         && !d.commentAuteurNom.equals("LesImprimantes3D.fr")
-                        && !d.commentAuteurNom.equals("Motard Geek")
-                        ) {
+                        && !d.commentAuteurNom.equals("Motard Geek")) {
                     ForumUneEntreeConcours asC = new ForumUneEntreeConcours(d);
                     ArrayList<ForumUneEntreeConcours> get = mapUserToArrayListEntree.get(asC.getCommentAuteurNom());
 
@@ -177,7 +234,7 @@ public class ForumLI3DFR {
                     sSet.add(e);
                 }
 
-                System.out.printf("%s\t%d\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n", k, sSet.size(),a.size(),
+                System.out.printf("%s\t%d\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n", k, sSet.size(), a.size(),
                         sSet.first().getReactionsTotals(),
                         sSet.first().getCommentId()
                 );
@@ -205,7 +262,7 @@ public class ForumLI3DFR {
 
         boolean useSommaireEnteteHardCoded = false;
         // la pour un sommaire en html
-        UtilFileWriter fwIndexOnlySommaireHtml = new UtilFileWriter(baseDirOutput+File.separator+"index.html");
+        UtilFileWriter fwIndexOnlySommaireHtml = new UtilFileWriter(baseDirOutput + File.separator + "index.html");
         fwIndexOnlySommaireHtml.append("<!DOCTYPE html>\n");
         fwIndexOnlySommaireHtml.append("<html lang=\"fr\">\n");
         fwIndexOnlySommaireHtml.append("<head>\n");
@@ -233,7 +290,7 @@ public class ForumLI3DFR {
         fwIndexOnlySommaireHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
 
         // la pour un sommaire en html avec les definition 
-        UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter(baseDirOutput+File.separator+"index2.html");
+        UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter(baseDirOutput + File.separator + "index2.html");
         fwIndexSommaireEtCommentHtml.append("<!DOCTYPE html>\n");
         fwIndexSommaireEtCommentHtml.append("<html lang=\"fr\">\n");
         fwIndexSommaireEtCommentHtml.append("<head>\n");
@@ -245,7 +302,7 @@ public class ForumLI3DFR {
         fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Sommaire "));
 
         // la pour une autre version en html mais avec plus de lien pour navigation local ( TODO gestion de tous les liens est de elements externe ( images, iframe video, iframe vers sujet ou commentaire. ) 
-        UtilFileWriter fwIndexHtml_avec_lien_et_id_pour_navigation_embarque = new UtilFileWriter(baseDirOutput+File.separator+"index3.html");
+        UtilFileWriter fwIndexHtml_avec_lien_et_id_pour_navigation_embarque = new UtilFileWriter(baseDirOutput + File.separator + "index3.html");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<!DOCTYPE html>\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<html lang=\"fr\">\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<head>\n");
@@ -446,7 +503,7 @@ public class ForumLI3DFR {
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>C %s %s</code></div>\n", d.commentDateCreation, d.commentAuteurNom));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>M %s %s</code></div>\n", d.commentModifDate, d.commentModifParNom));
                 //TODO a revoir plus générique pour d'autre site ou forum car là dommaine en dur et fonctionne seulement si le moteur du forum gére une redirection pour quand un titre d'un sujet a changé.
-                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><a href=\"https://www.lesimprimantes3d.fr/forum/topic/%s-qqchose/?do=showReactionsComment&comment=%s&changed=1&reaction=all\" target=\"_blank\">R %d</a></div>\n", d.getSujetId(),d.commentId,d.getReactionsTotals()));
+                fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><a href=\"https://www.lesimprimantes3d.fr/forum/topic/%s-qqchose/?do=showReactionsComment&comment=%s&changed=1&reaction=all\" target=\"_blank\">R %d</a></div>\n", d.getSujetId(), d.commentId, d.getReactionsTotals()));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>Nb Img %d (hors citation)  + %d ( dans citation )</code>\n<div>\n", d.alImgsUrl.size(), d.alImgsUrlDansCitation.size()));
                 for (String urlImg : d.alImgsUrl) {
                     fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<img class=\"vignettes\" src=\"%s\"/> ", urlImg));
@@ -517,16 +574,16 @@ public class ForumLI3DFR {
         doc.outputSettings().escapeMode(Entities.EscapeMode.xhtml);
 
         // todo a refaire avec un Matcheur ?
-        String idSujet ="";
-        int posPreIdTopic = doc.baseUri().indexOf("/topic/");        
-        if (posPreIdTopic >-1 ){
-            int posPosIdTopic = doc.baseUri().indexOf("-",posPreIdTopic+7);
-            if ( posPosIdTopic > posPreIdTopic ){
-                idSujet = doc.baseUri().substring(posPreIdTopic+7, posPosIdTopic );
-                System.out.println(" id sujet = "+idSujet);
+        String idSujet = "";
+        int posPreIdTopic = doc.baseUri().indexOf("/topic/");
+        if (posPreIdTopic > -1) {
+            int posPosIdTopic = doc.baseUri().indexOf("-", posPreIdTopic + 7);
+            if (posPosIdTopic > posPreIdTopic) {
+                idSujet = doc.baseUri().substring(posPreIdTopic + 7, posPosIdTopic);
+                System.out.println(" id sujet = " + idSujet);
             }
         }
-        
+
         //
         boolean outputPageTitles = false;
         if (outputPageTitles) {
@@ -560,29 +617,28 @@ public class ForumLI3DFR {
 
             //System.out.println();
         }
-        
-          
+
         // ssi page des likes "/?do=showReactionsComment&comment=524461&reaction=all"
-        if ( true){
+        if (true) {
             String docBaseUri = doc.baseUri();
-            
+
             int posT1 = docBaseUri.lastIndexOf("/?do=showReactionsComment&comment=");
             int posT2 = docBaseUri.lastIndexOf("&reaction=all");
-                System.out.println("? page historique like : "+( posT1 > 0 && posT2 > posT1 )) ;
+            System.out.println("? page historique like : " + (posT1 > 0 && posT2 > posT1));
             Elements select = doc.select("ol.ipsGrid li.ipsGrid_span6");
-            if ( select != null ){
-                System.out.println("? li des likes ? cpt = "+select.size());
-                for ( Element l : select){
-                   String uA =  l.selectFirst("a[href~=https://www.lesimprimantes3d.fr/forum/profile/]").attr("href").substring(46);
+            if (select != null) {
+                System.out.println("? li des likes ? cpt = " + select.size());
+                for (Element l : select) {
+                    String uA = l.selectFirst("a[href~=https://www.lesimprimantes3d.fr/forum/profile/]").attr("href").substring(46);
                     String dL = l.selectFirst("time").attr("datetime");
                     String uIR = l.selectFirst("img[src~=https://www.lesimprimantes3d.fr/forum/uploads/reactions/]").attr("src").substring(56);
-                    System.out.printf("%s %s \t \t %s\n",dL,uA,uIR);
+                    System.out.printf("%s %s \t \t %s\n", dL, uA, uIR);
                 }
-                
-            }else{
-                                System.out.println("? li des likes ? NONE ");
+
+            } else {
+                System.out.println("? li des likes ? NONE ");
             }
-            
+
         }
 
         System.out.flush();

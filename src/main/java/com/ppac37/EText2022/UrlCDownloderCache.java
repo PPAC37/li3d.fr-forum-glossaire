@@ -38,7 +38,7 @@ public class UrlCDownloderCache {
     /**
      *
      */
-    public static boolean debugPrintUrlHeaders = false;
+    public static boolean debugPrintUrlHeaders = true;
 
     /**
      *
@@ -166,22 +166,26 @@ public class UrlCDownloderCache {
             //connection.setRequestProperty ( "User-agent", "Opera/9.80 (Windows NT 5.1; U; fr) Presto/2.7.62 Version/11.01");
             //        connection.setRequestProperty("User-agent", "Nokia6230i/2.0 (03.25) Profile/MIDP-2.0 Configuration/CLDC-1.1");
             Map<String, List<String>> requestProperties = connection.getRequestProperties();
-            System.out.println(requestProperties.toString());
-            String header = connection.getHeaderField(0);
-            System.out.println(header);
-            System.out.println("---Start of headers---");
-            int i = 1;
-            while ((header = connection.getHeaderField(i)) != null) {
-                String key = connection.getHeaderFieldKey(i);
-                System.out.println(((key == null) ? "" : key + ": ") + header);
-                i++;
+            if ( false ){
+                System.out.println(requestProperties.toString());
             }
-            System.out.println("---End of headers---");
-            if (UrlCDownloderCache.debugPrintUrlHeaders || true) {
+            String header = connection.getHeaderField(0);
+            if (false) {
+                System.out.println(header);
+            }
+            if (false) {
+                System.out.println("---Start of headers---");
+                int i = 1;
+                while ((header = connection.getHeaderField(i)) != null) {
+                    String key = connection.getHeaderFieldKey(i);
+                    System.out.println(((key == null) ? "" : key + ": ") + header);
+                    i++;
+                }
+                System.out.println("---End of headers---");
+            }
+            if (UrlCDownloderCache.debugPrintUrlHeaders) {
                 System.out.printf("Url : %s\nUrlc: %s\nContent :: Encoding : %s Length : %s Type %s\n", url, connection.getURL(), connection.getContentEncoding(), UrlCDownloderCache.numberFormat.format(connection.getContentLength()), connection.getContentType());
                 //            Map<String, List<String>> header = urlC.getHeaderFields();
-                //            System.out.println(header.toString());
-                System.out.println(connection.getHeaderFields().toString());
             }
             String cType = connection.getContentEncoding();
             System.out.printf(" ContentEncoding : %s\n", cType);
@@ -276,7 +280,7 @@ public class UrlCDownloderCache {
             }
             // Si le fichier de cache n'existe pas où se trouve vide le créer / telecharger.
             if (fCache.exists() && fCache.length() > 0) {
-                if ( false ) {
+                if (false) {
                     System.out.printf("  using cache file : %s\n", fDirDest.getAbsoluteFile());
                 }
                 // il y a un fichier // faut t'il l'effacer ?
