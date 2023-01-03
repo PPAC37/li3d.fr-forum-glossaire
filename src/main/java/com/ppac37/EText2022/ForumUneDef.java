@@ -125,7 +125,7 @@ public class ForumUneDef extends ForumComment implements Comparable<Object> {
     //
     //
     
-    protected void reloadReactionHitory(){
+    public void reloadReactionHitory(){
         //https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/?do=showReactionsComment&comment=524576&changed=1&reaction=all
         
         System.out.printf("TODO : getOnlineReactionHistori topic %s comment %s (user %s)\n",this.sujetId,this.commentId,this.commentAuteurNom );

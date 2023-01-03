@@ -419,7 +419,8 @@ public class ForumLI3DFR {
                         listUserEnConflic += e.commentAuteurNom + " ";
                         if (i == 21) {
                             e.setSujetId(idTopic);
-                           // e.reloadReactionHitory();
+                           //
+                           e.reloadReactionHitory();
                         }
                     }
                     System.out.printf("En conflic %d reaction %s\n", i, listUserEnConflic);
