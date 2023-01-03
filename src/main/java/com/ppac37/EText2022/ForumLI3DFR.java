@@ -125,7 +125,7 @@ public class ForumLI3DFR {
         logger.trace("debut: {}", ForumLI3DFR.class.getName());
 
         String idTopic = "";
-        Properties propDeIdTopic = null;
+        Properties propDeIdTopic = new Properties();
         String inDirPath = "in";
 
         String sForTitreH1 = " Sommaire ";
