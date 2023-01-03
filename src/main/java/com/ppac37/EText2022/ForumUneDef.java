@@ -2,6 +2,7 @@
  */
 package com.ppac37.EText2022;
 
+import static com.ppac37.EText2022.ForumLI3DFR.li3dfrForumTopicTemplate;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -120,4 +121,29 @@ public class ForumUneDef extends ForumComment implements Comparable<Object> {
         }
     }
 
+    //
+    //
+    //
+    
+    protected void reloadReactionHitory(){
+        //https://www.lesimprimantes3d.fr/forum/topic/50575-%F0%9F%8E%81-concours-de-no%C3%ABl-%F0%9F%8E%85%F0%9F%8C%B2-des-imprimantes-%C3%A0-gagner-%F0%9F%8E%81/?do=showReactionsComment&comment=524576&changed=1&reaction=all
+        
+        System.out.printf("TODO : getOnlineReactionHistori topic %s comment %s (user %s)\n",this.sujetId,this.commentId,this.commentAuteurNom );
+        //TODO cahed or not
+         if (!this.sujetId.isBlank()) {
+             // TODO revoir l'implèmentation du cache pour ne pas avoir a bidouiller l'url comme cela 
+             // cf je met dans la partie considéré comme le nom du sujet l'id du commentaire
+             // car mon cache ne prend pas en compte si une url a des argument et là cela me permde de lui faire penser que c'est pas la mêm url donc il n'ecrasera pas le fichier du sujet ...
+             // mais c'est vraiment pas maintenable et inchoérent de faire comme cela.
+             
+                String sUrlVersTopic = String.format(li3dfrForumTopicTemplate, this.sujetId+"-"+this.commentId);
+                UrlCParserForum urlCParser = new UrlCParserForum(sUrlVersTopic+
+                        //"/"+
+                                 "?do=showReactionsComment&comment="
+                                + this.commentId//"524576"
+                                + "&changed=1&reaction=all"
+                        , true);
+                //lienVersCommentaireBase = sUrlVersTopic + "?do=findComment&comment=";
+            }
+    }
 }

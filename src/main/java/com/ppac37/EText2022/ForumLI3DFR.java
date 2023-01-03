@@ -10,6 +10,7 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -250,10 +251,12 @@ public class ForumLI3DFR {
                         a.add(asC);
                         mapUserToArrayListEntree.put(asC.getCommentAuteurNom(), a);
                     }
+                   // trop tot //  d.reloadReactionHitory();
                 }
             }
             // la plus liké de ses entré valide ( une image photo d'une impression avec li3d.fr sur post it ou incrusté dans desinge )
             SortedSet<ForumUneEntreeConcours> sSetRes = new TreeSet<>();
+            Map<Integer,List<ForumUneEntreeConcours>> parGroupeNbLikeToEntreeList = new TreeMap<>();
             System.out.printf("### Res concours A Trier\n");
             int totalnbe = 0;
             for (String k : mapUserToArrayListEntree.keySet()) {
@@ -317,7 +320,34 @@ public class ForumLI3DFR {
 
                 }
 
+                
                 sSetRes.add(sSet.first());
+                int maxRCUser = sSet.first().getReactionsTotals();
+                List<ForumUneEntreeConcours> l = parGroupeNbLikeToEntreeList.get(maxRCUser);
+                if ( l == null){
+                    List<ForumUneEntreeConcours> tmp = new ArrayList();
+                    parGroupeNbLikeToEntreeList.put(maxRCUser, tmp);
+                    tmp.add(sSet.first());
+                //sSet.first()    
+                }else{
+                    l.add(sSet.first());
+                }
+            }
+            System.out.printf("###\n");
+            for ( Integer i : parGroupeNbLikeToEntreeList.keySet()){
+                List<ForumUneEntreeConcours> tmp = parGroupeNbLikeToEntreeList.get(i);
+                if ( tmp.size()>1){
+                    String listUserEnConflic = "";
+                    for ( ForumUneEntreeConcours e : tmp){
+                        
+                        listUserEnConflic+= e.commentAuteurNom+" ";
+                        if ( i == 21 ){
+                            e.setSujetId(idTopic);
+                            e.reloadReactionHitory();
+                        }
+                    }
+                    System.out.printf("En conflic %d reaction %s\n",i,listUserEnConflic );
+                }
             }
             divResum.appendElement("div").append("entrées " + totalnbe);
 
@@ -342,6 +372,7 @@ public class ForumLI3DFR {
             boolean nextlastPosIsToMark = false;
             for (ForumUneEntreeConcours e : sSetRes) {
 
+                
                 if (e.getReactionsTotals() != lastNbReaction) {
 
                 } else {

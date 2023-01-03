@@ -39,6 +39,9 @@ public class MainDemo {
     //
     
     public static final String CLI_OPT_O = "o";
+    public static final String CLI_OPT_T = "t";
+    public static final String CLI_OPT_U = "u";
+    public static final String CLI_OPT_CC = "cc";
     
 
     /**
@@ -85,11 +88,11 @@ public class MainDemo {
                 options.addOption(CLI_OPT_O, "out", true, "repertoire de destination");
                 
                 // Pour spécifier un id de topic sur le forum 
-                options.addOption("t", "idTopic", true, "NOT IMPLEMENTED Id de Topic du forum");
+                options.addOption(CLI_OPT_T, "idTopic", true, "NOT IMPLEMENTED Id de Topic du forum");
                 
-                options.addOption("u", "url", true, "NOT IMPLEMENTED source url");
+                options.addOption(CLI_OPT_U, "url", true, "NOT IMPLEMENTED source url");
                 
-                options.addOption("cc", "clean-cache", false, "NOT IMPLEMENTED Pour recréer le repertoire de cache");
+                options.addOption(CLI_OPT_CC, "clean-cache", false, "NOT IMPLEMENTED Pour recréer le repertoire de cache");
             }
 
         } catch (Exception e) {
@@ -153,10 +156,19 @@ public class MainDemo {
 
                 if (line.hasOption(CLI_OPT_O)) {
                     String optionValue = line.getOptionValue(CLI_OPT_O);
-                    System.out.println("output dir from cli: "+optionValue);
+                    System.out.println("output dir from cli from args: "+optionValue);
                     
                     // TODO revoir pour ne pas faire en static mais en passage d'argument ou setter.
                     ForumLI3DFR.baseDirOutput = optionValue;
+                    
+                }
+                
+                if (line.hasOption(CLI_OPT_T)) {
+                    String optionValue = line.getOptionValue(CLI_OPT_T);
+                    System.out.println("idTopic from args: "+optionValue);
+                    
+                    // TODO revoir pour ne pas faire en static mais en passage d'argument ou setter.
+                    //ForumLI3DFR.baseDirOutput = optionValue;
                     
                 }
                 
