@@ -84,11 +84,25 @@ public class ForumLI3DFR {
     //import org.slf4j.LoggerFactory;
     private static final Logger logger = LoggerFactory.getLogger(ForumLI3DFR.class);
     //logger.debug("version: {}", version);
-    
+
+
+    /**
+     * Template String.format pour d'un id arriver a une url de page sur le
+     * forum.      <code>
+     * String idTopic = "45754" ; // 45754 c'est normalement l'id du topic du glossaire
+     * String urlGenericVerTopic = String.format(li3dfrForumTopicTemplate, idTopic);
+     * </code> Fonctionne uniquement cat le moteur du forum fait les
+     * redirections lors des changemetn de titre ( TODO test unitaire pour le
+     * formu )
+     */
+    public static String li3dfrForumTopicTemplate = "https://www.lesimprimantes3d.fr/forum/topic/%s-x/";
+// Cela plante l'actuele generation de lien vers commentaire... :: + "?sortby=date#comments";
+
     /**
      * TODO a supprimer mais forcement c'est utilisé ailleur . a revoir
      */
-    public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
+    public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = 
+            "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
 
     static String[] urls = {
     //        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754
@@ -184,6 +198,10 @@ public class ForumLI3DFR {
             }
         } else {
 
+            if (idTopic.isBlank()) {
+                idTopic = "45754"; // normalement le sujet du glossaire
+                
+            }
             if (!idTopic.isBlank()) {
                 String sUrlVersTopic = String.format(ForumSujet.li3dfrForumTopicTemplate, idTopic.strip());
                 UrlCParserForum urlCParser = new UrlCParserForum(sUrlVersTopic, true);
@@ -401,7 +419,7 @@ public class ForumLI3DFR {
                         listUserEnConflic += e.commentAuteurNom + " ";
                         if (i == 21) {
                             e.setSujetId(idTopic);
-                            e.reloadReactionHitory();
+                           // e.reloadReactionHitory();
                         }
                     }
                     System.out.printf("En conflic %d reaction %s\n", i, listUserEnConflic);
