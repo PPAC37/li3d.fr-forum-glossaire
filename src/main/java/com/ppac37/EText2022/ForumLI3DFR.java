@@ -3,6 +3,7 @@
 package com.ppac37.EText2022;
 
 import java.io.File;
+import java.io.FileWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -43,6 +44,38 @@ import org.jsoup.select.Elements;
  * Ajouter plus de bidouilles a HTML2Md pour garder les iframes ( revoie vers
  * sujet / message et video YouTube )? les liens des citation ?
  *
+ * <br>
+ * https://www.lesimprimantes3d.fr/forum/
+ * https://www.lesimprimantes3d.fr/forum/69-entraide-questionsr%C3%A9ponses-sur-limpression-3d/
+ * https://www.lesimprimantes3d.fr/forum/69-entraide-questionsr%C3%A9ponses-sur-limpression-3d/?sortby=posts&sortdirection=desc
+ * https://www.lesimprimantes3d.fr/forum/69-entraide-questionsr%C3%A9ponses-sur-limpression-3d/?sortby=posts&sortdirection=asc
+ * https://www.lesimprimantes3d.fr/forum/69-entraide-questionsr%C3%A9ponses-sur-limpression-3d/?sortby=forums_topics.last_post&sortdirection=desc
+ * <ul>
+ * <li>https://www.lesimprimantes3d.fr/forum/69-entraide-questionsr%C3%A9ponses-sur-limpression-3d/?filter=solved_topics
+ * </li>
+ * <li>https://www.lesimprimantes3d.fr/forum/69-entraide-questionsr%C3%A9ponses-sur-limpression-3d/?filter=unsolved_topics
+ * </li>
+ * <li>https://www.lesimprimantes3d.fr/forum/69-entraide-questionsr%C3%A9ponses-sur-limpression-3d/?filter=filter_hidden_topics
+ * </li
+ * ><li>https://www.lesimprimantes3d.fr/forum/69-entraide-questionsr%C3%A9ponses-sur-limpression-3d/?filter=filter_hidden_posts_in_topics
+ * </li>
+ * </ul>
+ * <br>
+ * https://www.lesimprimantes3d.fr/forum/online/
+ * <br>
+ * https://www.lesimprimantes3d.fr/forum/online/?filter=group_3
+ * <br>
+ * https://www.lesimprimantes3d.fr/forum/staff/
+ * <br>
+ * https://www.lesimprimantes3d.fr/forum/leaderboard/
+ * Ce classement est réglé à UTC/GMT+00:00
+ * <br>
+ * <br>
+ * https://www.lesimprimantes3d.fr/forum/discover/
+ * https://www.lesimprimantes3d.fr/forum/discover/all.xml/
+ * 
+ * 
+ * 
  * @author q6
  */
 public class ForumLI3DFR {
@@ -51,30 +84,19 @@ public class ForumLI3DFR {
     //import org.slf4j.LoggerFactory;
     private static final Logger logger = LoggerFactory.getLogger(ForumLI3DFR.class);
     //logger.debug("version: {}", version);
-
-    /**
-     * Template String.format pour d'un id arriver a une url de page sur le
-     * forum.      <code>
-     * String idTopic = "45754" ; // 45754 c'est normalement l'id du topic du glossaire
-     * String urlGenericVerTopic = String.format(li3dfrForumTopicTemplate, idTopic);
-     * </code> Fonctionne uniquement cat le moteur du forum fait les
-     * redirections lors des changemetn de titre ( TODO test unitaire pour le
-     * formu )
-     */
-    public static String li3dfrForumTopicTemplate = "https://www.lesimprimantes3d.fr/forum/topic/%s-x/";// + "?sortby=date#comments";
+    
     /**
      * TODO a supprimer mais forcement c'est utilisé ailleur . a revoir
      */
     public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
 
-    static String[] urls = {// Jeux d'essai pour le dev.
-    //        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?sortby=date#comments"
+    static String[] urls = {
+    //        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754
     };
 
     /**
      *
      */
-//    static String lienVersCommentaireBase = HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?do=findComment&comment=";
     static SortedSet<ForumUneDef> lesDef = new TreeSet<>();
     static String enteteSommaireToUse = "";
 
@@ -163,7 +185,7 @@ public class ForumLI3DFR {
         } else {
 
             if (!idTopic.isBlank()) {
-                String sUrlVersTopic = String.format(li3dfrForumTopicTemplate, idTopic.strip());
+                String sUrlVersTopic = String.format(ForumSujet.li3dfrForumTopicTemplate, idTopic.strip());
                 UrlCParserForum urlCParser = new UrlCParserForum(sUrlVersTopic, true);
                 lienVersCommentaireBase = sUrlVersTopic + "?do=findComment&comment=";
             }
@@ -218,6 +240,7 @@ public class ForumLI3DFR {
         divResum.appendElement("br");
 
         if (isConcours) {
+            Properties propSortie = new Properties();
             // essai de trie pour gagants concours .
             // un seul lot par gagnat -> regrouper par les post par utilisateur
             // Avoir la liste des lots ( 1er message ) 
@@ -227,13 +250,23 @@ public class ForumLI3DFR {
             // avoir la version a la date heure de fin de prise en compte des likes ?
             // ignorer les entrée qui on dépacé la date de fin "01/01/2023 23h59"
 
+            int cptRejet = 0;
+            int cptAccept = 0;
             Map<String, ArrayList<ForumUneEntreeConcours>> mapUserToArrayListEntree = new HashMap<>();
             for (ForumUneDef d : lesDef) {
                 String sApprobation = propDeIdTopic.getProperty("comment." + d.commentId);
                 boolean isEntreeInValideFromApprobation = true;
                 if (sApprobation != null && sApprobation.startsWith("no ")) {
                     isEntreeInValideFromApprobation = false;
+                    // TODO rapatier cette raison de rejet pour le fichier de prop de sortie des raison de rejet
+                    propSortie.setProperty("comment." + d.commentId, sApprobation);
+                    cptRejet++;
                 } else {
+                    //TODO compléter un fichier prop de sortie ou l'on donne la raison du rejet ...
+                    if (d.alImgsUrl.isEmpty()) {
+                        propSortie.setProperty("comment." + d.commentId, "no img");
+                        cptRejet++;
+                    }
 
                 }
                 if (!d.alImgsUrl.isEmpty()
@@ -241,6 +274,7 @@ public class ForumLI3DFR {
                         //                        && !d.commentAuteurNom.equals("LesImprimantes3D.fr")
                         //                        && !d.commentAuteurNom.equals("Motard Geek")
                         && isEntreeInValideFromApprobation) {
+                    cptAccept++;
                     ForumUneEntreeConcours asC = new ForumUneEntreeConcours(d);
                     ArrayList<ForumUneEntreeConcours> get = mapUserToArrayListEntree.get(asC.getCommentAuteurNom());
 
@@ -251,12 +285,37 @@ public class ForumLI3DFR {
                         a.add(asC);
                         mapUserToArrayListEntree.put(asC.getCommentAuteurNom(), a);
                     }
-                   // trop tot //  d.reloadReactionHitory();
+                    // trop tot //  d.reloadReactionHitory();
+                } else {
+                    // TODO Annoter pour avoir une raison de rejet ( n'a pas d'image )
+                    // TODO Annoter pour les autre cas de rejet ( et invalidé d'apréé le fichier d'approbation )
+
                 }
+            }
+            System.out.println("Rejeté cpt = " + cptRejet);
+            System.out.println("Accept cpt = " + cptAccept);
+            System.out.println("R+A    cpt = " + (cptAccept + cptRejet));
+            try {
+                int nbInpropSortie = propSortie.size();
+                //lesDef.size();
+                System.out.println("n prop cpt = " + nbInpropSortie);
+                System.out.println("control isCohérent = " + (nbInpropSortie == (cptAccept + cptRejet) ? "OK" : "TRUC LOUCHE !!!"));
+                //
+                //
+                File fPropDest = new File(baseDirOutput + File.separator + "" + idTopic + "-NEW.properties");
+                System.out.printf("writed %d in %s\n", fPropDest.length(), fPropDest.getPath());
+                FileWriter fwP = new FileWriter(fPropDest);
+                propSortie.store(fwP, "En date de ...");
+                fwP.flush();
+                fwP.close();
+                System.out.printf("writed %d in %s\n", fPropDest.length(), fPropDest.getPath());
+            } catch (Exception e) {
+                e.printStackTrace();
+
             }
             // la plus liké de ses entré valide ( une image photo d'une impression avec li3d.fr sur post it ou incrusté dans desinge )
             SortedSet<ForumUneEntreeConcours> sSetRes = new TreeSet<>();
-            Map<Integer,List<ForumUneEntreeConcours>> parGroupeNbLikeToEntreeList = new TreeMap<>();
+            Map<Integer, List<ForumUneEntreeConcours>> parGroupeNbLikeToEntreeList = new TreeMap<>();
             System.out.printf("### Res concours A Trier\n");
             int totalnbe = 0;
             for (String k : mapUserToArrayListEntree.keySet()) {
@@ -315,38 +374,37 @@ public class ForumLI3DFR {
                         Element appendElementImg = appendsImgs.appendElement("img");
                         appendElementImg.attr("src", sImgUrl);
                         appendElementImg.attr("class", "vignettes");
-                        appendElementImg.attr("style","max-width:150px;max-height:150px;width: auto;height: auto;");
+                        appendElementImg.attr("style", "max-width:150px;max-height:150px;width: auto;height: auto;");
                     }
 
                 }
 
-                
                 sSetRes.add(sSet.first());
                 int maxRCUser = sSet.first().getReactionsTotals();
                 List<ForumUneEntreeConcours> l = parGroupeNbLikeToEntreeList.get(maxRCUser);
-                if ( l == null){
+                if (l == null) {
                     List<ForumUneEntreeConcours> tmp = new ArrayList();
                     parGroupeNbLikeToEntreeList.put(maxRCUser, tmp);
                     tmp.add(sSet.first());
-                //sSet.first()    
-                }else{
+                    //sSet.first()    
+                } else {
                     l.add(sSet.first());
                 }
             }
             System.out.printf("###\n");
-            for ( Integer i : parGroupeNbLikeToEntreeList.keySet()){
+            for (Integer i : parGroupeNbLikeToEntreeList.keySet()) {
                 List<ForumUneEntreeConcours> tmp = parGroupeNbLikeToEntreeList.get(i);
-                if ( tmp.size()>1){
+                if (tmp.size() > 1) {
                     String listUserEnConflic = "";
-                    for ( ForumUneEntreeConcours e : tmp){
-                        
-                        listUserEnConflic+= e.commentAuteurNom+" ";
-                        if ( i == 21 ){
+                    for (ForumUneEntreeConcours e : tmp) {
+
+                        listUserEnConflic += e.commentAuteurNom + " ";
+                        if (i == 21) {
                             e.setSujetId(idTopic);
                             e.reloadReactionHitory();
                         }
                     }
-                    System.out.printf("En conflic %d reaction %s\n",i,listUserEnConflic );
+                    System.out.printf("En conflic %d reaction %s\n", i, listUserEnConflic);
                 }
             }
             divResum.appendElement("div").append("entrées " + totalnbe);
@@ -365,6 +423,7 @@ public class ForumLI3DFR {
             tableResOrdoHeader.appendElement("th").appendText("Utilisateur");
             tableResOrdoHeader.appendElement("th").appendText("Réactions");
             tableResOrdoHeader.appendElement("th").appendText("Commentaire");
+            tableResOrdoHeader.appendElement("th").appendText("DateC");
 
             Element lastElementPost = null; // pour marquer qd il y a un conflict ( même nb de réaction ) 
             int lastNbReaction = -1;
@@ -372,7 +431,6 @@ public class ForumLI3DFR {
             boolean nextlastPosIsToMark = false;
             for (ForumUneEntreeConcours e : sSetRes) {
 
-                
                 if (e.getReactionsTotals() != lastNbReaction) {
 
                 } else {
@@ -407,7 +465,8 @@ public class ForumLI3DFR {
                         e.getReactionsTotals(),
                         e.getCommentId()
                 );
-
+appendElement.appendElement("td").appendText("" + e.getDateCreation());
+                
             }
 
         }

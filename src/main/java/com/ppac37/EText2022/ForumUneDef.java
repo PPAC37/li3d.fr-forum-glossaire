@@ -2,7 +2,7 @@
  */
 package com.ppac37.EText2022;
 
-import static com.ppac37.EText2022.ForumLI3DFR.li3dfrForumTopicTemplate;
+
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -136,7 +136,7 @@ public class ForumUneDef extends ForumComment implements Comparable<Object> {
              // car mon cache ne prend pas en compte si une url a des argument et là cela me permde de lui faire penser que c'est pas la mêm url donc il n'ecrasera pas le fichier du sujet ...
              // mais c'est vraiment pas maintenable et inchoérent de faire comme cela.
              
-                String sUrlVersTopic = String.format(li3dfrForumTopicTemplate, this.sujetId+"-"+this.commentId);
+                String sUrlVersTopic = String.format(ForumSujet.li3dfrForumTopicTemplate, this.sujetId+"-"+this.commentId);
                 UrlCParserForum urlCParser = new UrlCParserForum(sUrlVersTopic+
                         //"/"+
                                  "?do=showReactionsComment&comment="

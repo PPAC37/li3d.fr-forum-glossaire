@@ -4,7 +4,6 @@ package com.ppac37.EText2022;
 
 import com.pnikosis.html2markdown.HTML2Md;
 import java.util.ArrayList;
-import java.util.SortedSet;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
