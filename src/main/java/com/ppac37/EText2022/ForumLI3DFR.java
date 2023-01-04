@@ -69,15 +69,15 @@ import org.jsoup.nodes.Entities.EscapeMode;
  * <br>
  * https://www.lesimprimantes3d.fr/forum/staff/
  * <br>
- * https://www.lesimprimantes3d.fr/forum/leaderboard/
- * Ce classement est réglé à UTC/GMT+00:00
+ * https://www.lesimprimantes3d.fr/forum/leaderboard/ Ce classement est réglé à
+ * UTC/GMT+00:00
  * <br>
  * <br>
  * https://www.lesimprimantes3d.fr/forum/discover/
  * https://www.lesimprimantes3d.fr/forum/discover/all.xml/
- * 
- * 
- * 
+ *
+ *
+ *
  * @author q6
  */
 public class ForumLI3DFR {
@@ -86,7 +86,6 @@ public class ForumLI3DFR {
     //import org.slf4j.LoggerFactory;
     private static final Logger logger = LoggerFactory.getLogger(ForumLI3DFR.class);
     //logger.debug("version: {}", version);
-
 
     /**
      * Template String.format pour d'un id arriver a une url de page sur le
@@ -103,11 +102,10 @@ public class ForumLI3DFR {
     /**
      * TODO a supprimer mais forcement c'est utilisé ailleur . a revoir
      */
-    public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 = 
-            "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
+    public static final String HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754
+            = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
 
-    static String[] urls = {
-    //        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754
+    static String[] urls = { //        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754
     };
 
     /**
@@ -202,7 +200,7 @@ public class ForumLI3DFR {
 
             if (idTopic.isBlank()) {
                 idTopic = "45754"; // normalement le sujet du glossaire
-                
+
             }
             if (!idTopic.isBlank()) {
                 String sUrlVersTopic = String.format(ForumSujet.li3dfrForumTopicTemplate, idTopic.strip());
@@ -225,7 +223,7 @@ public class ForumLI3DFR {
         System.out.println("Using as output dir : " + destDir.getAbsolutePath());
 
         UtilFileWriter fwIndexCommentMd = new UtilFileWriter(baseDirOutput + File.separator + "indexComment.md");
-
+        fwIndexCommentMd.append("# Lexique\n");
         // Sommaure mais au format .md
         boolean outDebugDefAlias = false;
         boolean outDebugCommentIdAndDefAlias = false;
@@ -240,7 +238,15 @@ public class ForumLI3DFR {
                 System.out.printf(" comment-%s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
             }
 
-            fwIndexCommentMd.append(String.format(" * [ ] [comment-%s - %s ](%s%s)\n", d.commentId, d.defNomAlias.toString(), lienVersCommentaireBase, d.commentId));
+            // Pour une issue avec des coche 
+            if (false) {
+                fwIndexCommentMd.append(d.toStringMD_Coche(lienVersCommentaireBase + d.commentId) + "\n");
+            }
+
+            if (true) {
+                // Pour faire comme le lexique de SuperSlicer traduit par 5Axe
+                fwIndexCommentMd.append(d.toStringMD_Index(lienVersCommentaireBase + d.commentId) + "\n");
+            }
 
             cptTotalAlias += d.defNomAlias.size();
             for (String a : d.defNomAlias) {
@@ -418,11 +424,11 @@ public class ForumLI3DFR {
                     String listUserEnConflic = "";
                     for (ForumUneEntreeConcours e : tmp) {
 
-                        listUserEnConflic += "\""+e.commentAuteurNom +"\"("+e.commentAuteurId+") ";
+                        listUserEnConflic += "\"" + e.commentAuteurNom + "\"(" + e.commentAuteurId + ") ";
                         if (i == 21) {
                             e.setSujetId(idTopic);
-                           //
-                           e.reloadReactionHitory();
+                            //
+                            e.reloadReactionHitory();
                         }
                     }
                     System.out.printf("En conflic %d reaction %s\n", i, listUserEnConflic);
@@ -486,8 +492,8 @@ public class ForumLI3DFR {
                         e.getReactionsTotals(),
                         e.getCommentId()
                 );
-appendElement.appendElement("td").appendText("" + e.getDateCreation());
-                
+                appendElement.appendElement("td").appendText("" + e.getDateCreation());
+
             }
 
         }
@@ -527,12 +533,12 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
 
         // la pour un sommaire en html avec les definition 
         // Bon il y a un truc qui m'echape avec JSoup pour créer un document ... cela bug les accents si il y en a un dans le head.title
-        Document dout = Jsoup.parse("<html lang=\"fr\">","UTF-8");
+        Document dout = Jsoup.parse("<html lang=\"fr\">", "UTF-8");
         Charset charset = dout.charset();
         dout.attr("lang", "fr");
         dout.attr("encoding", charset.toString());
         //
-        dout.body().append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", sForTitreH1));    
+        dout.body().append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", sForTitreH1));
         dout.body().appendText(charset.toString());
         // TODO BUG encode si il y a un accent la dedant ... dout.head().appendElement("title").appendText(sForTitreH1);        //Concour noël 2022 participations
         UtilFileWriter essai = new UtilFileWriter(baseDirOutput + File.separator + "index2.1.html");
@@ -562,7 +568,7 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<head>\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<title>");
         //fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("Glossaire nav interne");
-        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("* "+sForTitreH1);
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("* " + sForTitreH1);
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("</title>\n");
         //TODO style css <link rel="stylesheet" type="text/css" href="impression.css" media="print">
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("""
@@ -746,7 +752,7 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
         // Les définitions
         //
         for (ForumUneDef d : lesDef) {
-            
+
             if (false) {
                 System.out.println(d.toString());
             }
@@ -754,7 +760,7 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
             if (false) {
                 System.out.println(d.toStringFTab());
             }
-            
+
             if (d.defNomAlias.isEmpty()) {
 
                 fwIndexSommaireEtCommentHtml
@@ -804,9 +810,9 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
 
             } else {
                 //d.saveInHistoryDir(d.defNomAlias.toString());
-                 d.saveInHistoryDirPrety(d.defNomAlias.toString());
+                d.saveInHistoryDirPrety(d.defNomAlias.toString());
                 // ? sauver un fichier avec juste le coprs html du commentaire
-                
+
                 fwIndexSommaireEtCommentHtml
                         .append(String.format(
                                 "<hr>\n<a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n<hr>\n",
@@ -906,7 +912,6 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
 
         outFilDarian_Breadcrum_top(doc);
 
-        
         // les elements de class "article" (sont les commentaire) 
         // et là on va directement chercher le sous element proche du coprs du commentaire
         boolean doComments = true;
