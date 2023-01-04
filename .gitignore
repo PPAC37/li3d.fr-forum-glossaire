@@ -21,14 +21,23 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# 
 /target/
+
+#
 /www_cache_w/
 /img_save/
 /www_cache_w*
 /old_local/
+
+#
 /out/
 /in/
+
+# les configs de l'IDE Netbeans (?v13)
 nb-configuration.xml
 nbactions.xml
 nbactions-*.xml
+
 
