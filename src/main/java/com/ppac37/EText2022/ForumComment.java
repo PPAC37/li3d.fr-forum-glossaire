@@ -3,6 +3,8 @@
 package com.ppac37.EText2022;
 
 import com.pnikosis.html2markdown.HTML2Md;
+import static com.ppac37.EText2022.ForumLI3DFR.baseDirOutput;
+import java.io.File;
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -42,6 +44,59 @@ public class ForumComment implements Comparable<Object> {
     public ArrayList<String> alImgsUrl = new ArrayList<>();
     public ArrayList<String> alImgsUrlDansCitation = new ArrayList<>();
 
+    
+    public void saveInHistoryDir(String headTitle){
+        UtilFileWriter fw = new UtilFileWriter(baseDirOutput + File.separator + "comment-"+this.commentId+".html");
+        fw.append("<!DOCTYPE html>\n");
+        fw.append("<html lang=\"fr\">\n");
+        fw.append(" <head>\n");
+        
+        fw.append("  <title>");
+        fw.append("comment-");
+        fw.append(this.commentId);
+        fw.append(" - ");
+        fw.append(headTitle);
+        fw.append("</title>\n");
+        
+        fw.append(" </head>\n");
+        fw.append(" <body>\n");
+        fw.append("<!-- BRUT comment-"+this.commentId+" DEBUT -->\n");
+        fw.append(this.commentCorpHTMLBrut);        
+        fw.append("<!-- BRUT comment-"+this.commentId+" FIN -->\n");
+        fw.append(" </body>\n");
+        fw.append("</html>\n");
+        fw.flush();
+        fw.close();
+    }
+    
+    public void saveInHistoryDirPrety(String headTitle){
+        UtilFileWriter fw = new UtilFileWriter(baseDirOutput + File.separator + "comment-"+this.commentId+" - "+headTitle+".html");
+        fw.append("<!DOCTYPE html>\n");
+        fw.append("<html lang=\"fr\">\n");
+        fw.append(" <head>\n");
+        
+        fw.append("  <title>");
+        fw.append("comment-");
+        fw.append(this.commentId);
+        fw.append(" - ");
+        fw.append(headTitle);
+        fw.append("</title>\n");
+        
+        fw.append(" </head>\n");
+        //fw.append(" <body>\n");
+        Document doc = Jsoup.parseBodyFragment(this.commentCorpHTMLBrut);
+        doc.outputSettings().prettyPrint(true);
+        
+        fw.append("<!-- BRUT comment-"+this.commentId+" DEBUT -->\n");
+        fw.append(doc.body().outerHtml());        
+        
+        fw.append("\n<!-- BRUT comment-"+this.commentId+" FIN -->\n");
+        //fw.append(" </body>\n");
+        fw.append("</html>\n");
+        fw.flush();
+        fw.close();
+    }
+    
     /**
      *
      * @param o

@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Entities;
 import org.jsoup.select.Elements;
+import org.jsoup.nodes.Entities.EscapeMode;
 
 /**
  * Pour faire une copie local d'un message du forum lesimprimantes3d.fr.
@@ -524,12 +526,30 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
         fwIndexOnlySommaireHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", sForTitreH1));
 
         // la pour un sommaire en html avec les definition 
+        // Bon il y a un truc qui m'echape avec JSoup pour créer un document ... cela bug les accents si il y en a un dans le head.title
+        Document dout = Jsoup.parse("<html lang=\"fr\">","UTF-8");
+        Charset charset = dout.charset();
+        dout.attr("lang", "fr");
+        dout.attr("encoding", charset.toString());
+        //
+        dout.body().append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", sForTitreH1));    
+        dout.body().appendText(charset.toString());
+        // TODO BUG encode si il y a un accent la dedant ... dout.head().appendElement("title").appendText(sForTitreH1);        //Concour noël 2022 participations
+        UtilFileWriter essai = new UtilFileWriter(baseDirOutput + File.separator + "index2.1.html");
+        essai.append("<!DOCTYPE html>\n"); // Là c'est naze si c'est pas posible autrement ... ? Vraiment faire du JAVA DOM ?
+        dout.outputSettings().escapeMode(EscapeMode.xhtml);
+        dout.outputSettings().charset("utf-8");
+        essai.append(dout.outerHtml());
+        essai.flush();
+        essai.close();
+        //
         UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter(baseDirOutput + File.separator + "index2.html");
         fwIndexSommaireEtCommentHtml.append("<!DOCTYPE html>\n");
         fwIndexSommaireEtCommentHtml.append("<html lang=\"fr\">\n");
         fwIndexSommaireEtCommentHtml.append("<head>\n");
         fwIndexSommaireEtCommentHtml.append("<title>");
-        fwIndexSommaireEtCommentHtml.append("Glossaire");
+        //fwIndexSommaireEtCommentHtml.append("Glossaire");
+        fwIndexSommaireEtCommentHtml.append(sForTitreH1);
         fwIndexSommaireEtCommentHtml.append("</title>\n");
         fwIndexSommaireEtCommentHtml.append("</head>\n");
         fwIndexSommaireEtCommentHtml.append("<body>\n");
@@ -541,7 +561,8 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<html lang=\"fr\">\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<head>\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("<title>");
-        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("Glossaire nav interne");
+        //fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("Glossaire nav interne");
+        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("* "+sForTitreH1);
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("</title>\n");
         //TODO style css <link rel="stylesheet" type="text/css" href="impression.css" media="print">
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("""
@@ -721,20 +742,19 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
                         + outTotauxSpan
                         + "</p>\n", cptTotalAlias, lesDef.size() - 1));// -1 pour le commentaire qui contien le sommaire qui n'a pas d'alias
 
+        // Boucle sur l'ensemble des "Définitions" ( qui en fait sont actuellement l'ensemble des commentaire ... A REVOIR)
+        // Les définitions
         //
-        // Les définition
-        //
-        //fwIndexHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
-//        fwIndexSommaireEtCommentHtml.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
-//        fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", " Definitions "));
         for (ForumUneDef d : lesDef) {
+            
             if (false) {
-                System.out.printf(" %35s [%d](%s)\n", d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
+                System.out.println(d.toString());
             }
 
             if (false) {
-                System.out.printf(" comment-id %s\t%-35s\t%d\t%s\n", d.commentId, d.defNom, d.defNomAlias.size(), d.defNomAlias.toString());
+                System.out.println(d.toStringFTab());
             }
+            
             if (d.defNomAlias.isEmpty()) {
 
                 fwIndexSommaireEtCommentHtml
@@ -783,6 +803,10 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
                                 + "</summary>%s</details></div>\n", d.commentCorpHTML));
 
             } else {
+                //d.saveInHistoryDir(d.defNomAlias.toString());
+                 d.saveInHistoryDirPrety(d.defNomAlias.toString());
+                // ? sauver un fichier avec juste le coprs html du commentaire
+                
                 fwIndexSommaireEtCommentHtml
                         .append(String.format(
                                 "<hr>\n<a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n<hr>\n",

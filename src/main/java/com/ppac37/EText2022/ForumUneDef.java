@@ -147,8 +147,11 @@ public class ForumUneDef extends ForumComment implements Comparable<Object> {
     // Les truc de sortie ( texte et html ) il faudrait au moins 3 version ( basic toString pour le débug) , (basic toStringMarkDown(int mode ) , 
 
     @Override
-    public String toString() {
-        return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    public String toString() {        
+        return String.format("%35s [%2d](%s)\n", defNom, defNomAlias.size(), defNomAlias.toString());
+    }
+     public String toStringFTab() {        
+        return String.format(" comment-id %s\t%-35s\t%d\t%s\n", commentId, defNom, defNomAlias.size(), defNomAlias.toString());
     }
     
     /*
