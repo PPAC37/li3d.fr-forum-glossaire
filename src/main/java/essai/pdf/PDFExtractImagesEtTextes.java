@@ -3,29 +3,62 @@ package essai.pdf;
 // Extracting Images from a PDF using java
 import java.io.*;
 import java.awt.image.BufferedImage;
+import java.util.Iterator;
 import javax.imageio.ImageIO;
 import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDResources;
 import org.apache.pdfbox.pdmodel.encryption.AccessPermission;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.text.PDFTextStripper;
 
-class GFG {
+class PDFExtractImagesEtTextes {
 
     public static void main(String[] args) throws Exception {
-        String sPdfFile = "yourfile.pdf";
-        String pdfFilename = sPdfFile;
+        String sPdfFile = "/home/q6/github/li3d.fr-forum-glossaire-definitions/autre_glossaire/Nom des pièeces - Impression 3D.pdf";
 
-        sPdfFile = "/home/q6/github/li3d.fr-forum-glossaire-definitions/autre_glossaire/Nom des pièeces - Impression 3D.pdf";
+        String outFileBaseName = "./out/Nom des pièeces - Impression 3D.pdf";
 
-        // Existing PDF Document
-        // to be Loaded using file io
+        // Loaded using file io Existing PDF Document
         File newFile = new File(sPdfFile);
-
         try ( PDDocument document = Loader.loadPDF(newFile)) {
 
+            // Inspecte and extract images object in the PDF
+            if (true) {
+                int compteurPages = 0;
+                int compteurImages = 0;
+                PDResources ressources;
+                Iterator iterateurCles;
+                PDImageXObject image; 
+                //parcourt les pages du PDF
+                for (PDPage page : document.getPages()) {
+                    //recupere toutes les images de la page en cours
+                    ressources = page.getResources();
+                    Iterable<COSName> xObjectNames = ressources.getXObjectNames();
+                    iterateurCles = xObjectNames.iterator();
+                    //extrait chaque image dans le dossier d'extraction
+                    while (iterateurCles.hasNext()) {
+                        System.out.println("...");
+                        COSName cle = (COSName) iterateurCles.next();
+                        image = (PDImageXObject) ressources.getXObject(cle);
+                        BufferedImage bim = image.getImage();
+                        File fileOutImg = new File(outFileBaseName + "-page"+compteurPages+"-" + (compteurImages++) + ".jpg");
+                        // suffix in filename will be used as the file format
+                        // Writing the extracted image to a new file
+                        ImageIO.write(bim, "JPEG", fileOutImg);
+                        System.out.println(
+                                "Image extracted successfully: "+fileOutImg.getPath());
+                    }
+                    compteurPages++;
+                }
+
+                //ne pas oublier de fermer le PDF
+            }
+            
             if (true) {
                 AccessPermission ap = document.getCurrentAccessPermission();
                 if (!ap.canExtractContent()) {
@@ -38,14 +71,13 @@ class GFG {
                 // e.g. in some files with columns where the PDF content stream respects the
                 // column order.
                 //stripper.setSortByPosition(true);
-
                 stripper.setSortByPosition(false);
-                
+
                 for (int p = 1; p <= document.getNumberOfPages(); ++p) {
                     // Set the page interval to extract. If you don't, then all pages would be extracted.
                     stripper.setStartPage(p);
                     stripper.setEndPage(p);
-                    
+
                     stripper.setShouldSeparateByBeads(true);
 
                     // let the magic happen
@@ -59,7 +91,7 @@ class GFG {
                     }
                     System.out.println();
                     //System.out.println(text.trim());
-                    System.out.println("["+text+"]");
+                    System.out.println("[" + text + "]");
                     System.out.println();
 
                     // If the extracted text is empty or gibberish, please try extracting text
@@ -69,6 +101,7 @@ class GFG {
                 }
             }
 
+            // Faire un rendue de chaque page et enregistrer le rendue dans un fichier image.
             if (false) {
                 // PDFRenderer class to be Instantiated
                 // i.e. creating it's object
@@ -98,12 +131,10 @@ class GFG {
                     BufferedImage bim = pdfRenderer.renderImageWithDPI(pageCounter, 300, ImageType.RGB);
 
                     // suffix in filename will be used as the file format
-                    //ImageIOUtil.writeImage(bim, pdfFilename + "-" + (pageCounter++) + ".png", 300);
-                    // Writing the extracted
-                    // image to a new file
+                    // Writing the extracted image to a new file
                     ImageIO.write(
                             bim, "JPEG",
-                            new File(pdfFilename + "-" + (pageCounter++) + ".jpg"));
+                            new File(outFileBaseName + "-" + (pageCounter++) + ".jpg"));
                     System.out.println(
                             "Image has been extracted successfully");
                 }
