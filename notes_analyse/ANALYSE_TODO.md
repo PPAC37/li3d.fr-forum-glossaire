@@ -2,8 +2,29 @@
 ## Analyse de l'existant 
 
 Le lexique du blog "L'impression 3D pour les nuls (lexique)" https://www.lesimprimantes3d.fr/impression-3d-pour-les-nuls/  normalement repris / adapté dans le sujet du glossaire du forum ) 
+ * Maintenabilité collaborative compliqué. (compte wordpress du blog, droits sur l'article du blog )
 
 Le sujet du Glossaire du forum https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/
+ * Sujet vérouillé 
+    * PB : une partie d'un commentaire ne peut pas etre cité par un utilisateur non admin )
+ * La génération des vignettes dans l'éditeur du forum
+   * Demande a l'utilisateur de bien identifier qu'elle contien plusieur liens ( vers le sujet vs vers le commentaire )
+   * ! si l'on colle un lien "brut" -> reformmatage en vignette 
+   * les vignettes vers un sujet reprend la 1er image trouvé 
+   * les vignettes vers un commentaire n'affiche que les ?100 1er caractères du commentaire )
+ * "-" Le sujet création du glossaire regroupe de multiple brouillon et discution sur différente définitions.
+
+? Si on utilisé plutot une section pour le glossaire
+  * Un sujet de sommaire (épinglé )
+  * Un sujet = une définition ( plus pratique pour répartire le traville collaboratif on donne a un collaborateur les droit d'édition pour un sujet voir utiliser un group modérateur contribution glossaire)
+  * "?" ? Voir aussi un suejt = un alias d'une déf.    
+  * "+" Les vignettes des liens vers un sujet d'une définition seront avec la 1er image liè avec cette définition 
+  * "+" la discution sur le travaile d'une déf seront regroupé par déf .... seront les commentaires ... ( ? voir si posible de déplacer les commentaire du sujet création du glossaire cf pb chronologie ? quelle sera vraiment le 1er message )
+  * "-" demande la création d'une nouvelle section sur le forum et d'un nouveau groupe pour donner les droits sur cette sections a un utilisateur non admin ou modo ) ...
+  * "?" ? permet de trouver une définition via une recherche d'un sujet contenant le titre ...
+  * "+" permt de faire de renvoie des alias a la définition principal
+  * "-" rajout encore plus de lourdeur (navigation, charge réseau) pour parcourire l'ensemble des définitions ...
+
 
 L'index de la traduction fr de la docummentation de SuperSlicer sur le dépot de 5axes https://github.com/5axes/SuperSlicer-FRDocumentation/blob/main/src/glossary/glossary.md
 
