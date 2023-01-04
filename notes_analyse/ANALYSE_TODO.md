@@ -9,6 +9,125 @@ L'index de la traduction fr de la docummentation de SuperSlicer sur le dépot de
 
 Les divers autre glossaires que lon peut trouver sur internet
 
+?
+https://fr.wiktionary.org/wiki/Wiktionnaire:Page_d%E2%80%99accueil
+
+https://fr.wiktionary.org/wiki/polym%C3%A9risation
+
+TODO pour chaque therme de définition prendre le temps de regarder sa version si elle existe sur wikitionnaire et wikipedia
+Vérifier si exise dans les autre glossaire de référence sur l'impressions 3D ( guero, traduction de la doc de superslicer par ... , ... )
+
+### liens affiliés
+Le moteur du forum ajoute quand une affiliation existe avec un site d'un vendeur, 
+un attribut d'affiliation aux lien qui pointe vers un site de vente.
+
+
+Ex 
+~~~
+https://www.hotends.fr/fr/accessoires/77-tube-fep.html
+https://www.hotends.fr/fr/accessoires/77-tube-fep.html?aff=41
+~~~
+
+
+### le auto formatage en vignette des liens vers les sujet ou commentaires de sujet
+
+Quand on fait un copié / collé d'un lien d'un commentaire du forum,
+L'éditeur du forum transform le lien en un genre de vignette.(on peut cliquer sur sans formatage pour revenir au lien ...)
+et ?sauf si "ctrl + coller" ou "alt + coller" pour coller en "texte brut"..
+
+? Bien expliquer les zones ( lien vers le sujet vs lien vers le commentaire vs ...
+Le lien vers le commentaire se trouve en haut ( titre et icone flexhe )
+mais on trouve au centre le lien vers le sujet ( nb de réponce )
+
+~~~
+ex si l'on colle
+le lien vers le sujet 
+https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/
+l'image affiché semble etre la 1er trouvé dans le flux des commentaire (non masqué) du sujet ( ? trier par date )
+Le texte affiché ( ? les 200 1er caractère sont normalement ceux du commentaire )
+
+https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&comment=478062
+Pas d'image affiché mais un encart vers le 1er message du sujet suivie 
+Le texte affiché ( ? les 200 1er caractère sont normalement ceux du commentaire )
+
+https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=findComment&comment=495324
+
+
+~~~
+### ? bien différencier une abréviation d'un accronime ? vs une définition.
+
+
+? liste des acronymes
+<acronym>
+~~~
+HTML <acronym> Tag
+Not Supported in HTML5.
+The <acronym> tag was used in HTML 4 to define an acronym.
+
+What to Use Instead?
+Example
+An acronym or abbreviation should be marked up with the <abbr> tag:
+
+The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.
+
+~~~
+<abbr>
+https://www.w3schools.com/tags/tag_abbr.asp
+~~~
+Example
+An abbreviation is marked up as follows:
+
+The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.
+More "Try it Yourself" examples below.
+
+Definition and Usage
+The <abbr> tag defines an abbreviation or an acronym, like "HTML", "CSS", "Mr.", "Dr.", "ASAP", "ATM".
+
+Tip: Use the global title attribute to show the description for the abbreviation/acronym when you mouse over the element.
+~~~
+
+https://www.w3schools.com/tags/tag_dfn.asp
+~~~
+Mark up a term with <dfn>:
+
+<p><dfn>HTML</dfn> is the standard markup language for creating web pages.</p>
+Try it Yourself »
+More "Try it Yourself" examples below.
+
+Definition and Usage
+The <dfn> tag stands for the "definition element", and it specifies a term that is going to be defined within the content.
+
+The nearest parent of the <dfn> tag must also contain the definition/explanation for the term.
+
+The term inside the <dfn> tag can be any of the following:
+
+1. Just as the content of the <dfn> element:
+
+Example
+<p><dfn>HTML</dfn> is the standard markup language for creating web pages.</p>
+Try it Yourself »
+2. Or, with the title attribute added:
+
+Example
+<p><dfn title="HyperText Markup Language">HTML</dfn> is the standard markup language for creating web pages.</p>
+Try it Yourself »
+3. Or, with an <abbr> tag inside the <dfn> element:
+
+Example
+<p><dfn><abbr title="HyperText Markup Language">HTML</abbr></dfn> is the standard markup language for creating web pages.</p>
+Try it Yourself »
+4. Or, with the id attribute added. Then, whenever a term is used, it can refer back to the definition with an <a> tag:
+
+Example
+<p><dfn id="html-def">HTML</dfn> is the standard markup language for creating web pages.</p>
+
+<p>This is some text...</p>
+<p>This is some text...</p>
+<p>Learn <a href="#html-def">HTML</a> now.</p>
+Try it Yourself »
+
+
+~~~
 
 ### Structure de données
 
