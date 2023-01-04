@@ -5,6 +5,7 @@ package com.ppac37.EText2022;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
+import org.jsoup.nodes.Element;
 
 /**
  *
@@ -33,6 +34,8 @@ public class ForumUneDef extends ForumComment implements Comparable<Object> {
     public ForumUneDef() {
         defNomAlias = new TreeSet<>();
     }
+    
+    
     public ForumUneDef(ForumComment c) {
         super();
         this.commentAuteurId = c.commentAuteurId;
@@ -120,6 +123,47 @@ public class ForumUneDef extends ForumComment implements Comparable<Object> {
             }
         }
     }
+    
+    //
+    //
+    //
+    @Override
+    public void parseComment(Element eACommentId){
+        parseComment(eACommentId, this);
+    }
+    /**
+     * 
+     * @param eACommentId
+     * @param uneDef 
+     */
+    public static void parseComment(Element eACommentId, ForumUneDef uneDef){
+        ForumComment.parseComment(eACommentId, uneDef);
+        
+        // TODO ici les parse propre a une definition du glossaire qui sont actuellement fait dans ForumComment.parseComment(eACommentId, uneDef);
+    }
+    
+    //
+    //
+    // Les truc de sortie ( texte et html ) il faudrait au moins 3 version ( basic toString pour le débug) , (basic toStringMarkDown(int mode ) , 
+
+    @Override
+    public String toString() {
+        return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+    
+    /*
+    // TODO Analyse pour un implement TableHeader like
+    // ? implements qq chose pour forcer a avoir et pouvoir redéfinir 
+    // ? que cela soit utilisable pour plus simplement implémenter un TableModel ? donc avec une enum de "mode" ( texte lien, id, modeShort, modeLong, ... et renderer editor ? )
+    public String toStringMarkdown() {
+        
+    }
+    
+    public String toStringHTML() {
+        
+    }
+
+*/
 
     //
     //

@@ -882,26 +882,22 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
 
         outFilDarian_Breadcrum_top(doc);
 
+        
         // les elements de class "article" (sont les commentaire) 
         // et là on va directement chercher le sous element proche du coprs du commentaire
         boolean doComments = true;
         if (doComments) {
             String sSelect_A_id_comment = "a[id^=comment-]";
             Elements allElemAIdComment = doc.select(sSelect_A_id_comment);
-
             if (false) {
                 System.out.println("Total (" + sSelect_A_id_comment + "): " + allElemAIdComment.size());
             }
-
             for (Element eACommentId : allElemAIdComment) {
-
+                // TODO revoir Héritage qui fait quoi pour faire les 3 lignes suivate en une.
                 ForumUneDef uneDef = new ForumUneDef();
                 uneDef.setSujetId(idSujet);
-
-                ForumComment.parseComment(eACommentId, uneDef);
-            }// fin boucle pour chaque commentaire 
-
-            //System.out.println();
+                uneDef.parseComment(eACommentId);
+            }
         }
 
         // ssi page des likes "/?do=showReactionsComment&comment=524461&reaction=all"

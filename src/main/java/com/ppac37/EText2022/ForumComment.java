@@ -267,6 +267,23 @@ public class ForumComment implements Comparable<Object> {
     //
     //
     //
+    
+    /**
+     * Fonction utilitaire pour peupler notre instance.
+     * 
+     * @param eACommentId element d'un <code>select("a[id^=comment-]");</code>
+     */
+    public void parseComment(Element eACommentId){
+        //TODO rendre cela posible 
+        //parseComment(eACommentId, this);
+    }
+    /**
+     * Peupler l'instance passé en argument avec ce que l'on trouve dans la source.
+     * TODO a décomposer ? revoir l'héritage qui fait quoi car là c'est prioncipalement le parse d'un commentaire de sujet plutot que d'un commentaire spécifique a une définition.
+     * TODO je devrais peupler un objet ForumComment et non un ForumUneDef. ( méthode a crer dans ForumUneDef avec se qui ne devrait pas etre ici )
+     * @param eACommentId la source un element d'un <code>select("a[id^=comment-]");</code>
+     * @param uneDef l'instance a peupler
+     */
     public static void parseComment(Element eACommentId, ForumUneDef uneDef) {
         Element nextElementSibling = eACommentId.nextElementSibling();
         if (false) {
@@ -322,16 +339,19 @@ public class ForumComment implements Comparable<Object> {
         }
         uneDef.setCommentAuteurNom(h3AAuteur.text());
         uneDef.setCommentAuteurIdFromUrl(h3AAuteur.attr("abs:href"));
+        
         // l'image de l'avatard de l'auteur
-        Element auteurImg = nextElementSibling.selectFirst("div.cAuthorPane_photoWrap > a > img");
         if (false) {
+        Element auteurImg = nextElementSibling.selectFirst("div.cAuthorPane_photoWrap > a > img");
             System.out.printf("  Auteur : %s ( %s )\n", auteurImg.attr("alt"), auteurImg.attr("src"));
         }
+        
         // group
-        Element auteurGroup = nextElementSibling.selectFirst("li[data-role=group]");
         if (false) {
+        Element auteurGroup = nextElementSibling.selectFirst("li[data-role=group]");
             System.out.printf("  Auteur :   ( %s )\n", auteurGroup.text());
         }
+        
         // heures creation et ?modification
         Elements dateMsg = nextElementSibling.select("time");
         String sTmpLastDateTime = "";
@@ -371,6 +391,7 @@ public class ForumComment implements Comparable<Object> {
             }
             sTmpLastDateTime = sDateTime;
         }
+        
         // le corps du commentaire
         Element commentContent = nextElementSibling.selectFirst("div[data-role=commentContent]");
         uneDef.setCommentCorpHTMLBrut(commentContent.html());

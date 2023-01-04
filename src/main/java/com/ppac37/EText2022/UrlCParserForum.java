@@ -10,7 +10,7 @@ import org.jsoup.nodes.Element;
 
 /**
  * Outil pour "parser" une page du forum.
- *
+ * TODO a renomer ForumUrl ? ForumPageUrl ?
  * @author q6
  */
 public class UrlCParserForum extends UrlCParser {
@@ -53,6 +53,10 @@ public class UrlCParserForum extends UrlCParser {
         }
     }
 
+    //
+    // TODO a déplacer vers ForumPage ?
+    //
+    
     private void parsePageNumLastPage() {
         Element pLast = doc.selectFirst("li.ipsPagination_last a");
         if (pLast != null) {

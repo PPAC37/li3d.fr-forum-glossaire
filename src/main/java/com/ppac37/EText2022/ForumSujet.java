@@ -3,10 +3,12 @@
 package com.ppac37.EText2022;
 
 /**
- *
+ * 
  * @author q6
  */
-public class ForumSujet {
+public class ForumSujet 
+        extends UrlCParserForum // TODO vérifier que cel complique pas pour différencier un sujet d'une page d'un sujet.
+{
 
     /**
      * Template String.format pour d'un id arriver a une url de page sur le
@@ -25,4 +27,15 @@ public class ForumSujet {
     public static String li3dfrForumTopicTemplate = "https://www.lesimprimantes3d.fr/forum/topic/%s-x/";
     
     String sujetId;
+
+    public ForumSujet(String sujetId, String sUrl, boolean doToLastPage) {
+        super(sUrl, doToLastPage);
+        this.sujetId = sujetId;
+    }
+    
+    //
+    // ? TODO migrer ici tout se qui etre propre a un sujet de UrlCParserForum
+    //
+    
+    
 }
