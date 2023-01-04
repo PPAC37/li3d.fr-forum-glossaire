@@ -11,8 +11,7 @@ Pour réaliser la generation sur demande (Action github manuel) d'un nouveau som
 
 [dernier version du sommaire généré](https://ppac37.github.io/li3d.fr-forum-glossaire/) 
 
-et (en cours) [dernière version static du glossaire](https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/) 
-( [dernier version du glossaire static généré](https://ppac37.github.io/li3d.fr-forum-glossaire/index2.html) )
+et (en cours) [dernier version du glossaire static généré (sommaire + définitions)](https://ppac37.github.io/li3d.fr-forum-glossaire/index2.html) )
 
 ## Voir plus tard 
 Solutions pour l'ajout / la rédaction / mise a jours, de définitions de termes propre a l'impression 3D.
