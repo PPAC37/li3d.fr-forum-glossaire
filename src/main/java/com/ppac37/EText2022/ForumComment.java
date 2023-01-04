@@ -21,8 +21,8 @@ public class ForumComment implements Comparable<Object> {
 
     String commentDateCreation;
 
-    String commentAuteurId;
-    String commentAuteurNom;
+    protected String commentAuteurId;
+    protected String commentAuteurNom;
 
     String commentCorpHTMLBrut;
 
@@ -31,13 +31,13 @@ public class ForumComment implements Comparable<Object> {
 
     long reationsEnDateDe;
     /**
-     * Attention forcement c'est les réactions a la date du fichier 
+     * Attention forcement c'est les réactions a la date du fichier
      */
-    private int reactionsTotals; 
+    private int reactionsTotals;
     // liste des réaction ( date de réaction, type de réaction ,utilisateur) 
     //cf https://www.lesimprimantes3d.fr/forum/topic/50575-X/?do=showReactionsComment&comment=526603&changed=1&reaction=all
     private ArrayList<ForumCommentReactionBy> reactions = new ArrayList<>();
-    
+
     // liste des url des images contenus dans le commentaire ( exception des emojie )
     public ArrayList<String> alImgsUrl = new ArrayList<>();
     public ArrayList<String> alImgsUrlDansCitation = new ArrayList<>();
@@ -122,8 +122,6 @@ public class ForumComment implements Comparable<Object> {
         this.alImgsUrl = alImgsUrl;
     }
 
-    
-    
     public int getReactionsTotals() {
         return reactionsTotals;
     }
@@ -196,6 +194,28 @@ public class ForumComment implements Comparable<Object> {
         this.commentAuteurId = commentAuteurId;
     }
 
+    static String sInUrlPrefixUserId = "/forum/profile/";
+    static String sInUrlSuffixUserId = "-";
+    boolean debugSetCommentAuteurIdFromUrl = false;
+
+    public void setCommentAuteurIdFromUrl(String commentAuteurUrl) {
+        if (debugSetCommentAuteurIdFromUrl) {
+            System.out.println("setCommentAuteurIdFromUrl: " + commentAuteurUrl);
+            //https://www.lesimprimantes3d.fr/forum/profile/2-motard-geek/?wr=eyJh...
+        }
+        int posPrefixUserId = commentAuteurUrl.indexOf(sInUrlPrefixUserId);
+        int posSuffixUserId = commentAuteurUrl.indexOf(sInUrlSuffixUserId);
+        if (posPrefixUserId > -1 && posSuffixUserId > posPrefixUserId) {
+            this.commentAuteurId = commentAuteurUrl.substring(posPrefixUserId + sInUrlPrefixUserId.length(), posSuffixUserId);
+            if (debugSetCommentAuteurIdFromUrl) {
+                System.out.println(" user id found : " + commentAuteurId);
+            }
+        } else {
+            // TODO 
+            System.out.println("setCommentAuteurIdFromUrl: no user id found in: " + commentAuteurUrl);
+        }
+    }
+
     /**
      *
      * @param commentAuteurNom
@@ -255,7 +275,7 @@ public class ForumComment implements Comparable<Object> {
         String tmpCommentId = "";
         if (eACommentId.attr("id").startsWith("comment-")) {
             tmpCommentId = eACommentId.attr("id").substring(8);
-          
+
             if (false) {
                 System.out.printf(" comment id \"%s\"\n", tmpCommentId);
             }
@@ -292,9 +312,8 @@ public class ForumComment implements Comparable<Object> {
                 System.out.printf(" Total : %d\n", totalR);
             }
             uneDef.setReactionsTotals(totalR);
-            
+
         }
-      
 
         // le nom de l'auteur et le lien vers son profil
         Element h3AAuteur = nextElementSibling.selectFirst("h3.cAuthorPane_author > a");
@@ -302,6 +321,7 @@ public class ForumComment implements Comparable<Object> {
             System.out.printf("  Auteur : %s ( %s )\n", h3AAuteur.text(), h3AAuteur.attr("abs:href"));
         }
         uneDef.setCommentAuteurNom(h3AAuteur.text());
+        uneDef.setCommentAuteurIdFromUrl(h3AAuteur.attr("abs:href"));
         // l'image de l'avatard de l'auteur
         Element auteurImg = nextElementSibling.selectFirst("div.cAuthorPane_photoWrap > a > img");
         if (false) {
@@ -357,12 +377,11 @@ public class ForumComment implements Comparable<Object> {
         if (true) {
             // L'ensemble des images pour ou non les sauver en local et modifier le src
             // pour le concours je n'est normalement pas a prednre en compte lesles citations...
-            
-            
-             Document parseBodyFragment = Jsoup.parseBodyFragment(commentContent.html());
-             
-        // TODO il me faudrais tout de même avoir le nombre d'image total ( pour vérification )
-             boolean separationDesImageEnCitation = true;
+
+            Document parseBodyFragment = Jsoup.parseBodyFragment(commentContent.html());
+
+            // TODO il me faudrais tout de même avoir le nombre d'image total ( pour vérification )
+            boolean separationDesImageEnCitation = true;
             if (separationDesImageEnCitation) {
                 Elements selectCommentImgInCitation = parseBodyFragment.select("blockquote.ipsQuote img, div.ipsQuote_contents img");
                 for (Element cimg : selectCommentImgInCitation) {
@@ -376,14 +395,14 @@ public class ForumComment implements Comparable<Object> {
                 }
                 selectCommentImgInCitation.remove();
             }
-            
+
             Elements selectCommentImg = parseBodyFragment.select("img[src]");
             for (Element cimg : selectCommentImg) {
-                
+
                 String imgSrc = cimg.attr("src");
-                if ( cimg.hasClass("ipsEmoji")){
+                if (cimg.hasClass("ipsEmoji")) {
                     // exception des emoji
-                }else{
+                } else {
                     uneDef.alImgsUrl.add(imgSrc);
                 }
                 // voila là il est posible de modifier le src ...

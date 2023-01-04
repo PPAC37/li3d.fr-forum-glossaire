@@ -383,7 +383,7 @@ public class ForumLI3DFR {
                         tmpUrlToComment.attr("target", "_blank");
                         tmpUrlToComment.append(" allez au commentaire sur le forum.");
                         appends.appendChild(tmpUrlToComment);
-                        appends.appendElement("a").attr("href", "#top." + eC.getCommentId()).appendText(" | retour");
+                        appends.appendElement("a").attr("href", "#top." + eC.getCommentAuteurId()).appendText(" | retour");
                     }
 
                     Element appendsImgs = divResum.appendElement("div");
@@ -416,7 +416,7 @@ public class ForumLI3DFR {
                     String listUserEnConflic = "";
                     for (ForumUneEntreeConcours e : tmp) {
 
-                        listUserEnConflic += e.commentAuteurNom + " ";
+                        listUserEnConflic += "\""+e.commentAuteurNom +"\"("+e.commentAuteurId+") ";
                         if (i == 21) {
                             e.setSujetId(idTopic);
                            //
@@ -476,7 +476,7 @@ public class ForumLI3DFR {
                         "#" + e.getCommentId()
                 //                        "https://www.lesimprimantes3d.fr/forum/topic/"
                 //                        + idTopic + "-qqchose/?do=findComment&comment=" + e.getCommentId()
-                ).attr("id", "top." + e.getCommentId());
+                ).attr("id", "top." + e.getCommentAuteurId());
                 tmpUrlToComment.append("->");
                 appendElement.appendElement("td").appendChild(tmpUrlToComment);
                 System.out.printf("%s\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
@@ -738,7 +738,7 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
             if (d.defNomAlias.isEmpty()) {
 
                 fwIndexSommaireEtCommentHtml
-                        .append(String.format("<hr><a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
+                        .append(String.format("<hr>\n<a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n", lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<hr><a id=\"%s\" target=\"_blank\" href=\"%s%s\">comment-id %s :: %s</a> "
                                 + "// <a href=\"#debut\" style=\"text-align:center;\" >"
@@ -747,11 +747,11 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
                                 d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 //.append(String.format("<div>%s</div>\n<br>\n", ));
                 fwIndexSommaireEtCommentHtml
-                        .append(String.format("<div>"
-                                + "<details><summary>"
-                                + "..."
-                                + "</summary>%s</details>"
-                                + "</div>\n", d.commentCorpHTML));
+                        .append(String.format("<div>\n"
+                                + "<details><summary>\n"
+                                + "...\n"
+                                + "</summary>\n%s\n</details>\n"
+                                + "</div>\n", d.commentCorpHTMLBrut));
 
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
                         + c_datec_by_s_s
@@ -785,7 +785,7 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
             } else {
                 fwIndexSommaireEtCommentHtml
                         .append(String.format(
-                                "<hr><a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n",
+                                "<hr>\n<a href=\"%s%s\" target=\"_blank\" >comment-id %s :: %s</a>\n<hr>\n",
                                 lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque
                         .append(String.format("<hr><a id=\"%s\" href=\"%s%s\" target=\"_blank\">"
@@ -795,7 +795,7 @@ appendElement.appendElement("td").appendText("" + e.getDateCreation());
                                 + "</a>\n", d.commentId, lienVersCommentaireBase, d.commentId, d.commentId, d.defNomAlias));
                 //.append(String.format("<div>%s</div>\n<br>\n", ));
                 fwIndexSommaireEtCommentHtml
-                        .append(String.format("<div>%s</div>\n", d.commentCorpHTML));
+                        .append(String.format("<div>\n%s\n</div>\n", d.commentCorpHTMLBrut));
 
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
                         + c_datec_by_s_s
