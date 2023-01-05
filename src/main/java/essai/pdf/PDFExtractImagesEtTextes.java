@@ -37,26 +37,58 @@ class PDFExtractImagesEtTextes {
     public static void main(String[] args) throws Exception {
         String sPdfFile = "/home/q6/github/li3d.fr-forum-glossaire-definitions/autre_glossaire/Nom des pièeces - Impression 3D.pdf";
         File inputPDFFile = new File(sPdfFile);
-        
+
         String outFileBaseName = "./out/pdf_GL/";
-        String outImgFileBaseName = outFileBaseName+"img/";
-        
+        String outImgFileBaseName = outFileBaseName + "img/";
+
         File destDir = new File(outImgFileBaseName);
         destDir.mkdirs();
-        
+
         try ( FileWriter fw = new FileWriter(outFileBaseName + "README.md")) {
             // Loaded using file io Existing PDF Document
             File newFile = new File(sPdfFile);
             try ( PDDocument document = Loader.loadPDF(newFile)) {
 
-                fw.append("# "+inputPDFFile+"\n\n");
-                
-                if ( true){
-                    System.out.println("getDocumentId: "+document.getDocumentId());
-                    System.out.println("getNumberOfPages: "+document.getNumberOfPages());
-                    System.out.println("getVersion: "+document.getVersion());
+                fw.append("# " + inputPDFFile.getName() + "\n\n");
+                fw.append("<!--\n");
+                fw.append("pdf.src.url: " + "");
+                fw.append("\n");
+                fw.append("pdf.src.datetime: " + "");
+                fw.append("\n");
+                fw.append("pdf.file: " + inputPDFFile.getPath());
+                fw.append("\n");
+                fw.append("pdf.file.length: " + inputPDFFile.length());
+                fw.append("\n");
+                fw.append("pdf.file.md5sum: " + "");
+                fw.append("\n");
+
+                fw.append("pdf.DocumentId: " + document.getDocumentId());
+                fw.append("\n");
+
+                fw.append("pdf.NumberOfPages: " + document.getNumberOfPages());
+                fw.append("\n");
+
+                fw.append("pdf.Version: " + document.getVersion());
+                fw.append("\n");
+
+                fw.append("-->\n");
+
+                if (true) {
+                    // Pour bien identifier la source (local)
+
+                    // Nom du fichier 
+                    // Chemin du fichier
+                    // Chemin complet du ichier
+                    // Taille du fichier 
+                    // Hash md5sum et hash git du fichier .pdf
+                    // ? date modification du fihier sur le SF local 
+                    // ? si fichier pris en ligne ? gdrive url ?
+                    // Si il existe un fichier du même nom que le pdf mais avec l'extention ".src" regarder si il y a une ligne "url.source:..." ? ( demande de faire cela a chaque DL ...
+                    System.out.println("getDocumentId: " + document.getDocumentId());
+                    System.out.println("getNumberOfPages: " + document.getNumberOfPages());
+                    System.out.println("getVersion: " + document.getVersion());
                 }
-                
+
                 // Inspecte and extract images object in the PDF
                 if (true) {
                     int compteurPages = 0;
@@ -64,7 +96,7 @@ class PDFExtractImagesEtTextes {
                     PDResources ressources;
                     Iterator iterateurCles;
                     PDImageXObject image;
-                    
+
                     //
                     AccessPermission ap = document.getCurrentAccessPermission();
                     if (!ap.canExtractContent()) {
@@ -76,17 +108,26 @@ class PDFExtractImagesEtTextes {
                     stripper.setSortByPosition(false);
                     stripper.setShouldSeparateByBeads(true);
                     stripper.setAddMoreFormatting(true);
-                            
+
+                    fw.append("<!--\n");
+                    fw.append("pdfTextStripper.SortByPosition: " + stripper.getSortByPosition());
+                    fw.append("\n");
+                    fw.append("pdfTextStripper.ShouldSeparateByBeads: " + stripper.getSeparateByBeads());
+                    fw.append("\n");
+                    fw.append("pdfTextStripper.AddMoreFormatting: " + stripper.getAddMoreFormatting());
+                    fw.append("\n");
+
+                    fw.append("-->\n");
+
                     //parcourt les pages du PDF
                     for (PDPage page : document.getPages()) {
                         //recupere toutes les images de la page en cours
                         ressources = page.getResources();
                         Iterable<COSName> xObjectNames = ressources.getXObjectNames();
                         iterateurCles = xObjectNames.iterator();
-                        
-                        
-                        fw.append("## page "+(compteurPages+1)+"\n\n");
-                        
+
+                        fw.append("## page " + (compteurPages + 1) + "\n\n");
+
                         //extrait chaque image dans le dossier d'extraction
                         while (iterateurCles.hasNext()) {
                             System.out.println("...");
@@ -102,49 +143,82 @@ class PDFExtractImagesEtTextes {
                                 if (metadata != null) {
                                     System.out.println("img.getMetadata: " + metadata);
                                 }
-                            }else{
+                                System.out.println("img.getInterpolate: " + image.getInterpolate());
+                                System.out.println("img.getCOSObject.getLength: " + image.getCOSObject().getLength());
+
+                                fw.append("<!--\n");
+                                if(false){
+                                fw.append("img.getStructParent: " + image.getStructParent());
+                                fw.append("\n");
+                                }
+                                fw.append("img.getSuffix: " + image.getSuffix());
+                                fw.append("\n");
+                                fw.append("img.getHeight: " + image.getHeight());
+                                fw.append("\n");
+                                fw.append("img.getWidth: " + image.getWidth());
+                                fw.append("\n");
+                                if (metadata != null) {
+                                    System.out.println("img.getMetadata: " + metadata);
+                                    fw.append("img.getMetadata: " + metadata);
+                                    fw.append("\n");
+                                }
+                                fw.append("img.getInterpolate: " + image.getInterpolate());
+                                fw.append("\n");
+                                fw.append("img.getCOSObject.getLength: " + image.getCOSObject().getLength());
+                                fw.append("\n");
+                                fw.append("-->\n");
+                            } else {
                                 System.out.printf("%s %dx%d\n",
                                         image.getSuffix(),
                                         image.getHeight(),
                                         image.getWidth());
                             }
-                            
+
                             //                            BufferedImage bim = image.getImage(); // Pb avec les image avec un fond transparent
                             //
                             BufferedImage bim = image.getOpaqueImage(); // ok mais fond noir sur les image avec un fond transparent
                             //?bim.getTransparency();
 
                             File fileOutImg = new File(outImgFileBaseName + "-ImgNum-" + (compteurImages)
-                                    + "-" + "PageNum-" + compteurPages + 
-                            //        ".jpg"
-                            ".png"
+                                    + "-" + "PageNum-" + compteurPages
+                                    + //        ".jpg"
+                                    "."+image.getSuffix()
                             );
-                            
-                            fw.append(String.format("![%s-%dx%d](%s)\n",image.getSuffix(),
-                                        image.getHeight(),
-                                        image.getWidth(),
-                                        "img/"+fileOutImg.getName()//TODO a revoir relatif aux path du fichier readme.md
+
+                            fw.append(String.format("![%s-%dx%d](%s)\n", image.getSuffix(),
+                                    image.getHeight(),
+                                    image.getWidth(),
+                                    "img/" + fileOutImg.getName()//TODO a revoir relatif aux path du fichier readme.md
                             ));
-                            
-                            
+
                             // suffix in filename will be used as the file format
                             // Writing the extracted image to a new file
-                            ImageIO.write(bim, "JPEG", fileOutImg);
+                            //ImageIO.write(bim, "JPEG", fileOutImg);
+                            ImageIO.write(bim, image.getSuffix(), fileOutImg);
                             System.out.println(
                                     "Image extracted successfully: " + fileOutImg.getPath());
+
+                            fw.append("<!--\n");
+                            fw.append("img.save.file: " + fileOutImg.getPath());
+                            fw.append("\n");
+                            fw.append("img.save.file.length: " + fileOutImg.length());
+                            fw.append("\n");
+                            fw.append("-->\n");
+
+                            fw.append("\n");
                             compteurImages++;
                         }
-                        
+
                         compteurPages++;
                         // Set the page interval to extract. If you don't, then all pages would be extracted.
                         stripper.setStartPage(compteurPages);
                         stripper.setEndPage(compteurPages);
-                         String text = stripper.getText(document);
+                        String text = stripper.getText(document);
                         // do some nice output with a header
                         String pageStr = String.format("page %d:", compteurPages);
-                        System.out.println("page "+pageStr+": \n" + text);
-                        fw.append("\n\n"+text+"\n");
-                        
+                        System.out.println("page " + pageStr + ": \n" + text);
+                        fw.append("\n\n" + text + "\n");
+
                     }
 
                     //ne pas oublier de fermer le PDF
