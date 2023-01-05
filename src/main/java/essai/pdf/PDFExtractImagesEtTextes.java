@@ -35,7 +35,7 @@ import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 class PDFExtractImagesEtTextes {
 
     public static void main(String[] args) throws Exception {
-        String sPdfFile = "/home/q6/github/li3d.fr-forum-glossaire-definitions/autre_glossaire/Nom des pièeces - Impression 3D.pdf";
+        String sPdfFile = "/home/q6/github/li3d.fr-forum-glossaire-definitions/autre_glossaire/pdf_GL/pdf.orig/Nom des pièeces - Impression 3D.pdf";
         File inputPDFFile = new File(sPdfFile);
 
         String outFileBaseName = "./out/pdf_GL/";
@@ -294,7 +294,7 @@ class PDFExtractImagesEtTextes {
                 }
 
                 // Faire un rendue de chaque page et enregistrer le rendue dans un fichier image.
-                if (false) {
+                if (true) {
                     //https://www.geeksforgeeks.org/java-program-to-extract-a-image-from-a-pdf/?ref=rp
                     // PDFRenderer class to be Instantiated
                     // i.e. creating it's object
@@ -322,14 +322,14 @@ class PDFExtractImagesEtTextes {
 
                         // note that the page number parameter is zero based
                         BufferedImage bim = pdfRenderer.renderImageWithDPI(pageCounter, 300, ImageType.RGB);
+                        File file = new File(outFileBaseName + "vue/page-" + (++pageCounter) + ".jpg");
+                        file.getParentFile().mkdirs();
 
                         // suffix in filename will be used as the file format
                         // Writing the extracted image to a new file
-                        ImageIO.write(
-                                bim, "JPEG",
-                                new File(outFileBaseName + "-" + (pageCounter++) + ".jpg"));
+                        ImageIO.write(bim, "JPEG", file);
                         System.out.println(
-                                "Image has been extracted successfully");
+                                "Image created: "+file.getPath());
                     }
                 }
 
