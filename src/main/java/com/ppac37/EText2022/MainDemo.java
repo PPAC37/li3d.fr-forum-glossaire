@@ -15,7 +15,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 /**
- * Définie comme point d'entré du projet et du jar ( voir "MainDemo" dans le
+ * Définie comme point d'entré du projet et du jar ( rechercher "MainDemo" dans le
  * pom.xml ).
  *
  * @author q6
@@ -24,12 +24,13 @@ public class MainDemo {
 
     /**
      * Defined in uses Maven's resource filtering to update the VERSION based
-     * upon pom.xml. In this way we only define the VERSION once and prevent
+     * upon pom.xml. 
+     * In this way we only define the VERSION once in in src/resources/maven.properties ( created by maven ) and prevent
      * violating DRY.
      */
     public static final String GIT_VERSION = UtilPropertiesFile.getGitVersion();
     /**
-     * Defined in src/resources/app.properties.
+     * Defined in src/resources/app.properties updated from the properties in the pom.xml when build is done.
      */
     public static final String VERSION = UtilPropertiesFile.getAppVersion();
 
@@ -39,9 +40,14 @@ public class MainDemo {
     //
     
     public static final String CLI_OPT_O = "o";
+    
     public static final String CLI_OPT_T = "t";
+    
     public static final String CLI_OPT_U = "u";
+    
     public static final String CLI_OPT_CC = "cc";
+    
+    public static final String CLI_OPT_D = "d";// todo output, for debug, java propertis
     
 
     /**
