@@ -124,6 +124,7 @@ public class UrlCDownloderCache {
                 try {
                     File file = new File("/home/q6/req_curl_PPAC.txt");
                     Scanner scr = null;
+                    if ( file.exists()){
                     int count = 0;
                     try {
                         scr = new Scanner(file);
@@ -157,6 +158,9 @@ public class UrlCDownloderCache {
                         scr.close();
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(ForumLI3DFR.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    }else{
+                        // TODO
                     }
                 } catch (Exception e) {
                     //... TODO mais pas critique on ne sera ju

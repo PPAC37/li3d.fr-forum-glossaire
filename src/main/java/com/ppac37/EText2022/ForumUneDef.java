@@ -203,12 +203,15 @@ html rendue .md github
             // mais c'est vraiment pas maintenable et inchoérent de faire comme cela.
 
             String sUrlVersTopic = String.format(ForumSujet.li3dfrForumTopicTemplate, this.sujetId + "-" + this.commentId);
+if ( false ){
+    //TODO a revoir bug du cache ...
             UrlCParserForum urlCParser = new UrlCParserForum(sUrlVersTopic
                     + //"/"+
                     "?do=showReactionsComment&comment="
                     + this.commentId//"524576"
                     + "&changed=1&reaction=all",
                      true);
+}
             //lienVersCommentaireBase = sUrlVersTopic + "?do=findComment&comment=";
         }
     }
