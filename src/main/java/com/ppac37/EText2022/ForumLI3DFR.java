@@ -262,7 +262,9 @@ public class ForumLI3DFR {
         Document docSiConcours = Jsoup.parse("");
         Element divResum = docSiConcours.body().appendElement("div");
 
-        Element resultatOrdonne = divResum.appendElement("div");
+        Element divClassement = divResum.appendElement("div");
+        
+        Element divRejet = divResum.appendElement("div");
         divResum.appendElement("br");
 
         if (isConcours) {
@@ -372,6 +374,18 @@ public class ForumLI3DFR {
                     appends.attr("id", eC.getCommentId());
                     /*
                     
+  <span data-cke-copybin-start="1">​</span>
+  <div tabindex="-1" contenteditable="false" data-cke-widget-wrapper="1" data-cke-filter="off" class="cke_widget_wrapper cke_widget_block cke_widget_ipsquote cke_widget_wrapper_ipsQuote cke_widget_focused cke_widget_selected" data-cke-display-name="blockquote" data-cke-widget-id="1" role="region" aria-label="Élément blockquote">
+   <blockquote class="ipsQuote cke_widget_element" data-ipsquote="" data-gramm="false" data-ipsquote-timestamp="1669834058" data-ipsquote-userid="33940" data-ipsquote-username="PPAC" data-ipsquote-contentapp="forums" data-ipsquote-contenttype="forums" data-ipsquote-contentclass="forums_Topic" data-ipsquote-contentid="50419" data-ipsquote-contentcommentid="522096" data-cke-widget-keep-attr="0" data-widget="ipsquote" data-cke-widget-data="%7B%22classes%22%3A%7B%22ipsQuote%22%3A1%7D%7D">
+    <div class="ipsQuote_citation">
+     Le 30/11/2022 at 19:47, PPAC a dit&nbsp;:
+    </div>
+    <div class="ipsQuote_contents ipsClearfix cke_widget_editable" data-gramm="false" contenteditable="true" data-cke-widget-editable="content" data-cke-enter-mode="1">
+     <p><br></p>
+     <p><a class="ipsAttachLink ipsAttachLink_image" data-fileext="jpeg" data-fileid="153534" data-cke-saved-href="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.f9da9cf270a773ee80fc05af8f0d4063.jpeg" href="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.f9da9cf270a773ee80fc05af8f0d4063.jpeg" rel="" data-fullurl="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.f9da9cf270a773ee80fc05af8f0d4063.jpeg"><img alt="image.thumb.jpeg.4c61ae5faf0a5cc547bc77f4c034ea20.jpeg" class="ipsImage ipsImage_thumbnailed" data-fileid="153534" data-ratio="75.00" style="width:400px;height:auto;" width="1000" data-cke-saved-src="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.thumb.jpeg.4c61ae5faf0a5cc547bc77f4c034ea20.jpeg" src="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.thumb.jpeg.4c61ae5faf0a5cc547bc77f4c034ea20.jpeg"></a>&nbsp;<a class="ipsAttachLink ipsAttachLink_image" data-fileext="jpeg" data-fileid="153535" data-cke-saved-href="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.7dc02592a14247a15fceac98d1b1d63f.jpeg" href="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.7dc02592a14247a15fceac98d1b1d63f.jpeg" rel="" data-fullurl="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.7dc02592a14247a15fceac98d1b1d63f.jpeg"><img alt="image.thumb.jpeg.0aed4ee6ba3c1308b7c5735a15a8e2eb.jpeg" class="ipsImage ipsImage_thumbnailed" data-fileid="153535" data-ratio="75.00" style="width:400px;height:auto;" width="1000" data-cke-saved-src="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.thumb.jpeg.0aed4ee6ba3c1308b7c5735a15a8e2eb.jpeg" src="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.thumb.jpeg.0aed4ee6ba3c1308b7c5735a15a8e2eb.jpeg"></a>&nbsp;</p>
+    </div>
+   </blockquote><span class="cke_reset cke_widget_drag_handler_container" style="background: url(&quot;//www.lesimprimantes3d.fr/forum/applications/core/interface/ckeditor/ckeditor/plugins/widget/images/handle.png&quot;) rgba(220, 220, 220, 0.5); top: -15px; left: 0px;"><img class="cke_reset cke_widget_drag_handler" data-cke-widget-drag-handler="1" src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" width="15" title="Cliquer et glisser pour déplacer" height="15" role="presentation"></span>
+  </div><span data-cke-copybin-end="1">​</span>
                
                      */
                     if (false) {
@@ -444,7 +458,7 @@ public class ForumLI3DFR {
             System.out.println("");
 
             int pos = 1;
-            Element tableResOrdo = resultatOrdonne.appendElement("table");
+            Element tableResOrdo = divClassement.appendElement("table");
             Element tableResOrdoHeader = tableResOrdo.appendElement("tr");
             tableResOrdoHeader.appendElement("th").appendText("Pos");
             tableResOrdoHeader.appendElement("th").appendText("Utilisateur");
