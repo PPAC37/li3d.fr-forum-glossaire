@@ -42,10 +42,11 @@ public class ForumUneDef extends ForumComment implements Comparable<Object>, Def
 
         this.alImgsUrl = c.alImgsUrl;
         this.commentCorpHTMLBrut = c.commentCorpHTMLBrut;
-        this.commentDateCreation = c.commentDateCreation;
+        this.setCommentDateCreation( c.getDateCreation() );
         this.commentId = c.commentId;
+        this.sujetId = c.sujetId;
 
-        this.commentDateCreation = c.commentDateCreation;
+        //this.commentDateCreation = c.commentDateCreation;
         this.commentModifDate = c.commentModifDate;
         this.commentModifParNom = c.commentModifParNom;
 

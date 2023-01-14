@@ -21,7 +21,7 @@ public class ForumComment implements Comparable<Object> {
     String sujetId;
     String commentId;
 
-    String commentDateCreation;
+    private String commentDateCreation;
 
     protected String commentAuteurId;
     protected String commentAuteurNom;
@@ -295,14 +295,7 @@ public class ForumComment implements Comparable<Object> {
         this.commentId = commentId;
     }
 
-    /**
-     *
-     * @param dateCreation
-     */
-    public void setDateCreation(String dateCreation) {
-        this.commentDateCreation = dateCreation;
-    }
-
+   
     /**
      *
      * @param dateModification
@@ -419,7 +412,7 @@ public class ForumComment implements Comparable<Object> {
                 // on ignore car on a deja sortie cette date précédament
             } else {
                 if (sTmpLastDateTime.isEmpty()) {
-                    uneDef.setDateCreation(sDateTime);
+                    uneDef.setCommentDateCreation(sDateTime);
                     if (false) {
                         System.out.printf("  //  %s ( %s ) %s :: %s\n", d.attr("title"), d.text(), d.attr("datetime"), d.parent().text());
                     }

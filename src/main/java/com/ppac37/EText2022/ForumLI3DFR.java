@@ -277,6 +277,8 @@ public class ForumLI3DFR {
             // si egalité ?
             // avoir la version a la date heure de fin de prise en compte des likes ?
             // ignorer les entrée qui on dépacé la date de fin "01/01/2023 23h59"
+            
+            SortedSet<ForumUneEntreeConcours> listeDesEntreesValideOuNon = new TreeSet<>();
 
             int cptRejet = 0;
             int cptAccept = 0;
@@ -289,6 +291,7 @@ public class ForumLI3DFR {
                     // TODO rapatier cette raison de rejet pour le fichier de prop de sortie des raison de rejet
                     propSortie.setProperty("comment." + d.commentId, sApprobation);
                     cptRejet++;
+                    
                 } else {
                     //TODO compléter un fichier prop de sortie ou l'on donne la raison du rejet ...
                     if (d.alImgsUrl.isEmpty()) {
@@ -298,10 +301,14 @@ public class ForumLI3DFR {
 
                 }
                 if (!d.alImgsUrl.isEmpty()
+                        
                         //                        && !d.commentAuteurNom.equals("PPAC")
                         //                        && !d.commentAuteurNom.equals("LesImprimantes3D.fr")
                         //                        && !d.commentAuteurNom.equals("Motard Geek")
-                        && isEntreeInValideFromApprobation) {
+                        
+                        && isEntreeInValideFromApprobation
+                        
+                        ) {
                     cptAccept++;
                     ForumUneEntreeConcours asC = new ForumUneEntreeConcours(d);
                     ArrayList<ForumUneEntreeConcours> get = mapUserToArrayListEntree.get(asC.getCommentAuteurNom());
@@ -315,14 +322,24 @@ public class ForumLI3DFR {
                     }
                     // trop tot //  d.reloadReactionHitory();
                 } else {
+                    
                     // TODO Annoter pour avoir une raison de rejet ( n'a pas d'image )
                     // TODO Annoter pour les autre cas de rejet ( et invalidé d'apréé le fichier d'approbation )
 
+                }
+                
+                //
+                if ( !d.alImgsUrl.isEmpty()){
+                ForumUneEntreeConcours asC = new ForumUneEntreeConcours(d);
+                asC.isRejetedEntry=isEntreeInValideFromApprobation;
+                listeDesEntreesValideOuNon.add(asC);
                 }
             }
             System.out.println("Rejeté cpt = " + cptRejet);
             System.out.println("Accept cpt = " + cptAccept);
             System.out.println("R+A    cpt = " + (cptAccept + cptRejet));
+            System.out.println("Total commentaire avec image(s) entré valide ou non = " + listeDesEntreesValideOuNon.size());
+            //
             try {
                 int nbInpropSortie = propSortie.size();
                 //lesDef.size();
@@ -372,22 +389,7 @@ public class ForumLI3DFR {
                     ForumUneEntreeConcours eC = iterator.next();
                     Element appends = divResum.appendElement("div");
                     appends.attr("id", eC.getCommentId());
-                    /*
-                    
-  <span data-cke-copybin-start="1">​</span>
-  <div tabindex="-1" contenteditable="false" data-cke-widget-wrapper="1" data-cke-filter="off" class="cke_widget_wrapper cke_widget_block cke_widget_ipsquote cke_widget_wrapper_ipsQuote cke_widget_focused cke_widget_selected" data-cke-display-name="blockquote" data-cke-widget-id="1" role="region" aria-label="Élément blockquote">
-   <blockquote class="ipsQuote cke_widget_element" data-ipsquote="" data-gramm="false" data-ipsquote-timestamp="1669834058" data-ipsquote-userid="33940" data-ipsquote-username="PPAC" data-ipsquote-contentapp="forums" data-ipsquote-contenttype="forums" data-ipsquote-contentclass="forums_Topic" data-ipsquote-contentid="50419" data-ipsquote-contentcommentid="522096" data-cke-widget-keep-attr="0" data-widget="ipsquote" data-cke-widget-data="%7B%22classes%22%3A%7B%22ipsQuote%22%3A1%7D%7D">
-    <div class="ipsQuote_citation">
-     Le 30/11/2022 at 19:47, PPAC a dit&nbsp;:
-    </div>
-    <div class="ipsQuote_contents ipsClearfix cke_widget_editable" data-gramm="false" contenteditable="true" data-cke-widget-editable="content" data-cke-enter-mode="1">
-     <p><br></p>
-     <p><a class="ipsAttachLink ipsAttachLink_image" data-fileext="jpeg" data-fileid="153534" data-cke-saved-href="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.f9da9cf270a773ee80fc05af8f0d4063.jpeg" href="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.f9da9cf270a773ee80fc05af8f0d4063.jpeg" rel="" data-fullurl="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.f9da9cf270a773ee80fc05af8f0d4063.jpeg"><img alt="image.thumb.jpeg.4c61ae5faf0a5cc547bc77f4c034ea20.jpeg" class="ipsImage ipsImage_thumbnailed" data-fileid="153534" data-ratio="75.00" style="width:400px;height:auto;" width="1000" data-cke-saved-src="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.thumb.jpeg.4c61ae5faf0a5cc547bc77f4c034ea20.jpeg" src="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.thumb.jpeg.4c61ae5faf0a5cc547bc77f4c034ea20.jpeg"></a>&nbsp;<a class="ipsAttachLink ipsAttachLink_image" data-fileext="jpeg" data-fileid="153535" data-cke-saved-href="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.7dc02592a14247a15fceac98d1b1d63f.jpeg" href="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.7dc02592a14247a15fceac98d1b1d63f.jpeg" rel="" data-fullurl="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.jpeg.7dc02592a14247a15fceac98d1b1d63f.jpeg"><img alt="image.thumb.jpeg.0aed4ee6ba3c1308b7c5735a15a8e2eb.jpeg" class="ipsImage ipsImage_thumbnailed" data-fileid="153535" data-ratio="75.00" style="width:400px;height:auto;" width="1000" data-cke-saved-src="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.thumb.jpeg.0aed4ee6ba3c1308b7c5735a15a8e2eb.jpeg" src="https://www.lesimprimantes3d.fr/forum/uploads/monthly_2022_11/image.thumb.jpeg.0aed4ee6ba3c1308b7c5735a15a8e2eb.jpeg"></a>&nbsp;</p>
-    </div>
-   </blockquote><span class="cke_reset cke_widget_drag_handler_container" style="background: url(&quot;//www.lesimprimantes3d.fr/forum/applications/core/interface/ckeditor/ckeditor/plugins/widget/images/handle.png&quot;) rgba(220, 220, 220, 0.5); top: -15px; left: 0px;"><img class="cke_reset cke_widget_drag_handler" data-cke-widget-drag-handler="1" src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" width="15" title="Cliquer et glisser pour déplacer" height="15" role="presentation"></span>
-  </div><span data-cke-copybin-end="1">​</span>
-               
-                     */
+                 
                     if (false) {
                         appends.append(
                                 String.format(
@@ -461,10 +463,20 @@ public class ForumLI3DFR {
             Element tableResOrdo = divClassement.appendElement("table");
             Element tableResOrdoHeader = tableResOrdo.appendElement("tr");
             tableResOrdoHeader.appendElement("th").appendText("Pos");
-            tableResOrdoHeader.appendElement("th").appendText("Utilisateur");
+            boolean addColUserName = false;
+            if ( addColUserName){
+                tableResOrdoHeader.appendElement("th").appendText("Utilisateur");
+            }
             tableResOrdoHeader.appendElement("th").appendText("Réactions");
-            tableResOrdoHeader.appendElement("th").appendText("Commentaire");
+            boolean addColLienToComment = false;
+            if ( addColLienToComment){
+                tableResOrdoHeader.appendElement("th").appendText("Commentaire");
+            }
+            boolean addColDateC = false;
+                if ( addColDateC ) {
             tableResOrdoHeader.appendElement("th").appendText("DateC");
+                }
+            tableResOrdoHeader.appendElement("th").appendText("Thumbs");
 
             Element lastElementPost = null; // pour marquer qd il y a un conflict ( même nb de réaction ) 
             int lastNbReaction = -1;
@@ -492,8 +504,11 @@ public class ForumLI3DFR {
                 } else {
 
                 }
-                appendElement.appendElement("td").appendText(e.commentAuteurNom);
+                if ( addColUserName){
+                    appendElement.appendElement("td").appendText(e.commentAuteurNom);
+                }
                 appendElement.appendElement("td").appendText("" + e.getReactionsTotals());
+                if ( addColLienToComment){
                 Element tmpUrlToComment = appendElement.appendElement("a").attr("href",
                         "#" + e.getCommentId()
                 //                        "https://www.lesimprimantes3d.fr/forum/topic/"
@@ -501,15 +516,44 @@ public class ForumLI3DFR {
                 ).attr("id", "top." + e.getCommentAuteurId());
                 tmpUrlToComment.append("->");
                 appendElement.appendElement("td").appendChild(tmpUrlToComment);
+                }
+                
                 System.out.printf("%s\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
                         e.commentAuteurNom, e.alImgsUrl.size(),
                         e.getReactionsTotals(),
                         e.getCommentId()
                 );
+                
+                if ( addColDateC ) {
                 appendElement.appendElement("td").appendText("" + e.getDateCreation());
+                }
+                appendElement.appendElement("td").append(e.createThumbsCitation());
 
             }
 
+            
+            
+        UtilFileWriter fwIndexCommentaireAvecDesImages = new UtilFileWriter(baseDirOutput + File.separator + "indexC.html");
+          fwIndexCommentaireAvecDesImages.append("<!DOCTYPE html>\n");
+        fwIndexCommentaireAvecDesImages.append("<html lang=\"fr\">\n");
+        fwIndexCommentaireAvecDesImages.append("<head>\n");
+        fwIndexCommentaireAvecDesImages.append("<title>");
+        //fwIndexCommentaireAvecDesImages.append("Glossaire");
+        fwIndexCommentaireAvecDesImages.append(sForTitreH1);
+        fwIndexCommentaireAvecDesImages.append("</title>\n");
+        fwIndexCommentaireAvecDesImages.append("</head>\n");
+        fwIndexCommentaireAvecDesImages.append("<body>\n");
+        fwIndexCommentaireAvecDesImages.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", sForTitreH1));
+        
+        for (ForumUneEntreeConcours e : listeDesEntreesValideOuNon){
+           fwIndexCommentaireAvecDesImages.append( e.createThumbsCitation() );
+           //fwIndexCommentaireAvecDesImages.append("\n");
+        }
+        fwIndexCommentaireAvecDesImages.append("</body>\n");
+        fwIndexCommentaireAvecDesImages.append("</html>\n");
+        fwIndexCommentaireAvecDesImages.flush();
+        fwIndexCommentaireAvecDesImages.close();
+            
         }
         //
 
@@ -563,6 +607,9 @@ public class ForumLI3DFR {
         essai.flush();
         essai.close();
         //
+        
+        
+        
         UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter(baseDirOutput + File.separator + "index2.html");
         fwIndexSommaireEtCommentHtml.append("<!DOCTYPE html>\n");
         fwIndexSommaireEtCommentHtml.append("<html lang=\"fr\">\n");
@@ -795,7 +842,7 @@ public class ForumLI3DFR {
 
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
                         + c_datec_by_s_s
-                        + "</code></div>\n", d.commentDateCreation, d.commentAuteurNom));
+                        + "</code></div>\n", d.getDateCreation(), d.commentAuteurNom));
                 if (d.commentModifDate != null) {
                     fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
                             + c_datemodif_by_s_s
@@ -843,7 +890,7 @@ public class ForumLI3DFR {
 
                 fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
                         + c_datec_by_s_s
-                        + "</code></div>\n", d.commentDateCreation, d.commentAuteurNom));
+                        + "</code></div>\n", d.getDateCreation(), d.commentAuteurNom));
                 if (d.commentModifDate != null) {
                     fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(String.format("<div><code>"
                             + c_datemodif_by_s_s
