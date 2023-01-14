@@ -263,7 +263,7 @@ public class ForumLI3DFR {
         Element divResum = docSiConcours.body().appendElement("div");
 
         Element divClassement = divResum.appendElement("div");
-        
+
         Element divRejet = divResum.appendElement("div");
         divResum.appendElement("br");
 
@@ -277,7 +277,7 @@ public class ForumLI3DFR {
             // si egalité ?
             // avoir la version a la date heure de fin de prise en compte des likes ?
             // ignorer les entrée qui on dépacé la date de fin "01/01/2023 23h59"
-            
+
             SortedSet<ForumUneEntreeConcours> listeDesEntreesValideOuNon = new TreeSet<>();
 
             int cptRejet = 0;
@@ -291,7 +291,7 @@ public class ForumLI3DFR {
                     // TODO rapatier cette raison de rejet pour le fichier de prop de sortie des raison de rejet
                     propSortie.setProperty("comment." + d.commentId, sApprobation);
                     cptRejet++;
-                    
+
                 } else {
                     //TODO compléter un fichier prop de sortie ou l'on donne la raison du rejet ...
                     if (d.alImgsUrl.isEmpty()) {
@@ -301,14 +301,11 @@ public class ForumLI3DFR {
 
                 }
                 if (!d.alImgsUrl.isEmpty()
-                        
                         //                        && !d.commentAuteurNom.equals("PPAC")
                         //                        && !d.commentAuteurNom.equals("LesImprimantes3D.fr")
                         //                        && !d.commentAuteurNom.equals("Motard Geek")
-                        
-                        && isEntreeInValideFromApprobation
-                        
-                        ) {
+
+                        && isEntreeInValideFromApprobation) {
                     cptAccept++;
                     ForumUneEntreeConcours asC = new ForumUneEntreeConcours(d);
                     ArrayList<ForumUneEntreeConcours> get = mapUserToArrayListEntree.get(asC.getCommentAuteurNom());
@@ -322,17 +319,16 @@ public class ForumLI3DFR {
                     }
                     // trop tot //  d.reloadReactionHitory();
                 } else {
-                    
+
                     // TODO Annoter pour avoir une raison de rejet ( n'a pas d'image )
                     // TODO Annoter pour les autre cas de rejet ( et invalidé d'apréé le fichier d'approbation )
-
                 }
-                
+
                 //
-                if ( !d.alImgsUrl.isEmpty()){
-                ForumUneEntreeConcours asC = new ForumUneEntreeConcours(d);
-                asC.isRejetedEntry=isEntreeInValideFromApprobation;
-                listeDesEntreesValideOuNon.add(asC);
+                if (!d.alImgsUrl.isEmpty()) {
+                    ForumUneEntreeConcours asC = new ForumUneEntreeConcours(d);
+                    asC.isRejetedEntry = isEntreeInValideFromApprobation;
+                    listeDesEntreesValideOuNon.add(asC);
                 }
             }
             System.out.println("Rejeté cpt = " + cptRejet);
@@ -389,7 +385,7 @@ public class ForumLI3DFR {
                     ForumUneEntreeConcours eC = iterator.next();
                     Element appends = divResum.appendElement("div");
                     appends.attr("id", eC.getCommentId());
-                 
+
                     if (false) {
                         appends.append(
                                 String.format(
@@ -459,23 +455,24 @@ public class ForumLI3DFR {
             System.out.println("Nb entrées r :" + totalnbe);
             System.out.println("");
 
+            if ( true ){
             int pos = 1;
             Element tableResOrdo = divClassement.appendElement("table");
             Element tableResOrdoHeader = tableResOrdo.appendElement("tr");
             tableResOrdoHeader.appendElement("th").appendText("Pos");
             boolean addColUserName = false;
-            if ( addColUserName){
+            if (addColUserName) {
                 tableResOrdoHeader.appendElement("th").appendText("Utilisateur");
             }
             tableResOrdoHeader.appendElement("th").appendText("Réactions");
             boolean addColLienToComment = false;
-            if ( addColLienToComment){
+            if (addColLienToComment) {
                 tableResOrdoHeader.appendElement("th").appendText("Commentaire");
             }
             boolean addColDateC = false;
-                if ( addColDateC ) {
-            tableResOrdoHeader.appendElement("th").appendText("DateC");
-                }
+            if (addColDateC) {
+                tableResOrdoHeader.appendElement("th").appendText("DateC");
+            }
             tableResOrdoHeader.appendElement("th").appendText("Thumbs");
 
             Element lastElementPost = null; // pour marquer qd il y a un conflict ( même nb de réaction ) 
@@ -504,56 +501,120 @@ public class ForumLI3DFR {
                 } else {
 
                 }
-                if ( addColUserName){
+                if (addColUserName) {
                     appendElement.appendElement("td").appendText(e.commentAuteurNom);
                 }
                 appendElement.appendElement("td").appendText("" + e.getReactionsTotals());
-                if ( addColLienToComment){
-                Element tmpUrlToComment = appendElement.appendElement("a").attr("href",
-                        "#" + e.getCommentId()
-                //                        "https://www.lesimprimantes3d.fr/forum/topic/"
-                //                        + idTopic + "-qqchose/?do=findComment&comment=" + e.getCommentId()
-                ).attr("id", "top." + e.getCommentAuteurId());
-                tmpUrlToComment.append("->");
-                appendElement.appendElement("td").appendChild(tmpUrlToComment);
+                if (addColLienToComment) {
+                    Element tmpUrlToComment = appendElement.appendElement("a").attr("href",
+                            "#" + e.getCommentId()
+                    //                        "https://www.lesimprimantes3d.fr/forum/topic/"
+                    //                        + idTopic + "-qqchose/?do=findComment&comment=" + e.getCommentId()
+                    ).attr("id", "top." + e.getCommentAuteurId());
+                    tmpUrlToComment.append("->");
+                    appendElement.appendElement("td").appendChild(tmpUrlToComment);
                 }
-                
-                System.out.printf("%s\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
+
+                System.out.printf("%40s\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
                         e.commentAuteurNom, e.alImgsUrl.size(),
                         e.getReactionsTotals(),
                         e.getCommentId()
                 );
-                
-                if ( addColDateC ) {
-                appendElement.appendElement("td").appendText("" + e.getDateCreation());
+
+                if (addColDateC) {
+                    appendElement.appendElement("td").appendText("" + e.getDateCreation());
                 }
                 appendElement.appendElement("td").append(e.createThumbsCitation());
 
             }
+            }
+
+            if ( true ){
+                
+                
+            UtilFileWriter fwIndexCommentaireAvecDesImages = new UtilFileWriter(baseDirOutput + File.separator + "indexC.html");
+            fwIndexCommentaireAvecDesImages.append("<!DOCTYPE html>\n");
+            fwIndexCommentaireAvecDesImages.append("<html lang=\"fr\">\n");
+            fwIndexCommentaireAvecDesImages.append("<head>\n");
+            fwIndexCommentaireAvecDesImages.append("<title>");
+            //fwIndexCommentaireAvecDesImages.append("Glossaire");
+            //fwIndexCommentaireAvecDesImages.append(sForTitreH1);
+            fwIndexCommentaireAvecDesImages.append("</title>\n");
+            fwIndexCommentaireAvecDesImages.append("</head>\n");
+            fwIndexCommentaireAvecDesImages.append("<body>\n");
+            fwIndexCommentaireAvecDesImages.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", sForTitreH1));
+
+            Document createShell = Jsoup.parse("");
+            
+            boolean addColUserName = false;
+            boolean addColLienToComment = false;
+            boolean addColDateC = false;
+            Element tableResOrdo = createShell.body().appendElement("table");
+            Element tableResOrdoHeader = tableResOrdo.appendElement("tr");
+            //tableResOrdoHeader.appendElement("th").appendText("Pos");
+            if (addColUserName) {
+                tableResOrdoHeader.appendElement("th").appendText("Utilisateur");
+            }
+            tableResOrdoHeader.appendElement("th").appendText("Réactions");
+            if (addColLienToComment) {
+                tableResOrdoHeader.appendElement("th").appendText("Commentaire");
+            }
+            if (addColDateC) {
+                tableResOrdoHeader.appendElement("th").appendText("DateC");
+            }
+            tableResOrdoHeader.appendElement("th").appendText("Image(s)");
 
             
-            
-        UtilFileWriter fwIndexCommentaireAvecDesImages = new UtilFileWriter(baseDirOutput + File.separator + "indexC.html");
-          fwIndexCommentaireAvecDesImages.append("<!DOCTYPE html>\n");
-        fwIndexCommentaireAvecDesImages.append("<html lang=\"fr\">\n");
-        fwIndexCommentaireAvecDesImages.append("<head>\n");
-        fwIndexCommentaireAvecDesImages.append("<title>");
-        //fwIndexCommentaireAvecDesImages.append("Glossaire");
-        fwIndexCommentaireAvecDesImages.append(sForTitreH1);
-        fwIndexCommentaireAvecDesImages.append("</title>\n");
-        fwIndexCommentaireAvecDesImages.append("</head>\n");
-        fwIndexCommentaireAvecDesImages.append("<body>\n");
-        fwIndexCommentaireAvecDesImages.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", sForTitreH1));
-        
-        for (ForumUneEntreeConcours e : listeDesEntreesValideOuNon){
-           fwIndexCommentaireAvecDesImages.append( e.createThumbsCitation() );
-           //fwIndexCommentaireAvecDesImages.append("\n");
-        }
-        fwIndexCommentaireAvecDesImages.append("</body>\n");
-        fwIndexCommentaireAvecDesImages.append("</html>\n");
-        fwIndexCommentaireAvecDesImages.flush();
-        fwIndexCommentaireAvecDesImages.close();
-            
+            for (ForumUneEntreeConcours e : listeDesEntreesValideOuNon) {
+                if ( false ){
+                    fwIndexCommentaireAvecDesImages.append(e.createThumbsCitation());
+                }
+                
+                
+                Element appendElement = tableResOrdo.appendElement("tr");
+//                lastElementPost = appendElement.appendElement("td")
+//                        .appendText("" + pos)
+//                        ;
+//                lastNbReaction = e.getReactionsTotals();
+//                pos++;
+//                if (nextlastPosIsToMark == true) {
+//                    lastElementPost.appendText("*");
+//                    nextlastPosIsToMark = false;
+//                } else {
+//
+//                }
+                if (addColUserName) {
+                    appendElement.appendElement("td").appendText(e.commentAuteurNom);
+                }
+                appendElement.appendElement("td").appendText("" + e.getReactionsTotals());
+                if (addColLienToComment) {
+                    Element tmpUrlToComment = appendElement.appendElement("a").attr("href",
+                            "#" + e.getCommentId()
+                    //                        "https://www.lesimprimantes3d.fr/forum/topic/"
+                    //                        + idTopic + "-qqchose/?do=findComment&comment=" + e.getCommentId()
+                    ).attr("id", "top." + e.getCommentAuteurId());
+                    tmpUrlToComment.append("->");
+                    appendElement.appendElement("td").appendChild(tmpUrlToComment);
+                }
+
+                System.out.printf("%40s\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
+                        e.commentAuteurNom, e.alImgsUrl.size(),
+                        e.getReactionsTotals(),
+                        e.getCommentId()
+                );
+
+                if (addColDateC) {
+                    appendElement.appendElement("td").appendText("" + e.getDateCreation());
+                }
+                appendElement.appendElement("td").append(e.createThumbsCitation());
+            }
+            fwIndexCommentaireAvecDesImages.append(createShell.body().html());
+            fwIndexCommentaireAvecDesImages.append("</body>\n");
+            fwIndexCommentaireAvecDesImages.append("</html>\n");
+            fwIndexCommentaireAvecDesImages.flush();
+            fwIndexCommentaireAvecDesImages.close();
+
+            }
         }
         //
 
@@ -607,9 +668,7 @@ public class ForumLI3DFR {
         essai.flush();
         essai.close();
         //
-        
-        
-        
+
         UtilFileWriter fwIndexSommaireEtCommentHtml = new UtilFileWriter(baseDirOutput + File.separator + "index2.html");
         fwIndexSommaireEtCommentHtml.append("<!DOCTYPE html>\n");
         fwIndexSommaireEtCommentHtml.append("<html lang=\"fr\">\n");

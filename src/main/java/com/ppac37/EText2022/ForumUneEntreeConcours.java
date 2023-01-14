@@ -94,11 +94,16 @@ public class ForumUneEntreeConcours extends ForumUneDef implements Comparable<Ob
     public String createThumbsCitation() {
         Document docRes = Jsoup.parse("");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ROOT);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ROOT);
         long timestamp = 0;
         try {
             //TODO revoir j'ai un décalage d'une heure ... cf GMT+0 
-            timestamp = sdf.parse(this.getCommentDateCreation()).getTime() / 1000;
+            timestamp = sdf.parse(this.getCommentDateCreation().substring(0,this.getCommentDateCreation().length()-1)+"GMT").getTime() / 1000;
+            if ( false){
+            long timestamp2 = sdf.parse(this.getCommentDateCreation()).getTime() / 1000;
+            
+            System.out.printf("%d\n%d\n\n",timestamp,timestamp2);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
