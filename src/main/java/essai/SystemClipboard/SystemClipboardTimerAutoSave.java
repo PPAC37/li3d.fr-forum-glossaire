@@ -133,6 +133,7 @@ public class SystemClipboardTimerAutoSave {
                         Object data = systemClipboard.getData(dfText);
                         haveBeenReadAsFlavorTextOnly = true;
                         String sData = (String) data;
+                        haveBeenReadAsFlavorTextOnly = true;
 
                         if (lastData.equals(sData)) {
                             //Same
@@ -185,10 +186,10 @@ public class SystemClipboardTimerAutoSave {
         timer.start();
 
         boolean keepRunning = true;
-        long mainSleppTime = 1000000;                
+        long mainSleppTimeBeforTerminating = 1000000;                
         while (keepRunning) {
             try {
-                sleep(mainSleppTime);
+                sleep(mainSleppTimeBeforTerminating);
             } catch (InterruptedException ex) {
                 Logger.getLogger(SystemClipboardTimerAutoSave.class.getName()).log(Level.SEVERE, null, ex);
             }
