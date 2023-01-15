@@ -1,4 +1,4 @@
-/*
+    /*
  */
 package com.ppac37.EText2022;
 
@@ -16,13 +16,13 @@ import org.jsoup.nodes.Element;
 public class ForumUneDef extends ForumComment implements Comparable<Object>, DefinitionInterface {
 
     /*
-    Si l'on se base sur "le Nom des pièces - Impression 3D.pdf" de www.youtube.com/Legueroloco
-    
-    Image
-    Noms français
-    Noms anglais
-    Description sommaire
-    
+        Si l'on se base sur "le Nom des pièces - Impression 3D.pdf" de www.youtube.com/Legueroloco
+
+        Image
+        Noms français
+        Noms anglais
+        Description sommaire
+
      */
     String defNom = null;
     SortedSet<String> defNomAlias;
@@ -42,7 +42,7 @@ public class ForumUneDef extends ForumComment implements Comparable<Object>, Def
 
         this.alImgsUrl = c.alImgsUrl;
         this.commentCorpHTMLBrut = c.commentCorpHTMLBrut;
-        this.setCommentDateCreation( c.getDateCreation() );
+        this.setCommentDateCreation(c.getDateCreation());
         this.commentId = c.commentId;
         this.sujetId = c.sujetId;
 
@@ -173,20 +173,20 @@ public class ForumUneDef extends ForumComment implements Comparable<Object>, Def
     }
 
     /*
-html rendue .md github     
-     <h2 dir="auto"><a id="user-content-abs-acrylonitrile-butadiène-styrène" class="anchor" aria-hidden="true" href="#abs-acrylonitrile-butadiène-styrène"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>ABS (Acrylonitrile Butadiène Styrène)</h2>
+    html rendue .md github     
+         <h2 dir="auto"><a id="user-content-abs-acrylonitrile-butadiène-styrène" class="anchor" aria-hidden="true" href="#abs-acrylonitrile-butadiène-styrène"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>ABS (Acrylonitrile Butadiène Styrène)</h2>
      */
  /*
-    // TODO Analyse pour un implement TableHeader like
-    // ? implements qq chose pour forcer a avoir et pouvoir redéfinir 
-    // ? que cela soit utilisable pour plus simplement implémenter un TableModel ? donc avec une enum de "mode" ( texte lien, id, modeShort, modeLong, ... et renderer editor ? )
-    public String toStringMarkdown() {
-        
-    }
-    
-    public String toStringHTML() {
-        
-    }
+        // TODO Analyse pour un implement TableHeader like
+        // ? implements qq chose pour forcer a avoir et pouvoir redéfinir 
+        // ? que cela soit utilisable pour plus simplement implémenter un TableModel ? donc avec une enum de "mode" ( texte lien, id, modeShort, modeLong, ... et renderer editor ? )
+        public String toStringMarkdown() {
+
+        }
+
+        public String toStringHTML() {
+
+        }
 
      */
     //
@@ -204,15 +204,15 @@ html rendue .md github
             // mais c'est vraiment pas maintenable et inchoérent de faire comme cela.
 
             String sUrlVersTopic = String.format(ForumSujet.li3dfrForumTopicTemplate, this.sujetId + "-" + this.commentId);
-if ( false ){
-    //TODO a revoir bug du cache ...
-            UrlCParserForum urlCParser = new UrlCParserForum(sUrlVersTopic
-                    + //"/"+
-                    "?do=showReactionsComment&comment="
-                    + this.commentId//"524576"
-                    + "&changed=1&reaction=all",
-                     true);
-}
+            if (false) {
+                //TODO a revoir bug du cache ...
+                UrlCParserForum urlCParser = new UrlCParserForum(sUrlVersTopic
+                        + //"/"+
+                        "?do=showReactionsComment&comment="
+                        + this.commentId//"524576"
+                        + "&changed=1&reaction=all",
+                        true);
+            }
             //lienVersCommentaireBase = sUrlVersTopic + "?do=findComment&comment=";
         }
     }

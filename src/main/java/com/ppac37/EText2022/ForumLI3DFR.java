@@ -539,7 +539,7 @@ public class ForumLI3DFR {
                     if (addColDateC) {
                         appendElement.appendElement("td").appendText("" + e.getDateCreation());
                     }
-                    appendElement.appendElement("td").append(e.createThumbsCitation());
+                    appendElement.appendElement("td").append(e.createThumbsCitation("max-width:150px;max-height:150px;width: auto;height: auto;"));
 
                 }
             }
@@ -580,7 +580,7 @@ public class ForumLI3DFR {
 
                 for (ForumUneEntreeConcours e : listeDesEntreesValideOuNon) {
                     if (false) {
-                        fwIndexCommentaireAvecDesImages.append(e.createThumbsCitation());
+                        fwIndexCommentaireAvecDesImages.append(e.createThumbsCitation("max-width:150px;max-height:150px;width: auto;height: auto;"));
                     }
 
                     Element appendElement = tableResOrdo.appendElement("tr");
@@ -618,7 +618,7 @@ public class ForumLI3DFR {
                     if (addColDateC) {
                         appendElement.appendElement("td").appendText("" + e.getDateCreation());
                     }
-                    appendElement.appendElement("td").append(e.createThumbsCitation());
+                    appendElement.appendElement("td").append(e.createThumbsCitation("max-width:150px;max-height:150px;width: auto;height: auto;"));
                 }
                 fwIndexCommentaireAvecDesImages.append(createShell.body().html());
                 fwIndexCommentaireAvecDesImages.append("</body>\n");
