@@ -44,7 +44,7 @@ public class UrlCParserForum extends UrlCParser {
                         if (debugNums || debugToNextPage) {
                             System.out.printf(" to page %d/%d\n %s\n", numPage, iPageNumLastPage, sUrlOtherPageToDo);
                         }
-                        loadMayByCachedDocumentFromUrl(sUrlOtherPageToDo);
+                        loadMayByCachedDocumentFromUrl(sUrlOtherPageToDo, this.homeq6req_curl_PPACtxt);
                     }
                 }
             }

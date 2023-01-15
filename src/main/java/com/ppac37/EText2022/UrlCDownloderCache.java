@@ -28,7 +28,7 @@ import org.jsoup.nodes.Document;
  */
 public class UrlCDownloderCache {
 
-    static String cacheBaseDir = "./www_cache_w/"; //TODO a revoir car va changer dans la dist
+    private static String cacheBaseDir = "."+File.separator+"www_cache_w"+File.separator+""; //TODO a revoir car va changer dans la dist
 
     /**
      *
@@ -110,7 +110,7 @@ public class UrlCDownloderCache {
     //
     //
     //
-    static void urlHttpConnecteAndWriteToFile(URL url, File fCache) {
+    static void urlHttpConnecteAndWriteToFile(URL url, File fCache, String homeq6req_curl_PPACtxt) {
         //FileWriter fw = new FileWriter(fCache);
         // TODO prise en compte des redirection ( avoir la chaine de redirection ...)
         //HttpURLConnection.setFollowRedirects(false);
@@ -118,11 +118,11 @@ public class UrlCDownloderCache {
         // TODO une vrai gestion des cookies ...
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            if (true) {
+            if (true && homeq6req_curl_PPACtxt!= null ) {
                 //pour etre authentifié ... on pique les cookies via un inspecter , network , ...  et l'on copie le curl que l'on met dans un fichier
                 // parser la req curl pour faire les bon connection.setRequestProperty("","");
                 try {
-                    File file = new File("/home/q6/req_curl_PPAC.txt");
+                    File file = new File(homeq6req_curl_PPACtxt);
                     Scanner scr = null;
                     if ( file.exists()){
                     int count = 0;
@@ -231,7 +231,7 @@ public class UrlCDownloderCache {
         }
     }
 
-    static Document cacheAndParseUrl(String sUrlToParse, boolean doNextPage, boolean debugUrl, boolean debugParsed) {
+    static Document cacheAndParseUrl(String sUrlToParse, boolean doNextPage, boolean debugUrl, boolean debugParsed, String homeq6req_curl_PPACtxt) {
         try {
             // Construct a URL object
             URL url = new URL(sUrlToParse);
@@ -292,7 +292,7 @@ public class UrlCDownloderCache {
             } else {
                 System.out.printf("  save to cache file : %s\n", fDirDest.getAbsoluteFile());
                 long tsub0 = System.currentTimeMillis();
-                UrlCDownloderCache.urlHttpConnecteAndWriteToFile(url, fCache);
+                UrlCDownloderCache.urlHttpConnecteAndWriteToFile(url, fCache, homeq6req_curl_PPACtxt);
                 long tsub1 = System.currentTimeMillis();
                 if (debugTimming) {
 

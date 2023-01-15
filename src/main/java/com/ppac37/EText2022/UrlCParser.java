@@ -23,15 +23,17 @@ public class UrlCParser {
     String sUrl;
     Document doc;
 
+    public final String homeq6req_curl_PPACtxt;
     /**
      *
      * @param sUrl
      */
     public UrlCParser(String sUrl) {
         this.sUrl = sUrl;
+            homeq6req_curl_PPACtxt = "/home/q6/req_curl_PPAC.txt";
         System.out.printf(" %s\n", sUrl);
         try {
-            this.doc = loadMayByCachedDocumentFromUrl(sUrl);
+            this.doc = loadMayByCachedDocumentFromUrl(sUrl, homeq6req_curl_PPACtxt);
         } catch (IOException ex) {
             Logger.getLogger(ForumLI3DFR.class.getName()).log(Level.SEVERE, null, ex);
         }

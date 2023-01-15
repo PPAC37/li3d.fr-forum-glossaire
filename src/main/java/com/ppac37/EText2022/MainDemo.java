@@ -231,7 +231,7 @@ public class MainDemo {
      */
     private String getPath(Class cls) {
         String cn = cls.getName();
-        String rn = cn.replace('.', '/') + ".class";
+        String rn = cn.replace('.', '/') + ".class";//TODO ? OS indepandante ?
         String path
                 = getClass().getClassLoader().getResource(rn).getPath();
         int ix = path.indexOf("!");

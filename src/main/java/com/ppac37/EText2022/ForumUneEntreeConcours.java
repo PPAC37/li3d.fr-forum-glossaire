@@ -74,30 +74,16 @@ public class ForumUneEntreeConcours extends ForumUneDef implements Comparable<Ob
      * @return 
      */
     public String createThumbsCitation(String imgStyleToUse) {
-        Document docRes = Jsoup.parse("");
 
         String citationMsg = this.alImgsUrl.size() + " image(s) du commentaire de " + this.commentAuteurNom ;
-        Element bodyDocRes = docRes.body();
-        
+        Document docRes = Jsoup.parse("");
+        Element bodyDocRes = docRes.body();        
         Element resDivQuote = createElementAsCitation(bodyDocRes, citationMsg);
 
         Document docOrig = Jsoup.parse(getCommentCorpHTMLBrut());
         if (resDivQuote != null) {
             //selectFirst.appendChildren(docOrig.select("a.ipsAttachLink_image"));
-            if (false) {
-                // étrange il arrive que le lien ne soit pas de cette class ...
-                // donc on ne fait plus cela
-                Elements selectOriImgs = docOrig.select("a.ipsAttachLink_image");
-                if (selectOriImgs != null) {
-                    for (Element e : selectOriImgs) {
-                        e.attr("style",
-                                //        "width:auto;height:200px;"
-                                 imgStyleToUse);
-                        resDivQuote.appendChild(e);
-                        resDivQuote.appendText(" ");
-                    }
-                }
-            } else {
+            {
                 Elements selectOriImgs = docOrig.select("img"
                 // les image collé depuis un lien externe n'on pas se qui suit ! ?
                 //        + ".ipsImage_thumbnailed"
@@ -113,10 +99,7 @@ public class ForumUneEntreeConcours extends ForumUneDef implements Comparable<Ob
                         } else {
                             // donc voila une image
                             //bidouille pour avoir des vignettes ( mais implique que le client soit avec un navigateur compatible html5 ? )
-                            e.attr("style",
-                                    //        "width:auto;height:200px;"
-                                    "max-width:200px;max-height:150px;width:auto;height:auto;"
-                            );
+                            e.attr("style", imgStyleToUse );
                             // TODO a revoir pour éviter de reprendre un lien malvélliant
                             // donc uniquement si le lien cible le forum !
                             if (imgParent.is("a")
@@ -124,11 +107,9 @@ public class ForumUneEntreeConcours extends ForumUneDef implements Comparable<Ob
 
                                 resDivQuote.appendChild(imgParent);
                             } else {
-                                // TODO ? là vérifier si image hébergé par le forum ou non                                                        
-                                // et si pas une image du forum alors mettre une bordure en rouge ou un logo de "warnig external img" ...
+                                // TODO pas un lien vers le forum alors mettre une bordure en rouge ou un logo de "warnig external link" ...
 
                                 resDivQuote.appendChild(e);
-
                             }
                             boolean warnExternalImg = true;
                             if (!e.attr("src").startsWith("https://www.lesimprimantes3d.fr/") && warnExternalImg) {
@@ -144,20 +125,17 @@ public class ForumUneEntreeConcours extends ForumUneDef implements Comparable<Ob
             Elements imgs = resDivQuote.select("img");
             if (imgs != null) {
                 for (Element e : imgs) {
-                    //e.attr("style", "style=\"width:auto;height:200px;\"");
                     e.attr("style", imgStyleToUse);
                 }
             }
-            // docOrig.select("a.ipsAttachLink_image");
         }
-
         return docRes.body().html();
     }
 
     /**
      * Append to an element the structure of the Forum citation ...
      * @param elementToAppendTheCitationElementsCreated an element in a Jsoup Document wherre to append all the "bordel" ...
-     * @param citationMsg seems to be errased when the forum editor recive it
+     * @param citationMsg seems to be errased when the forum editor recive it mais du genre "     Le 30/11/2022 at 19:47, PPAC a dit" et y a un "&nbsp;:\n" ...
      * @return the Element where to append the contente of the citation
      */
     public Element createElementAsCitation(Element elementToAppendTheCitationElementsCreated, String citationMsg) {
