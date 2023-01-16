@@ -257,7 +257,13 @@ public class UrlCDownloderCache {
             }
             fDirDest.mkdirs();
             String outputcacheFile = "index.html";
+            if ( url.getQuery()!=null){
+                if ( !url.getQuery().isBlank())
+                outputcacheFile = url.getQuery().replace("?", "_")+".html";
+            }
+            
             File fCache = new File(fDirDest, outputcacheFile);
+            System.out.println("Using ");
             //todo ??? un system de nommage et de mise en cache
             /*
             mode simple et limité (pas d'archivage) recréation de l'orbo d'aprés le path de l'utl et d'un fichier content ? + header + ...
@@ -285,12 +291,12 @@ public class UrlCDownloderCache {
             // Si le fichier de cache n'existe pas où se trouve vide le créer / telecharger.
             if (fCache.exists() && fCache.length() > 0) {
                 if (false) {
-                    System.out.printf("  using cache file : %s\n", fDirDest.getAbsoluteFile());
+                    System.out.printf("  using cache file : %s\n", fCache.getAbsoluteFile());
                 }
                 // il y a un fichier // faut t'il l'effacer ?
 
             } else {
-                System.out.printf("  save to cache file : %s\n", fDirDest.getAbsoluteFile());
+                System.out.printf("  save to cache file : %s\n", fCache.getAbsoluteFile());
                 long tsub0 = System.currentTimeMillis();
                 UrlCDownloderCache.urlHttpConnecteAndWriteToFile(url, fCache, homeq6req_curl_PPACtxt);
                 long tsub1 = System.currentTimeMillis();

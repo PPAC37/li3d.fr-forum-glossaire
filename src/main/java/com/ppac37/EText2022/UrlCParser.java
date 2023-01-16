@@ -30,7 +30,7 @@ public class UrlCParser {
      */
     public UrlCParser(String sUrl) {
         this.sUrl = sUrl;
-            homeq6req_curl_PPACtxt = "/home/q6/req_curl_PPAC.txt";
+            homeq6req_curl_PPACtxt = "/home/q6/0_nodes_moderation_li3d.fr/req_curl_li3d.fr_PPAC.txt";
         System.out.printf(" %s\n", sUrl);
         try {
             this.doc = loadMayByCachedDocumentFromUrl(sUrl, homeq6req_curl_PPACtxt);

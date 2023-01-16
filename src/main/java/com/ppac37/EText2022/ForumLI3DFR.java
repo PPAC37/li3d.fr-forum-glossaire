@@ -110,6 +110,9 @@ public class ForumLI3DFR {
             = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
 
     static String[] urls = { //        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754
+        //
+        //"https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=editComment&comment=478082"
+        //    "https://www.lesimprimantes3d.fr/forum/68-tutoriels/" // -> todo cache a revoir car actuellement KO https://www.lesimprimantes3d.fr/forum/68-tutoriels/?page=2
     };
 
     /**
@@ -194,10 +197,11 @@ public class ForumLI3DFR {
 
         }
 
+        boolean asSujetGlossaireOuConcours=true;
         String lienVersCommentaireBase = HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?do=findComment&comment=";
-        if (false) {
+        if (!asSujetGlossaireOuConcours) {
             for (String sUrl : urls) {
-                lienVersCommentaireBase = sUrl + "?do=findComment&comment="; // TODO a revoir c'est pas top .
+                //lienVersCommentaireBase = sUrl + "?do=findComment&comment="; // TODO a revoir c'est pas top .
                 UrlCParserForum urlCParser = new UrlCParserForum(sUrl, true);
             }
         } else {
