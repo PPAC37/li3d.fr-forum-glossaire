@@ -94,7 +94,7 @@ public class MainDemo {
                 options.addOption(CLI_OPT_O, "out", true, "repertoire de destination");
                 
                 // Pour spécifier un id de topic sur le forum 
-                options.addOption(CLI_OPT_T, "idTopic", true, "NOT IMPLEMENTED Id de Topic du forum");
+                options.addOption(CLI_OPT_T, "idTopic", true, "Id de Topic du forum");
                 
                 options.addOption(CLI_OPT_U, "url", true, "NOT IMPLEMENTED source url");
                 
@@ -107,9 +107,7 @@ public class MainDemo {
         }
         if (true) {
             if (args.length == 0) {
-
                 outputUsages(options);
-
             } else {
                 if (true) {
                     for (String s : args) {
@@ -122,7 +120,6 @@ public class MainDemo {
             try {
                 // parse the command line arguments
                 CommandLine line = parser.parse(options, args);
-
                 //
                 //Retrieving the argument value
                 //
@@ -134,7 +131,6 @@ public class MainDemo {
                             new java.io.File(MainDemo.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName(),
                             GIT_VERSION
                     );
-
                     //
                     try {
                         String sysPropKeySunJavaCommand = "sun.java.command";
@@ -147,8 +143,7 @@ public class MainDemo {
 
                 if (line.hasOption(CLI_OPT_O)) {
                     String optionValue = line.getOptionValue(CLI_OPT_O);
-                    System.out.println("output dir from cli from args: "+optionValue);
-                    
+                    System.out.println("output dir from cli args: "+optionValue);                    
                     // TODO revoir pour ne pas faire en static mais en passage d'argument ou setter.
                     ForumLI3DFR.baseDirOutput = optionValue;
                     
@@ -156,11 +151,9 @@ public class MainDemo {
                 
                 if (line.hasOption(CLI_OPT_T)) {
                     String optionValue = line.getOptionValue(CLI_OPT_T);
-                    System.out.println("idTopic from args: "+optionValue);
-                    
+                    System.out.println("idTopic from cli args: "+optionValue);
                     // TODO revoir pour ne pas faire en static mais en passage d'argument ou setter.
-                    //ForumLI3DFR.baseDirOutput = optionValue;
-                    
+                    ForumLI3DFR.idTopicFromArgs = optionValue;                    
                 }
                 
                 String countryCode = line.getOptionValue("c");
@@ -183,14 +176,10 @@ public class MainDemo {
                 // oops, something went wrong
                 System.err.println("Parsing failed.  Reason: " + exp.getMessage());
                 outputUsages(options);
-                //exp.printStackTrace();
             } catch (Exception exp) {
                 // oops, something went wrong
-                //
                 System.err.println("Exception.  Reason: " + exp.getMessage());
-                
                 outputUsages(options);
-                //exp.printStackTrace();
             }
 
         }
@@ -216,7 +205,7 @@ public class MainDemo {
         Class toUseAsRef = MainDemo.class;
         String sAppName = toUseAsRef.getSimpleName();
         if (true) {
-            System.out.printf("// %s (git version %s)\n", sAppName, GIT_VERSION);
+            System.out.printf("# %s (git version %s)\n", sAppName, GIT_VERSION);
         }
         
         HelpFormatter formatter = new HelpFormatter();

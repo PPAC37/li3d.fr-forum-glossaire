@@ -124,7 +124,7 @@ public class ForumLI3DFR {
     static String baseDirOutput = "."+File.separator+"out"+File.separator+"";
     
     static boolean doBrowse = false;
-
+    static String idTopicFromArgs = "";
     /**
      *
      * @param args
@@ -133,7 +133,7 @@ public class ForumLI3DFR {
 
         logger.trace("debut: {}", ForumLI3DFR.class.getName());
 
-        String idTopic = "";
+        String idTopic = idTopicFromArgs;
         Properties propDeIdTopic = new Properties();
         String inDirPath = "in";
 
