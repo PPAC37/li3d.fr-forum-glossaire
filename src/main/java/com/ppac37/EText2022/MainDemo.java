@@ -48,7 +48,7 @@ public class MainDemo {
     public static final String CLI_OPT_CC = "cc";
     
     public static final String CLI_OPT_D = "d";// todo output, for debug, java propertis
-    
+    public static final String CLI_OPT_B = "b";// todo Desktop.Browse report (out/index.html)
 
     /**
      * Gestion des arguments de la ligne de commande avec commonCli.
@@ -99,6 +99,7 @@ public class MainDemo {
                 options.addOption(CLI_OPT_U, "url", true, "NOT IMPLEMENTED source url");
                 
                 options.addOption(CLI_OPT_CC, "clean-cache", false, "NOT IMPLEMENTED Pour recréer le repertoire de cache");
+                options.addOption(CLI_OPT_B, "browse-result", false, "Pour ouvrir le resultat dans votre navigateur");
             }
 
         } catch (Exception e) {
@@ -107,23 +108,7 @@ public class MainDemo {
         if (true) {
             if (args.length == 0) {
 
-                Class toUseAsRef = MainDemo.class;
-                String sAppName = toUseAsRef.getSimpleName();
-                if (true) {
-                    System.out.printf("// %s (git version %s)\n", sAppName, GIT_VERSION);
-                }
-
-                HelpFormatter formatter = new HelpFormatter();
-                if (true) {
-
-                    File fSrcCodeSource = new java.io.File(toUseAsRef.getProtectionDomain()
-                            .getCodeSource()
-                            .getLocation()
-                            .getPath());
-                    // output usage
-                    formatter.printHelp(String.format("java -jar %3$s\n", sAppName, GIT_VERSION, fSrcCodeSource.toString()), options);
-                    System.err.println("");
-                }
+                outputUsages(options);
 
             } else {
                 if (true) {
@@ -188,15 +173,24 @@ public class MainDemo {
                 if (line.hasOption("buildfile")) {
                     //this.buildfile = line.getOptionValue("buildfile");
                 }
+                
+                 if (line.hasOption(CLI_OPT_B)) {
+                    ForumLI3DFR.doBrowse=true;
+                 }
+                
 
             } catch (ParseException exp) {
                 // oops, something went wrong
-                //System.err.println("Parsing failed.  Reason: " + exp.getMessage());
-                exp.printStackTrace();
+                System.err.println("Parsing failed.  Reason: " + exp.getMessage());
+                outputUsages(options);
+                //exp.printStackTrace();
             } catch (Exception exp) {
                 // oops, something went wrong
-                //System.err.println("Parsing failed.  Reason: " + exp.getMessage());
-                exp.printStackTrace();
+                //
+                System.err.println("Exception.  Reason: " + exp.getMessage());
+                
+                outputUsages(options);
+                //exp.printStackTrace();
             }
 
         }
@@ -216,6 +210,41 @@ public class MainDemo {
             ForumLI3DFR.main(args);
         }
 
+    }
+
+    public static void outputUsages(Options options) {
+        Class toUseAsRef = MainDemo.class;
+        String sAppName = toUseAsRef.getSimpleName();
+        if (true) {
+            System.out.printf("// %s (git version %s)\n", sAppName, GIT_VERSION);
+        }
+        
+        HelpFormatter formatter = new HelpFormatter();
+        if (true) {
+            
+            File fSrcCodeSource = new java.io.File(toUseAsRef.getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .getPath());
+            if ( fSrcCodeSource.toString().endsWith(File.separator+"classes")){
+                // donc surment les fichiers target car sous Netbeans ...
+                formatter.printHelp(
+                        String.format(
+                                "java %3$s\n", 
+                                sAppName, 
+                                GIT_VERSION, 
+                                fSrcCodeSource.toString()+File.separator+""+sAppName
+                        )
+                        , options);
+                System.err.println("");
+                
+            }else{
+                // probablement le .jar
+            // output usage
+            formatter.printHelp(String.format("java -jar %3$s\n", sAppName, GIT_VERSION, fSrcCodeSource.toString()), options);
+            System.err.println("");
+            }
+        }
     }
 
     /**

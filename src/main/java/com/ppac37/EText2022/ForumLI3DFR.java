@@ -122,6 +122,8 @@ public class ForumLI3DFR {
     static String enteteSommaireToUse = "";
 
     static String baseDirOutput = "."+File.separator+"out"+File.separator+"";
+    
+    static boolean doBrowse = false;
 
     /**
      *
@@ -1007,7 +1009,7 @@ public class ForumLI3DFR {
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.flush();
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.close();
         
-        boolean openInBrowser = true;
+        boolean openInBrowser = doBrowse;
         if ( openInBrowser){
             DesktopBrowse(fIndexFilePathAndName);
             
