@@ -3,11 +3,14 @@
 package com.ppac37.EText2022;
 
 /**
+ * TODO Historiser les changemetn de nom ( l'id reste le même )
+ * TODO Si masqué ou non, 
+ * 
  * 
  * @author q6
  */
 public class ForumSujet 
-        extends UrlCParserForum // TODO vérifier que cel complique pas pour différencier un sujet d'une page d'un sujet.
+        extends UrlCParserForum // TODO vérifier que cela complique pas pour différencier un sujet d'une page d'un sujet.
 {
 
     /**

@@ -17,6 +17,8 @@ import org.apache.commons.cli.ParseException;
 /**
  * Définie comme point d'entré du projet et du jar ( rechercher "MainDemo" dans le
  * pom.xml ).
+ * TODO revoir pour utiliser des Action ?
+ * TODO revoir pour utiliser un fichier .properties ( et pour étandre a de la localisation / traduction )
  *
  * @author q6
  */
@@ -35,7 +37,6 @@ public class MainDemo {
     public static final String VERSION = UtilPropertiesFile.getAppVersion();
 
     //
-    static boolean someBooleanFlag = true;
     static boolean debugSystemProperties = false;
     //
     
