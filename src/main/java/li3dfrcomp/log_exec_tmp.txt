@@ -1,0 +1,112 @@
+run:
+ sUrlToParse                 : https://www.lesimprimantes3d.fr/comparateur/imprimante3d/
+ using cache dir : /home/q6/NetBeansProjects/JavaApp2021JSerialComm/./www_cache_/www.lesimprimantes3d.fr
+ url.toString                : https://www.lesimprimantes3d.fr/comparateur/imprimante3d/
+ url.toExternalForm          : https://www.lesimprimantes3d.fr/comparateur/imprimante3d/
+ url.toURI().toString()      : https://www.lesimprimantes3d.fr/comparateur/imprimante3d/
+ url.toURI().toASCIIString() : https://www.lesimprimantes3d.fr/comparateur/imprimante3d/
+ Protocol : https
+ Host : www.lesimprimantes3d.fr
+ Port : -1
+ DefaultPort : 443
+ Path    : /comparateur/imprimante3d/
+ getFile : /comparateur/imprimante3d/
+ Query : null
+ Ref : null
+ Authority : www.lesimprimantes3d.fr
+ UserInfo : null
+ fDirDest : /home/q6/NetBeansProjects/JavaApp2021JSerialComm/./www_cache_/www.lesimprimantes3d.fr/comparateur/imprimante3d
+{}
+HTTP/1.1 200 OK
+---Start of headers---
+Date: Mon, 18 Oct 2021 10:16:36 GMT
+Content-Type: text/html; charset=UTF-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Server: Apache
+Vary: User-Agent,Accept-Encoding
+Accept-Ranges: bytes
+Cache-Control: max-age=0, public
+Expires: Mon, 18 Oct 2021 10:16:36 GMT
+X-Powered-By: WP Rocket/3.10.1
+---End of headers---
+Url : https://www.lesimprimantes3d.fr/comparateur/imprimante3d/
+Content :: Encoding : null Length : -1 Type text/html; charset=UTF-8
+{Accept-Ranges=[bytes], Transfer-Encoding=[chunked], null=[HTTP/1.1 200 OK], Cache-Control=[max-age=0, public], Server=[Apache], Connection=[keep-alive], Vary=[User-Agent,Accept-Encoding], Expires=[Mon, 18 Oct 2021 10:16:36 GMT], Date=[Mon, 18 Oct 2021 10:16:36 GMT], X-Powered-By=[WP Rocket/3.10.1], Content-Type=[text/html; charset=UTF-8]}
+ ContentEncoding : null
+ ContentLength : -1
+-> /home/q6/NetBeansProjects/JavaApp2021JSerialComm/./www_cache_/www.lesimprimantes3d.fr/comparateur/imprimante3d/index.html 159 194
+Total (head > title): 1
+text: Imprimantes 3D Archive - Les Imprimantes 3D .fr
+html: Imprimantes 3D Archive - Les Imprimantes 3D .fr
+Total (head > link[rel=icon][sizes="16x16"]): 0
+Total (head > meta[property^=og:]): 6
+<meta property="og:locale" content="fr_FR">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Imprimantes 3D Archive - Les Imprimantes 3D .fr">
+<meta property="og:description" content="Actualité, test, comparatif, prix, toute l'impression 3D est sur Les Imprimantes 3D .fr, le site de référence pour imprimante 3D, scanner 3D et logiciel 3D.">
+<meta property="og:url" content="https://www.lesimprimantes3d.fr/comparateur/imprimante3d/">
+<meta property="og:site_name" content="Les Imprimantes 3D .fr">
+Total (div[class^=gdpc-simple-grid-product]): 12
+# Pro3
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/raise3d/pro3/
+  No votes yet.
+  Raise3D
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/10/raise3d-pro3-259x259.jpg
+# Pro3 Plus
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/raise3d/pro3-plus/
+  No votes yet.
+  Raise3D
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/10/raise3d-pro3-plus-259x259.jpg
+# E2CF
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/raise3d/e2cf/
+  No votes yet.
+  Raise3D
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/10/raise3d-e2cf-259x259.jpg
+# SV04
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/sovol/sv04/
+  No votes yet.
+  Sovol
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/09/SV04-259x259.jpg
+# Mini Printer Pro
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/constructions-3d/mini-printer-pro/
+  No votes yet.
+  Constructions-3D
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/09/3d-mini-printer-pro-259x259.jpg
+# i-Mate S
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/qidi-tech/i-mates/
+  Rating: 4.0/5. From 2 votes.
+  Qidi Tech
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/09/qidi-tech-i-mate-s-259x259.jpg
+# Strateo3D IDX420
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/emotion-tech/strateo3d-idx420/
+  No votes yet.
+  eMotion Tech
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/09/emotion-tech-strateo3d-idx420-259x259.jpg
+# Pro2 Plus
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/raise3d/pro2-plus/
+  No votes yet.
+  Raise3D
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/09/raise3d-pro2-plus-259x259.jpg
+# Pro2
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/raise3d/pro2/
+  No votes yet.
+  Raise3D
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/09/raise3d-pro2-259x259.jpg
+# B1 SE PLUS
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/biqu/b1-se-plus/
+  No votes yet.
+  Biqu
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/08/test-biqu-b1-se-plus-259x259.jpg
+# Super Racer (SR)
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/flsun-3d/super-racer-sr/
+  No votes yet.
+  FLSUN 3D
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/08/FLSUN-Super-Racer-SuperRacer-SR-259x259.jpg
+# Jupiter
+  https://www.lesimprimantes3d.fr/comparateur/imprimante3d/elegoo/jupiter/
+  No votes yet.
+  Elegoo
+  https://www.lesimprimantes3d.fr/wp-content/uploads/2021/08/elegoo-jupiter-box-259x259.jpg
+BUILD SUCCESSFUL (total time: 1 second)
+

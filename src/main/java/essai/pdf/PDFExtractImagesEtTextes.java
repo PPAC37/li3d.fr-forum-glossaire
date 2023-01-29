@@ -36,9 +36,14 @@ class PDFExtractImagesEtTextes {
 
     public static void main(String[] args) throws Exception {
         String sPdfFile = "/home/q6/github/li3d.fr-forum-glossaire-definitions/autre_glossaire/pdf_GL/pdf.orig/Nom des pièeces - Impression 3D.pdf";
+        
         File inputPDFFile = new File(sPdfFile);
-
         String outFileBaseName = "./out/pdf_GL/";
+        
+        inputPDFFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Photon mono X2 - From Anycubic.com/save_USB_4GB_SAVE_AnycubicPhotonMonoX2/Files_English_Photon Mono X2","Photon Mono X2-English-V0.0.2.pdf");
+ outFileBaseName = "./out/pdf_APMX2/";
+
+        
         String outImgFileBaseName = outFileBaseName + "img/";
 
         File destDir = new File(outImgFileBaseName);
@@ -46,7 +51,7 @@ class PDFExtractImagesEtTextes {
 
         try ( FileWriter fw = new FileWriter(outFileBaseName + "README.md")) {
             // Loaded using file io Existing PDF Document
-            File newFile = new File(sPdfFile);
+            File newFile = inputPDFFile;//new File(sPdfFile);
             try ( PDDocument document = Loader.loadPDF(newFile)) {
 
                 fw.append("# " + inputPDFFile.getName() + "\n\n");

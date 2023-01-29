@@ -83,6 +83,7 @@ public final class ExtractEmbeddedFiles {
 
         //File pdfFile = new File(args[0]);"/home/q6/github/li3d.fr-forum-glossaire-definitions/autre_glossaire/Nom des pièeces - Impression 3D.pdf"
         File pdfFile = new File("/home/q6/github/li3d.fr-forum-glossaire-definitions/autre_glossaire/Nom des pièeces - Impression 3D.pdf");
+pdfFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Photon mono X2 - From Anycubic.com/save_USB_4GB_SAVE_AnycubicPhotonMonoX2/Files_English_Photon Mono X2","Photon Mono X2-English-V0.0.2.pdf");
 
         String filePath = pdfFile.getParent() + System.getProperty("file.separator");
         try ( PDDocument document = Loader.loadPDF(pdfFile)) {
