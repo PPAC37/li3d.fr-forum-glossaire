@@ -2,6 +2,7 @@
  */
 package com.ppac37.EText2022;
 
+import static com.ppac37.EText2022.ForumComment.debugSelectCommentContentTitles;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
@@ -110,9 +111,9 @@ public class ForumLI3DFR {
             = "https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/";
 
     static String[] urls = { //        HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754
-        //
-        //"https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=editComment&comment=478082"
-        //    "https://www.lesimprimantes3d.fr/forum/68-tutoriels/" // -> todo cache a revoir car actuellement KO https://www.lesimprimantes3d.fr/forum/68-tutoriels/?page=2
+    //
+    //"https://www.lesimprimantes3d.fr/forum/topic/45754-glossaire-de-limpression-3d/?do=editComment&comment=478082"
+    //    "https://www.lesimprimantes3d.fr/forum/68-tutoriels/" // -> todo cache a revoir car actuellement KO https://www.lesimprimantes3d.fr/forum/68-tutoriels/?page=2
     };
 
     /**
@@ -121,10 +122,11 @@ public class ForumLI3DFR {
     static SortedSet<ForumUneDef> lesDef = new TreeSet<>();
     static String enteteSommaireToUse = "";
 
-    static String baseDirOutput = "."+File.separator+"out"+File.separator+"";
-    
+    static String baseDirOutput = "." + File.separator + "out" + File.separator + "";
+
     static boolean doBrowse = false;
     static String idTopicFromArgs = "";
+
     /**
      *
      * @param args
@@ -199,7 +201,7 @@ public class ForumLI3DFR {
 
         }
 
-        boolean asSujetGlossaireOuConcours=true;
+        boolean asSujetGlossaireOuConcours = true;
         String lienVersCommentaireBase = HTTPSWWWLESIMPRIMANTES3DFRFORUMTOPIC45754 + "?do=findComment&comment=";
         if (!asSujetGlossaireOuConcours) {
             for (String sUrl : urls) {
@@ -404,7 +406,7 @@ public class ForumLI3DFR {
                         if (false) {
                             appends.append(
                                     String.format(
-                                            "&nbsp;&nbsp; %d likes sur \t"
+                                            "   %d likes sur \t"
                                             + "https://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
                                             eC.getReactionsTotals(),
                                             eC.getCommentId()
@@ -556,7 +558,6 @@ public class ForumLI3DFR {
 
             if (true) {
 
-                
                 UtilFileWriter fwIndexCommentaireAvecDesImages = new UtilFileWriter(baseDirOutput + File.separator + "indexC.html");
                 fwIndexCommentaireAvecDesImages.append("<!DOCTYPE html>\n");
                 fwIndexCommentaireAvecDesImages.append("<html lang=\"fr\">\n");
@@ -568,7 +569,7 @@ public class ForumLI3DFR {
                 fwIndexCommentaireAvecDesImages.append("</title>\n");
                 fwIndexCommentaireAvecDesImages.append("</head>\n");
                 fwIndexCommentaireAvecDesImages.append("<body>\n");
-                fwIndexCommentaireAvecDesImages.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n", 
+                fwIndexCommentaireAvecDesImages.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n",
                         "Images Thumbs Top réactions"
                 ));
 
@@ -594,27 +595,24 @@ public class ForumLI3DFR {
                 tableResOrdoHeader.appendElement("th").appendText("Image(s)");
 
                 for (ForumUneEntreeConcours e : listeDesEntreesValideOuNon) {
-                   
+
                     Element appendElement = tableResOrdo.appendElement("tr");
-                    
+
                     if (addColUserName) {
                         appendElement.appendElement("td").appendText(e.commentAuteurNom);
                     }
                     appendElement.appendElement("td").appendText("" + e.getReactionsTotals());
                     if (addColLienToComment) {
                         Element tmpUrlToComment = appendElement.appendElement("a").attr("href",
-                               asLocalLink
-                                       ? 
-                                       "#" + e.getCommentId()
-                                       :
-                                                "https://www.lesimprimantes3d.fr/forum/topic/"
-                                                + idTopic + "-L/?do=findComment&comment=" + e.getCommentId()
-                                       
+                                asLocalLink
+                                        ? "#" + e.getCommentId()
+                                        : "https://www.lesimprimantes3d.fr/forum/topic/"
+                                        + idTopic + "-L/?do=findComment&comment=" + e.getCommentId()
                         ).attr("id", "top." + e.getCommentAuteurId()).attr("target", "_blank");
-                        tmpUrlToComment.append("->"+
-                               ( asLocalLink
-                                       ? "(local)" : "(forum)" )
-                                );
+                        tmpUrlToComment.append("->"
+                                + (asLocalLink
+                                        ? "(local)" : "(forum)")
+                        );
                         appendElement.appendElement("td").appendChild(tmpUrlToComment);
                     }
 
@@ -639,6 +637,170 @@ public class ForumLI3DFR {
         }
         //
 
+        if (true) {
+// un sommaire déprés les titres dans les commentaires
+
+            UtilFileWriter fwIndexCommentaireAvecDesImages = new UtilFileWriter(baseDirOutput + File.separator + "indexS.html");
+            fwIndexCommentaireAvecDesImages.append("<!DOCTYPE html>\n");
+            fwIndexCommentaireAvecDesImages.append("<html lang=\"fr\">\n");
+            fwIndexCommentaireAvecDesImages.append("<head>\n");
+            fwIndexCommentaireAvecDesImages.append("<title>");
+            //fwIndexCommentaireAvecDesImages.append("Glossaire");
+            //fwIndexCommentaireAvecDesImages.append(sForTitreH1); // TODO toujours se problème d'encodage a toute la pas si un accent ici ...
+            fwIndexCommentaireAvecDesImages.append(URLEncoder.encode(sForTitreH1));
+            fwIndexCommentaireAvecDesImages.append("</title>\n");
+            fwIndexCommentaireAvecDesImages.append("</head>\n");
+            fwIndexCommentaireAvecDesImages.append("<body>\n");
+            fwIndexCommentaireAvecDesImages.append(String.format("<h2 style=\"text-align:center;\" >%s</h2>\n",
+                    "Sommaire"
+            ));
+
+            Document createShell = Jsoup.parse("");
+
+            boolean addColUserName = true;
+            boolean addColLienToComment = true;
+            boolean asLocalLink = false;
+            boolean addColDateC = false;
+
+            boolean addReactionCol = false;
+            boolean addThumbCol = false;
+
+            boolean addTitlesWithLinkToComment = true;
+
+            boolean debugSTD = false;
+
+            Element tableResOrdo = createShell.body().appendElement("table");
+            tableResOrdo.attr("style", "border: 1px solid;");
+            Element tableResOrdoHeader = tableResOrdo.appendElement("tr");
+            //tableResOrdoHeader.appendElement("th").appendText("Pos");
+            if (addColUserName) {
+                tableResOrdoHeader.appendElement("th").appendText("Utilisateur");
+            }
+            if (addReactionCol) {
+                tableResOrdoHeader.appendElement("th").appendText("Réactions");
+            }
+            if (addColLienToComment) {
+                tableResOrdoHeader.appendElement("th").appendText("Lien");
+            }
+            if (addColDateC) {
+                tableResOrdoHeader.appendElement("th").appendText("DateC");
+            }
+
+            if (addThumbCol) {
+                tableResOrdoHeader.appendElement("th").appendText("Image(s)");
+            }
+            if (addTitlesWithLinkToComment) {
+                tableResOrdoHeader.appendElement("th").appendText("Titre(s)");
+            }
+
+            for (ForumComment e : lesDef) {
+
+                Element appendElement = tableResOrdo.appendElement("tr");
+
+                if (addColUserName) {
+                    appendElement.appendElement("td").appendText(e.commentAuteurNom);
+                }
+                if (addReactionCol) {
+                    appendElement.appendElement("td").appendText("" + e.getReactionsTotals());
+                }
+                if (addColLienToComment) {
+                    Element tmpUrlToComment = appendElement.appendElement("a").attr("href",
+                            asLocalLink
+                                    ? "#" + e.getCommentId()
+                                    : "https://www.lesimprimantes3d.fr/forum/topic/"
+                                    + idTopic + "-L/?do=findComment&comment=" + e.getCommentId()
+                    ).attr("id", "top." + e.getCommentAuteurId()).attr("target", "_blank");
+                    tmpUrlToComment.append("->"
+                            + (asLocalLink
+                                    ? "(local)" : "(forum)")
+                    );
+                    appendElement.appendElement("td").appendChild(tmpUrlToComment);
+                }
+
+                if (debugSTD) {
+                    System.out.printf("%40s\t%d\t%d\thttps://www.lesimprimantes3d.fr/forum/topic/50575-qqchose/?do=findComment&comment=%s\n",
+                            e.commentAuteurNom, e.alImgsUrl.size(),
+                            e.getReactionsTotals(),
+                            e.getCommentId()
+                    );
+                }
+
+                if (addColDateC) {
+                    appendElement.appendElement("td").appendText("" + e.getDateCreation());
+                }
+                if (addThumbCol) {
+                    appendElement.appendElement("td").append(e.createThumbsCitation("max-width:150px;max-height:150px;width: auto;height: auto;"));
+                }
+
+                if (addTitlesWithLinkToComment) {
+                    Element tdForTitles = appendElement.appendElement("td").append("");
+                    tdForTitles.attr("style", "border: 1px solid;");
+                    Elements t = e.selectCommentContentTitles(e);
+                    if (!t.isEmpty()) {
+                        // le commentaire contien au moins un "titre 2"
+                        for (Element et : t) {
+
+                            //System.out.printf(" Titre: %s \"%s\"\n",et.tagName(), et.text());
+                            if (et.text().trim().equalsIgnoreCase("Sommaire")) {
+
+                            } else {
+                                String tabul = "";
+                                switch (et.tagName().toLowerCase()) {
+                                    case "h2":
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        break;case "h3":
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        break;case "h4":
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        break;case "h5":
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        tabul += "&nbsp;";
+                                        break;
+                                    default:
+                                        throw new AssertionError();
+                                }
+                                tdForTitles.appendElement("div").append(tabul+et.text());
+                            }
+                        }
+                    }
+
+                }
+            }
+            fwIndexCommentaireAvecDesImages.append(createShell.body().html());
+            fwIndexCommentaireAvecDesImages.append("</body>\n");
+            fwIndexCommentaireAvecDesImages.append("</html>\n");
+            fwIndexCommentaireAvecDesImages.flush();
+            fwIndexCommentaireAvecDesImages.close();
+
+        }
+
+        //
         Document doc = Jsoup.parse("");
         doc.appendElement("html");
 
@@ -782,7 +944,6 @@ public class ForumLI3DFR {
                 String.format("<h2 style=\"text-align:center;\" id=\"debut\">%s</h2>\n", sForTitreH1));
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append(
                 divResum.toString());
-       
 
         // Pour générer une navigation dans le sommaire
         boolean outDebugNavCharGroupe = false;
@@ -1008,37 +1169,36 @@ public class ForumLI3DFR {
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.append("</html>\n");
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.flush();
         fwIndexHtml_avec_lien_et_id_pour_navigation_embarque.close();
-        
+
         boolean openInBrowser = doBrowse;
-        if ( openInBrowser){
+        if (openInBrowser) {
             DesktopBrowse(fIndexFilePathAndName);
-            
+
         }
-        
 
         System.out.printf("FIN : %s\n", ForumLI3DFR.class.getName());
         System.out.flush();
     }
 
     public static void DesktopBrowse(File fIndexFilePathAndName) {
-        if ( Desktop.isDesktopSupported() ) {
+        if (Desktop.isDesktopSupported()) {
             Desktop d = Desktop.getDesktop();
-            if (d.isSupported(Desktop.Action.BROWSE)){
-                System.out.printf("Trying toURI on \"%s\"\n",fIndexFilePathAndName);
+            if (d.isSupported(Desktop.Action.BROWSE)) {
+                System.out.printf("Trying toURI on \"%s\"\n", fIndexFilePathAndName);
                 try {
                     URI toURI = fIndexFilePathAndName.toURI();
-                    System.out.printf("Trying to browse %s\n",toURI);
+                    System.out.printf("Trying to browse %s\n", toURI);
                     d.browse(toURI);
                 } catch (IOException ex) {
                     java.util.logging.Logger.getLogger(ForumLI3DFR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
+            } else {
                 //
-                System.out.printf("Faild to browse %s\n",fIndexFilePathAndName);
+                System.out.printf("Faild to browse %s\n", fIndexFilePathAndName);
             }
-        } else{
+        } else {
             // TODO msg : Desktop not supported ignoring Desktop.browse ...
-            System.out.printf("Desktop not supported ignoring: browse %s\n",fIndexFilePathAndName);
+            System.out.printf("Desktop not supported ignoring: browse %s\n", fIndexFilePathAndName);
         }
     }
 
