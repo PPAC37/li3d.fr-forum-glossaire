@@ -41,7 +41,17 @@ class PDFExtractImagesEtTextes {
         String outFileBaseName = "./out/pdf_GL/";
         
         inputPDFFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Photon mono X2 - From Anycubic.com/save_USB_4GB_SAVE_AnycubicPhotonMonoX2/Files_English_Photon Mono X2","Photon Mono X2-English-V0.0.2.pdf");
- outFileBaseName = "./out/pdf_APMX2/";
+        outFileBaseName = "./out/pdf_APMX2/";
+
+        inputPDFFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Kobra Neo/AKN microSD 8GB/Files_English_Anycubic Kobra Neo/User Manual"
+                + "/"
+                + "Anycubic Kobra Neo_User Manual_220908_V0.0.3.pdf");
+        outFileBaseName = "./out/Kobra Neo_User Manual_220908_V0.0.3/";
+
+         inputPDFFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Kobra Neo/AKN microSD 8GB/Files_English_Anycubic Kobra Neo/User Manual"
+                + "/"
+                + "Anycubic Kobra Neo Assembly Instruction-220906-C.pdf");
+        outFileBaseName = "./out/Anycubic Kobra Neo Assembly Instruction-220906-C/";
 
         
         String outImgFileBaseName = outFileBaseName + "img/";
@@ -326,7 +336,9 @@ class PDFExtractImagesEtTextes {
                         //....
 
                         // note that the page number parameter is zero based
-                        BufferedImage bim = pdfRenderer.renderImageWithDPI(pageCounter, 300, ImageType.RGB);
+                        BufferedImage bim = pdfRenderer.renderImageWithDPI(pageCounter, 
+                                600,//300,
+                                ImageType.RGB);
                         File file = new File(outFileBaseName + "vue/page-" + (++pageCounter) + ".jpg");
                         file.getParentFile().mkdirs();
 
