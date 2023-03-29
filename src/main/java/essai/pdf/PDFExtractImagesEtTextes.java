@@ -37,21 +37,28 @@ class PDFExtractImagesEtTextes {
     public static void main(String[] args) throws Exception {
         String sPdfFile = "/home/q6/github/li3d.fr-forum-glossaire-definitions/autre_glossaire/pdf_GL/pdf.orig/Nom des pièeces - Impression 3D.pdf";
         
-        File inputPDFFile = new File(sPdfFile);
-        String outFileBaseName = "./out/pdf_GL/";
+        sPdfFile ="/home/q6/li3d.fr TEST APM2/APM2_save_cle_USB_4GB_v2/Photon Mono 2"
+                + "/"
+                + "Photon Mono 2-FR-V0.0.3.pdf";
         
-        inputPDFFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Photon mono X2 - From Anycubic.com/save_USB_4GB_SAVE_AnycubicPhotonMonoX2/Files_English_Photon Mono X2","Photon Mono X2-English-V0.0.2.pdf");
-        outFileBaseName = "./out/pdf_APMX2/";
-
-        inputPDFFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Kobra Neo/AKN microSD 8GB/Files_English_Anycubic Kobra Neo/User Manual"
-                + "/"
-                + "Anycubic Kobra Neo_User Manual_220908_V0.0.3.pdf");
-        outFileBaseName = "./out/Kobra Neo_User Manual_220908_V0.0.3/";
-
-         inputPDFFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Kobra Neo/AKN microSD 8GB/Files_English_Anycubic Kobra Neo/User Manual"
-                + "/"
-                + "Anycubic Kobra Neo Assembly Instruction-220906-C.pdf");
-        outFileBaseName = "./out/Anycubic Kobra Neo Assembly Instruction-220906-C/";
+        
+        File inputPDFFile = new File(sPdfFile);
+         String outFileBaseName= inputPDFFile.getAbsolutePath()+"_pdf_out/";
+        
+//        String outFileBaseName = "./out/pdf_GL/";
+        
+//        inputPDFFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Photon mono X2 - From Anycubic.com/save_USB_4GB_SAVE_AnycubicPhotonMonoX2/Files_English_Photon Mono X2","Photon Mono X2-English-V0.0.2.pdf");
+//        outFileBaseName = "./out/pdf_APMX2/";
+//
+//        inputPDFFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Kobra Neo/AKN microSD 8GB/Files_English_Anycubic Kobra Neo/User Manual"
+//                + "/"
+//                + "Anycubic Kobra Neo_User Manual_220908_V0.0.3.pdf");
+//        outFileBaseName = "./out/Kobra Neo_User Manual_220908_V0.0.3/";
+//
+//         inputPDFFile = new File("/home/q6/Téléchargements/0 - TEST - Anycubic Kobra Neo/AKN microSD 8GB/Files_English_Anycubic Kobra Neo/User Manual"
+//                + "/"
+//                + "Anycubic Kobra Neo Assembly Instruction-220906-C.pdf");
+//        outFileBaseName = "./out/Anycubic Kobra Neo Assembly Instruction-220906-C/";
 
         
         String outImgFileBaseName = outFileBaseName + "img/";
