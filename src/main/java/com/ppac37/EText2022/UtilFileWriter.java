@@ -85,4 +85,9 @@ public class UtilFileWriter {
         //logger.trace("close: {} {}", fTmp.length(), fTmp.getAbsolutePath());
     }
 
+    public String getsFile() {
+        return sFile;
+    }
+
+    
 }
