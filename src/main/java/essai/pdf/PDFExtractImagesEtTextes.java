@@ -41,6 +41,17 @@ class PDFExtractImagesEtTextes {
                 + "/"
                 + "Photon Mono 2-FR-V0.0.3.pdf";
         
+        sPdfFile = "/home/q6/0 -Test - Creality Ender-3 V3 SE/save_carte_SD_8GB_Ender-3 V3 SE/Ender-3 V3 SE _supplementary files_EN_V1.2/1.3D Printer User Manual"
+                + "/"
+                + "Ender-3 V3 SE-SM-001-User Manual (EN).pdf"; // KO
+        
+        sPdfFile = "/home/q6/Téléchargements"
+                + "/"
+                + "Ender-3 V3 SE.pdf";
+        /*
+        Exception in thread "main" java.lang.ClassCastException: class org.apache.pdfbox.pdmodel.graphics.form.PDTransparencyGroup cannot be cast to class org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject (org.apache.pdfbox.pdmodel.graphics.form.PDTransparencyGroup and org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject are in unnamed module of loader 'app')
+	at essai.pdf.PDFExtractImagesEtTextes.main(PDFExtractImagesEtTextes.java:165)
+        */
         
         File inputPDFFile = new File(sPdfFile);
          String outFileBaseName= inputPDFFile.getAbsolutePath()+"_pdf_out/";
