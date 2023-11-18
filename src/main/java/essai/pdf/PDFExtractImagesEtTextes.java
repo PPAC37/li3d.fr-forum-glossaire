@@ -48,6 +48,10 @@ class PDFExtractImagesEtTextes {
         sPdfFile = "/home/q6/Téléchargements"
                 + "/"
                 + "Ender-3 V3 SE.pdf";
+        
+        sPdfFile = "/home/q6/Téléchargements"
+                + "/"
+                + "Anycubic_App.pdf";
         /*
         Exception in thread "main" java.lang.ClassCastException: class org.apache.pdfbox.pdmodel.graphics.form.PDTransparencyGroup cannot be cast to class org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject (org.apache.pdfbox.pdmodel.graphics.form.PDTransparencyGroup and org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject are in unnamed module of loader 'app')
 	at essai.pdf.PDFExtractImagesEtTextes.main(PDFExtractImagesEtTextes.java:165)
