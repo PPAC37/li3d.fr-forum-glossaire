@@ -8,7 +8,13 @@ Without this configuration present, some functionality in the IDE may be limited
 -->
     <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
         <configurations>
+            <configuration id="-b" profiles=""/>
+            <configuration id="-t" profiles=""/>
+            <configuration id="-t 44096" profiles=""/>
+            <configuration id="-t 51308 X2" profiles=""/>
             <configuration id="-v" profiles=""/>
+            <configuration id="-x" profiles=""/>
+            <configuration id="PDFExtractImg" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>
