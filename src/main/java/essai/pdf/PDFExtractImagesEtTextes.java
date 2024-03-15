@@ -52,13 +52,20 @@ class PDFExtractImagesEtTextes {
         sPdfFile = "/home/q6/Téléchargements"
                 + "/"
                 + "Anycubic_App.pdf";
+      
+
+        
         /*
         Exception in thread "main" java.lang.ClassCastException: class org.apache.pdfbox.pdmodel.graphics.form.PDTransparencyGroup cannot be cast to class org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject (org.apache.pdfbox.pdmodel.graphics.form.PDTransparencyGroup and org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject are in unnamed module of loader 'app')
 	at essai.pdf.PDFExtractImagesEtTextes.main(PDFExtractImagesEtTextes.java:165)
         */
         
         File inputPDFFile = new File(sPdfFile);
-         String outFileBaseName= inputPDFFile.getAbsolutePath()+"_pdf_out/";
+        inputPDFFile =   new File("/home/q6/Téléchargements/0 - Test - Qidi Q1/QIDI TECH Q1 Pro - save_cleUSB16GB","Q1 Pro Quick Start Guide.pdf");
+         String outFileBaseName= inputPDFFile.getAbsolutePath()+"_pdf_out"
+                 //+ "/"
+                 +File.separator
+                 +inputPDFFile.getName()+"_export_";
         
 //        String outFileBaseName = "./out/pdf_GL/";
         
@@ -76,7 +83,10 @@ class PDFExtractImagesEtTextes {
 //        outFileBaseName = "./out/Anycubic Kobra Neo Assembly Instruction-220906-C/";
 
         
-        String outImgFileBaseName = outFileBaseName + "img/";
+        String outImgFileBaseName = outFileBaseName + "img"
+                //+ "/"
+                +File.separator
+                ;
 
         File destDir = new File(outImgFileBaseName);
         destDir.mkdirs();
@@ -216,8 +226,11 @@ class PDFExtractImagesEtTextes {
                             BufferedImage bim = image.getOpaqueImage(); // ok mais fond noir sur les image avec un fond transparent
                             //?bim.getTransparency();
 
-                            File fileOutImg = new File(outImgFileBaseName + "-ImgNum-" + (compteurImages)
-                                    + "-" + "PageNum-" + compteurPages
+                            File fileOutImg = new File(
+                                    outImgFileBaseName 
+                                     
+                                                   + "-Img" + String.format("%02d",compteurImages)
+                                    + "-" + "Page" + String.format("%02d",compteurPages)
                                     + //        ".jpg"
                                     "."+image.getSuffix()
                             );
@@ -296,7 +309,9 @@ class PDFExtractImagesEtTextes {
                         stripper.setPageEnd("</page>");
                     }
 
-                    for (int p = 1; p <= document.getNumberOfPages(); ++p) {
+                    for (int p = 1; p <
+                            //= 
+                            document.getNumberOfPages(); ++p) {
                         // Set the page interval to extract. If you don't, then all pages would be extracted.
                         stripper.setStartPage(p);
                         stripper.setEndPage(p);
@@ -359,9 +374,9 @@ class PDFExtractImagesEtTextes {
 
                         // note that the page number parameter is zero based
                         BufferedImage bim = pdfRenderer.renderImageWithDPI(pageCounter, 
-                                600,//300,
+                                72,//600,//300,
                                 ImageType.RGB);
-                        File file = new File(outFileBaseName + "vue/page-" + (++pageCounter) + ".jpg");
+                        File file = new File(outFileBaseName + "vue/page-" + String.format("%02d",++pageCounter) + ".jpg");
                         file.getParentFile().mkdirs();
 
                         // suffix in filename will be used as the file format
