@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.List;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+import org.apache.pdfbox.pdmodel.graphics.PDXObject;
 
 //import org.apache.xmpbox.XMPMetadata;
 //import org.apache.xmpbox.schema.AdobePDFSchema;
@@ -54,6 +55,11 @@ class PDFExtractImagesEtTextes {
                 + "Anycubic_App.pdf";
       
 
+        sPdfFile = "/home/q6/Téléchargements/0 - Test Ender-3 V3 (tout court)/save_USB_16GB/Ender-3 V3__supplementary files_EN_V1.1/1.3D Printer User Manual"
+                + "/"
+                + "Ender-3 V3-SM-001_User Manual（FR）.pdf";
+      
+
         
         /*
         Exception in thread "main" java.lang.ClassCastException: class org.apache.pdfbox.pdmodel.graphics.form.PDTransparencyGroup cannot be cast to class org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject (org.apache.pdfbox.pdmodel.graphics.form.PDTransparencyGroup and org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject are in unnamed module of loader 'app')
@@ -61,7 +67,15 @@ class PDFExtractImagesEtTextes {
         */
         
         File inputPDFFile = new File(sPdfFile);
-        inputPDFFile =   new File("/home/q6/Téléchargements/0 - Test - Qidi Q1/QIDI TECH Q1 Pro - save_cleUSB16GB","Q1 Pro Quick Start Guide.pdf");
+        
+//        inputPDFFile =   new File("/home/q6/Téléchargements/0 - Test - Qidi Q1/QIDI TECH Q1 Pro - save_cleUSB16GB","Q1 Pro Quick Start Guide.pdf");
+//        
+//        inputPDFFile =   new File("/home/q6/Téléchargements/0 - Test - Qidi Q1/save_www_QIDI_TECH/wiki.qidi3d.com_en_Q1-Pro/Motherboard Diagram-20240320T131222Z-001/Motherboard Diagram"
+//                 ,"Q1 Pro-Motherboard Diagram EN.pdf");
+//       
+//        inputPDFFile =   new File("/home/q6/Téléchargements/0 - Test - Qidi Q1/save_www_QIDI_TECH/wiki.qidi3d.com_en_Q1-Pro"
+//                 ,"Activated Carbon Filter Box Installation Guide.pdf");
+       
          String outFileBaseName= inputPDFFile.getAbsolutePath()+"_pdf_out"
                  //+ "/"
                  +File.separator
@@ -82,6 +96,11 @@ class PDFExtractImagesEtTextes {
 //                + "Anycubic Kobra Neo Assembly Instruction-220906-C.pdf");
 //        outFileBaseName = "./out/Anycubic Kobra Neo Assembly Instruction-220906-C/";
 
+        boolean doImageOneByOne = false;
+
+        boolean doImagePageRender = true;
+        float renderImageDPI = 300.0f;//72,//600,//300,
+
         
         String outImgFileBaseName = outFileBaseName + "img"
                 //+ "/"
@@ -96,6 +115,7 @@ class PDFExtractImagesEtTextes {
             File newFile = inputPDFFile;//new File(sPdfFile);
             try ( PDDocument document = Loader.loadPDF(newFile)) {
 
+                 if (doImageOneByOne) {
                 fw.append("# " + inputPDFFile.getName() + "\n\n");
                 fw.append("<!--\n");
                 fw.append("pdf.src.url: " + "");
@@ -119,6 +139,7 @@ class PDFExtractImagesEtTextes {
                 fw.append("\n");
 
                 fw.append("-->\n");
+                 }
 
                 if (true) {
                     // Pour bien identifier la source (local)
@@ -137,7 +158,7 @@ class PDFExtractImagesEtTextes {
                 }
 
                 // Inspecte and extract images object in the PDF
-                if (true) {
+                if (doImageOneByOne) {
                     int compteurPages = 0;
                     int compteurImages = 0;
                     PDResources ressources;
@@ -179,7 +200,9 @@ class PDFExtractImagesEtTextes {
                         while (iterateurCles.hasNext()) {
                             System.out.println("...");
                             COSName cle = (COSName) iterateurCles.next();
-                            image = (PDImageXObject) ressources.getXObject(cle);
+                            PDXObject xObject = ressources.getXObject(cle);
+                            if ( xObject instanceof PDImageXObject ){
+                            image = (PDImageXObject) xObject;
                             if (true) {
                                 System.out.println("img.getStructParent: " + image.getStructParent());
                                 System.out.println("img.getSuffix: " + image.getSuffix());
@@ -257,6 +280,7 @@ class PDFExtractImagesEtTextes {
 
                             fw.append("\n");
                             compteurImages++;
+                        }
                         }
 
                         compteurPages++;
@@ -344,9 +368,12 @@ class PDFExtractImagesEtTextes {
                         // https://pdfbox.apache.org/2.0/faq.html#text-extraction
                     }
                 }
+//                
+//                boolean doImagePageRender = true;
+//                float renderImageDPI = 300.0f;//72,//600,//300,
 
                 // Faire un rendue de chaque page et enregistrer le rendue dans un fichier image.
-                if (true) {
+                if (doImagePageRender) {
                     //https://www.geeksforgeeks.org/java-program-to-extract-a-image-from-a-pdf/?ref=rp
                     // PDFRenderer class to be Instantiated
                     // i.e. creating it's object
@@ -370,11 +397,11 @@ class PDFExtractImagesEtTextes {
                     }
 
                     for (PDPage page : document.getPages()) {
+                        
                         //....
 
                         // note that the page number parameter is zero based
-                        BufferedImage bim = pdfRenderer.renderImageWithDPI(pageCounter, 
-                                72,//600,//300,
+                        BufferedImage bim = pdfRenderer.renderImageWithDPI(pageCounter, renderImageDPI,
                                 ImageType.RGB);
                         File file = new File(outFileBaseName + "vue/page-" + String.format("%02d",++pageCounter) + ".jpg");
                         file.getParentFile().mkdirs();
