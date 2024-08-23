@@ -59,6 +59,10 @@ class PDFExtractImagesEtTextes {
                 + "/"
                 + "Ender-3 V3-SM-001_User Manual（FR）.pdf";
       
+sPdfFile = "/home/q6/samba_share/0 - Test - Kobra 3 Combo/0_Photos_Article"
+                + "/"
+                + "anycubic_kobra_3_combo_user_manual-en-v1.3-20240508.pdf";
+      
 
         
         /*
